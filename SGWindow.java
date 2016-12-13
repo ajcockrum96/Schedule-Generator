@@ -10,7 +10,7 @@ public class SGWindow {
 		// Read File Lines
 		ArrayList<String> lines;
 		try {
-			lines = readFileLines(filename);
+			lines = ScheduleGenerator.readInputFile(filename);
 		} catch (Exception e) {
 			System.err.format("%s%n", e);
 			throw new Exception("SGWindow constructor failed", e);
@@ -73,20 +73,6 @@ public class SGWindow {
 		this("input.txt");
 	}
 	
-	public ArrayList<String> readFileLines(String filename) throws Exception {
-		ArrayList<String> lines = new ArrayList<String>();
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filename));
-			String line = null;
-			while((line = reader.readLine()) != null) {
-				lines.add(line);
-			}
-		} catch (IOException e) {
-			System.err.format("%s%n", e);
-			throw new Exception("readFileLines failed", e);
-		}
-		return lines;
-	}
 	
 	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<String> lines) {
 		// Read in lines to ScheduleTimeRange Objects, OR'ing duplicates for new days
@@ -97,8 +83,8 @@ public class SGWindow {
 				char firstChar = currLine.charAt(0);
 				if(weekdays.indexOf(firstChar) != -1) {
 					String daysUsed   = currLine.substring(0, currLine.indexOf('\t'));
-					String timePeriod = currLine.substring(currLine.indexOf('\t') + 1);
-					ScheduleTimeRange timeRange = new ScheduleTimeRange(timePeriod, daysUsed);
+					String rangeString = currLine.substring(currLine.indexOf('\t') + 1);
+					ScheduleTimeRange timeRange = new ScheduleTimeRange(rangeString, daysUsed);
 					boolean found = false;
 					for(int j = 0; j < timeRanges.size(); ++j) {
 						if(ScheduleTimeRange.compareTimeRangeStarts(timeRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(timeRange, timeRanges.get(j)) == 0) {
