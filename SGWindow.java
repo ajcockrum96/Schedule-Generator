@@ -46,7 +46,7 @@ public class SGWindow {
 		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		win.setResizable( false );
 		
-		win.setSize( Times.size() * 150, dayLength * 75 );
+		win.setSize( Times.size() * 200, dayLength * 50 );
 		win.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx    = 1;
@@ -63,7 +63,6 @@ public class SGWindow {
 			win.add(new JLabel(Times.get(i).get(Times.get(i).size() - 1)), c);
 			for(int j = 0; j < checkBoxes.get(i).size() - 1; ++j) {
 				int pos = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(i).get(j), dayStartRange);
-				// c.gridy = c.gridheight * j + 1;
 				c.gridy = c.gridheight * pos + 1;
 				win.add(checkBoxes.get(i).get(j), c);
 			}
