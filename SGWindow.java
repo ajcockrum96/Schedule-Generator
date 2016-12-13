@@ -4,7 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class SGWindow {
-	String weekdays = "SMTWRFA";
+	static String weekdays = "SMTWRFA";
+	boolean daysUsed[] = {false, false, false, false, false, false, false};
 	public SGWindow(String filename) throws Exception {
 		// Read File Lines
 		ArrayList<String> lines;
@@ -15,54 +16,52 @@ public class SGWindow {
 			throw new Exception("SGWindow constructor failed", e);
 		}
 		
-		ArrayList<ArrayList<String>> Times = SGWindow.getDayTimes(lines, weekdays);
-		ArrayList<ArrayList<ScheduleTimeRange>> timeRanges = new ArrayList<ArrayList<ScheduleTimeRange>>();
-		
-		for(int i = 0; i < Times.size(); ++i) {
-			ArrayList<ScheduleTimeRange> dayRanges = new ArrayList<ScheduleTimeRange>();
-			for(int j = 0; j < Times.get(i).size() - 1; ++j) {
-				ScheduleTimeRange range = new ScheduleTimeRange(Times.get(i).get(j));
-				dayRanges.add(range);
-			}
-			timeRanges.add(dayRanges);
-		}
+		ArrayList<ScheduleTimeRange> timeRanges = getDayTimes(lines);
+		int dayLength = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(timeRanges.size() - 1), timeRanges.get(0));
+		determineDaysUsed(timeRanges);
 
-		ArrayList<String> compiledTimes = SGWindow.compileTimes(Times);
-		ScheduleTimeRange dayStartRange = new ScheduleTimeRange(compiledTimes.get(0).substring(0, compiledTimes.get(0).indexOf('-')).concat(compiledTimes.get(compiledTimes.size() - 1).substring(compiledTimes.get(compiledTimes.size() - 1).indexOf('-'))));
-		int dayLength = (int)dayStartRange.getHourLength();
-		
 		ArrayList<ArrayList<JCheckBox>> checkBoxes = new ArrayList<ArrayList<JCheckBox>>();
-		for(int i = 0; i < Times.size(); ++i) {
-			ArrayList<JCheckBox> dayBoxes = new ArrayList<JCheckBox>();
-			for(int j = 0; j < Times.get(i).size() - 1; ++j) {
-				JCheckBox hourBox = new JCheckBox(ScheduleTimeRange.convert24To12HourRange(timeRanges.get(i).get(j).rangeString()));
-				dayBoxes.add(hourBox);
+		for(int i = 0; i < weekdays.length(); ++i) {
+			if(daysUsed[i]) {
+				ArrayList<JCheckBox> dayBoxes = new ArrayList<JCheckBox>();
+				for(int j = 0; j < timeRanges.size(); ++j) {
+					ScheduleTimeRange currRange = timeRanges.get(j);
+					if(currRange.daysUsed[i]) {
+						dayBoxes.add(new JCheckBox(ScheduleTimeRange.convert24To12HourRange(currRange.rangeString())));
+					}
+				}
+				checkBoxes.add(dayBoxes);
 			}
-			checkBoxes.add(dayBoxes);
 		}
 
 		// Initialize Window and Setup Check Boxes
 		JFrame win = new JFrame("Schedule Generator");
 		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		win.setResizable( false );
-		
-		win.setSize( Times.size() * 200, dayLength * 50 );
+		 
+		win.setSize( checkBoxes.size() * 200, dayLength * 50 );
 		win.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx    = 1;
 		c.weighty    = 1;
 		c.gridwidth  = 1;
 		c.gridheight = 1;
-		c.ipadx      = (int)win.getSize().getWidth() / (2 * Times.size());
+		c.ipadx      = (int)win.getSize().getWidth() / (2 * checkBoxes.size());
 		c.ipady      = (int)win.getSize().getHeight() / (2 * dayLength);
 		c.fill       = GridBagConstraints.BOTH;
-		
-		for(int i = 0; i < checkBoxes.size(); ++i) {
+	
+		int k = 0;
+		for(int i = 0; i < checkBoxes.size(); ++i, ++k) {
 			c.gridx = c.gridheight * i;
 			c.gridy = 0;
-			win.add(new JLabel(Times.get(i).get(Times.get(i).size() - 1)), c);
-			for(int j = 0; j < checkBoxes.get(i).size() - 1; ++j) {
-				int pos = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(i).get(j), dayStartRange);
+			while(!daysUsed[k]) {
+				++k;
+			}
+			win.add(new JLabel(weekdays.substring(k, k + 1)));
+
+			for(int j = 0; j < checkBoxes.get(i).size(); ++j) {
+				ScheduleTimeRange currRange = new ScheduleTimeRange(checkBoxes.get(i).get(j).getText(), weekdays.substring(k, k + 1));
+				int pos = ScheduleTimeRange.compareTimeRangeStarts(currRange, timeRanges.get(0));
 				c.gridy = c.gridheight * pos + 1;
 				win.add(checkBoxes.get(i).get(j), c);
 			}
@@ -74,7 +73,7 @@ public class SGWindow {
 		this("input.txt");
 	}
 	
-	static public ArrayList<String> readFileLines(String filename) throws Exception {
+	public ArrayList<String> readFileLines(String filename) throws Exception {
 		ArrayList<String> lines = new ArrayList<String>();
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -89,57 +88,43 @@ public class SGWindow {
 		return lines;
 	}
 	
-	static public ArrayList<ArrayList<String>> getDayTimes(ArrayList<String> lines, String days) {
-		// Determine Days in Schedule File
-		boolean daysPresent[] = {false, false, false, false, false, false, false};
+	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<String> lines) {
+		// Read in lines to ScheduleTimeRange Objects, OR'ing duplicates for new days
+		ArrayList<ScheduleTimeRange> timeRanges = new ArrayList<ScheduleTimeRange>();
 		for(int i = 0; i < lines.size(); ++i) {
-			if(lines.get(i).indexOf('\t') != -1) {
-				String dayString = lines.get(i).substring(0, lines.get(i).indexOf('\t'));
-				for(int j = 0; j < dayString.length(); ++j) {
-					if(days.indexOf(dayString.charAt(j)) != -1) {
-						daysPresent[days.indexOf(dayString.charAt(j))] = true;
-					}
-				}
-			}
-		}
-
-		// Add Days to "Top" of 2D Array List
-		ArrayList<ArrayList<String>> Times = new ArrayList<ArrayList<String>>();
-			int k = 0;
-		for(int i = 0; i < days.length(); ++i) {
-			if(daysPresent[i]) {
-				Times.add(new ArrayList<String>());
-				Times.get(k).add(days.substring(i, i + 1));
-				++k;
-			}
-		}
-
-		for(int i = 0; i < Times.size(); ++i) {
-			for(int j = 0; j < lines.size(); ++j) {
-				if(lines.get(j).indexOf('\t') != -1) {
-					String lineDays = lines.get(j).substring(0, lines.get(j).indexOf('\t'));
-					if(lineDays.indexOf(Times.get(i).get(0)) != -1) {
-						String time = lines.get(j).substring(lines.get(j).indexOf('\t') + 1);
-						if(!Times.get(i).contains(time)) {
-							Times.get(i).add(time);
+			String currLine = lines.get(i);
+			if(lines.get(i).length() > 0) {
+				char firstChar = currLine.charAt(0);
+				if(weekdays.indexOf(firstChar) != -1) {
+					String daysUsed   = currLine.substring(0, currLine.indexOf('\t'));
+					String timePeriod = currLine.substring(currLine.indexOf('\t') + 1);
+					ScheduleTimeRange timeRange = new ScheduleTimeRange(timePeriod, daysUsed);
+					boolean found = false;
+					for(int j = 0; j < timeRanges.size(); ++j) {
+						if(ScheduleTimeRange.compareTimeRangeStarts(timeRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(timeRange, timeRanges.get(j)) == 0) {
+							found = true;
+							// Logically OR the days
+							for(int k = 0; k < weekdays.length(); ++k) {
+								timeRanges.get(j).daysUsed[k] = timeRange.daysUsed[k] || timeRanges.get(j).daysUsed[k];
+							}
 						}
 					}
+					if(!found) {
+						timeRanges.add(timeRange);
+					}
 				}
 			}
-			Collections.sort(Times.get(i));
 		}
-		return Times;
+		ScheduleTimeRange.sortTimeRangeArrayList(timeRanges);
+		return timeRanges;
 	}
-	
-	static public ArrayList<String> compileTimes(ArrayList<ArrayList<String>> times) {
-		ArrayList<String> compiledTimes = new ArrayList<String>();
-		for(int i = 0; i < times.size(); ++i) {
-			for(int j = 0; j < times.get(i).size() - 1; ++j) {
-				if(!compiledTimes.contains(times.get(i).get(j))) {
-					compiledTimes.add(times.get(i).get(j));
-				}
+
+	public void determineDaysUsed(ArrayList<ScheduleTimeRange> timeRanges) {
+		for(int i = 0; i < timeRanges.size(); ++i) {
+			ScheduleTimeRange currRange = timeRanges.get(i);
+			for(int j = 0; j < weekdays.length(); ++j) {
+				daysUsed[j] = daysUsed[j] || currRange.daysUsed[j];
 			}
 		}
-		return compiledTimes;
 	}
 }
