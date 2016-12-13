@@ -16,7 +16,7 @@ public class ClassTime {
 
 	static public int searchForClassInArrayList(ArrayList<ClassTime> classTimes, String name, int startIndex) {
 		for(int i = startIndex; i < classTimes.size(); ++i) {
-			if(String.compareTo(classTimes.get(i).className, name) == 0) {
+			if(classTimes.get(i).className.compareTo(name) == 0) {
 				return i;
 			}
 		}
@@ -30,13 +30,13 @@ public class ClassTime {
 	static public ArrayList<ClassTime> sortClassTimeArrayList(ArrayList<ClassTime> classTimes) {
 		for(int i = 0; i < classTimes.size() - 1; ++i) {
 			for(int j = i + 1; j < classTimes.size(); ++j) {
-				if(compareTimeRangeStarts(classTimes.get(i).timePeriod, classTimes.get(j).timePeriod) > 0) {
+				if(ScheduleTimeRange.compareTimeRangeStarts(classTimes.get(i).timePeriod, classTimes.get(j).timePeriod) > 0) {
 					ClassTime a = classTimes.get(i);
 					ClassTime b = classTimes.get(j);
-					classTime.remove(i);
-					classTime.remove(j - 1);
-					classTime.add(i, b);
-					classTime.add(j, a);
+					classTimes.remove(i);
+					classTimes.remove(j - 1);
+					classTimes.add(i, b);
+					classTimes.add(j, a);
 				}
 			}
 		}

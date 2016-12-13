@@ -27,7 +27,7 @@ public class SGWindow {
 				for(int j = 0; j < timeRanges.size(); ++j) {
 					ScheduleTimeRange currRange = timeRanges.get(j);
 					if(currRange.daysUsed[i]) {
-						dayBoxes.add(new JCheckBox(ScheduleTimeRange.convert24To12HourRange(currRange.rangeString())));
+						dayBoxes.add(new JCheckBox(ScheduleTimeRange.convert24To12HourRange(currRange.rangeString()), true));
 					}
 				}
 				checkBoxes.add(dayBoxes);
@@ -39,7 +39,7 @@ public class SGWindow {
 		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		win.setResizable( false );
 		 
-		win.setSize( checkBoxes.size() * 200, dayLength * 50 );
+		win.setSize( checkBoxes.size() * 200, dayLength * 50 + 50 );
 		win.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx    = 1;
@@ -49,6 +49,7 @@ public class SGWindow {
 		c.ipadx      = (int)win.getSize().getWidth() / (2 * checkBoxes.size());
 		c.ipady      = (int)win.getSize().getHeight() / (2 * dayLength);
 		c.fill       = GridBagConstraints.BOTH;
+		c.fill = GridBagConstraints.NONE;
 	
 		int k = 0;
 		for(int i = 0; i < checkBoxes.size(); ++i, ++k) {
@@ -66,6 +67,12 @@ public class SGWindow {
 				win.add(checkBoxes.get(i).get(j), c);
 			}
 		}
+		c.gridwidth = checkBoxes.size();
+		c.gridy += c.gridheight;
+		c.gridx = 0;
+		c.fill = GridBagConstraints.NONE;
+		JButton okButton = new JButton("OK");
+		win.add(okButton, c);
 		win.setVisible( true );
 	}
 	

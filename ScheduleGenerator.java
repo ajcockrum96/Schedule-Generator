@@ -17,7 +17,7 @@ public class ScheduleGenerator {
 		// Create Class Times
 		ArrayList<ClassTime> classTimes = new ArrayList<ClassTime>();
 		ArrayList<String>    classNames = new ArrayList<String>();
-		String className;
+		String className = "";
 		for(int i = 0; i < lines.size(); ++i) {
 			String currLine = lines.get(i);
 			if(currLine.length() > 0) {
