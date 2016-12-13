@@ -52,6 +52,16 @@ public class ScheduleTimeRange {
 	public int getMinuteLength() {
 		return ((end.hour - start.hour) * 60 + (end.minute - start.minute));
 	}
+
+	public String getDays() {
+		String days = "";
+		for(int i = 0; i < weekdays.length(); ++i) {
+			if(daysUsed[i]) {
+				days = days.concat(weekdays.substring(i, i + 1));
+			}
+		}
+		return days;
+	}
 	
 	static public String convert12To24HourRange(String timeRange) {
 		if(timeRange.indexOf('-') != -1) {

@@ -33,7 +33,23 @@ public class ScheduleGenerator {
 					classTimes.add(classTime);
 				}
 			}
-			classTimes = ClassTime.sortClassTimeArrayList(classTimes);
+		}
+		classTimes = ClassTime.sortClassTimeArrayList(classTimes);
+		for(int i = 0; i < classTimes.size(); ++i) {
+			ClassTime currClass = classTimes.get(i);
+			System.out.format("%10s: %s\t%s\n", currClass.className, currClass.timePeriod.getDays(), ScheduleTimeRange.convert24To12HourRange(currClass.timePeriod.rangeString()));
+		}
+		for(int j = 0; j < classNames.size(); ++j) {
+			System.out.println(classNames.get(j));
+			for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(j)); i < classTimes.size(); i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(j), ++i)) {
+				if(i >= 0) {
+					ClassTime currClass = classTimes.get(i);
+					System.out.format("%10s: %s\t%s\n", currClass.className, currClass.timePeriod.getDays(), ScheduleTimeRange.convert24To12HourRange(currClass.timePeriod.rangeString()));
+				}
+				else {
+					break;
+				}
+			}
 		}
 	}
 

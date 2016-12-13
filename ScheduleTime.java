@@ -1,3 +1,4 @@
+import java.lang.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -39,6 +40,29 @@ public class ScheduleTime {
 	
 	static public ScheduleTime roundDown(ScheduleTime time) {
 		return roundDown(time, 0);
+	}
+
+	static public ScheduleTime roundToPrecision(ScheduleTime time, int precisionMinutes) {
+		ArrayList<Integer> distances = new ArrayList<Integer>();
+		for(int minutes = 0; minutes <= 60; minutes += precisionMinutes) {
+			distances.add(minutes - time.minute);
+		}
+		int i = 0;
+		for(i = 0; i < distances.size(); ++i) {
+			if(Math.abs(distances.get(i + 1)) < Math.abs(distances.get(i))) {
+				continue;
+			}
+			break;
+		}
+		if(distances.get(i) > 0) {
+			return roundUp(time, precisionMinutes * i);
+		}
+		else if(distances.get(i) < 0) {
+			return roundDown(time, precisionMinutes * i);
+		}
+		else {
+			return time;
+		}
 	}
 	
 	static public String convert12To24Hour(String time) {
