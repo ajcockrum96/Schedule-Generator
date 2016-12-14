@@ -34,6 +34,7 @@ public class Schedule {
 	}
 
 	public void printIntegerSchedule() {
+		System.out.format("Days on Schedule: %s\n", days);
 		System.out.format("Full School Day Range: %s\n", ScheduleTimeRange.convert24To12HourRange(dayRange.rangeString()));
 		System.out.format("Class Key:\n");
 		for(int i = 0; i < classes.size(); ++i) {
