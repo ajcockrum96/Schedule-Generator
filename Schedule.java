@@ -115,14 +115,12 @@ public class Schedule {
 					}
 				}
 			}
-		}
-		if(overlap) {
 			failure = true;
 		}
 		if(!failure) {
 			classes.add(new ClassInfo(classTime, classNum));
 			classes = ClassInfo.sortClassInfoArrayList(classes);
 		}
-		return failure;
+		return !failure;
 	}
 }
