@@ -71,22 +71,22 @@ public class ScheduleGenerator {
 			for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size(); i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
 				if(i >= 0) {
 					// Add First Class to Schedule Object
-					boolean success = schedule.addClass(classTimes.get(i), currName);
+					boolean success = schedule.addClass(classTimes.get(i), currName + 1);
 					// Recersively Call with next name
 					if(success) {
 						generateScheduleWorker(schedule, classTimes, classNames, currName + 1);
+						// CLEANUP AND REMOVE CLASS FROM SCHEDULE BEFORE CONTINUING
+						schedule.removeClass(classTimes.get(i), classNames.get(currName));
 					}
 				}
 				else {
 					break;
 				}
-				// CLEANUP AND REMOVE CLASS FROM SCHEDULE BEFORE CONTINUING
 			}
 		}
 		else {
 			System.out.println("DONE");
 			schedule.printIntegerSchedule();
-			return;
 		}
 	}
 

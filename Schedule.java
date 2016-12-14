@@ -123,4 +123,23 @@ public class Schedule {
 		}
 		return !failure;
 	}
+
+	public void removeClass(ClassTime classTime, String className) {
+		// Round Range Start and Ends to Specified Precision
+		classTime.timePeriod.start = ScheduleTime.roundToPrecision(classTime.timePeriod.start, precisionMinutes);
+		classTime.timePeriod.end   = ScheduleTime.roundToPrecision(classTime.timePeriod.end, precisionMinutes);
+		String classDays = classTime.timePeriod.getDays();
+		int startPos = getTimeRangeStartPos(classTime.timePeriod);
+		int endPos   = getTimeRangeEndPos(classTime.timePeriod);
+		for(int i = 0; i < days.length(); ++i) {
+			if(classDays.indexOf(days.charAt(i)) != -1) {
+				for(int j = startPos; j <= endPos; ++j) {
+					schedule.get(i).remove(j);
+					schedule.get(i).add(j, 0);
+				}
+			}
+		}
+		// Remove Class Info
+		classes.remove(ClassInfo.searchClassInfoArrayList(classes, className));
+	}
 }

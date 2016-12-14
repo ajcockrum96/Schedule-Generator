@@ -30,4 +30,13 @@ public class ClassInfo {
 		}
 		return classes;
 	}
+
+	static public int searchClassInfoArrayList(ArrayList<ClassInfo> classes, String className) {
+		for(int i = 0; i < classes.size(); ++i) {
+			if(classes.get(i).name.compareTo(className) == 0) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }
