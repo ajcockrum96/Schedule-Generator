@@ -75,11 +75,13 @@ public class Schedule {
 		classTime.timePeriod.end   = ScheduleTime.roundToPrecision(classTime.timePeriod.end, precisionMinutes);
 		String classDays = classTime.timePeriod.getDays();
 		boolean overlap = false;
+		boolean failure = true;
 		int startPos = getTimeRangeStartPos(classTime.timePeriod);
 		int endPos   = getTimeRangeEndPos(classTime.timePeriod);
 		int i = 0;
 		for(i = 0; i < days.length(); ++i) {
 			if(classDays.indexOf(days.charAt(i)) != -1) {
+				failure = false;
 				int j = startPos;
 				for(j = startPos; j <= endPos; ++j) {
 					if(schedule.get(i).get(j) == 0) {
@@ -113,10 +115,13 @@ public class Schedule {
 				}
 			}
 		}
-		if(!overlap) {
+		if(overlap) {
+			failure = true;
+		}
+		if(!failure) {
 			classes.add(new ClassInfo(classTime, classNum));
 			classes = ClassInfo.sortClassInfoArrayList(classes);
 		}
-		return !overlap;
+		return failure;
 	}
 }

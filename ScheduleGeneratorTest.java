@@ -10,8 +10,8 @@ public class ScheduleGeneratorTest {
 			System.err.format("%s%n", e);
 		}
 
-		ScheduleTimeRange dayRange = new ScheduleTimeRange("07:30 am - 05:20 pm", "MTWRF");
-		boolean daysUsed[] = {false, true, true, true, true, true, false};
+		ScheduleTimeRange dayRange = new ScheduleTimeRange("07:30 am - 05:20 pm", "MWF");
+		boolean daysUsed[] = {false, true, false, true, false, true, false};
 		ScheduleTime precision = new ScheduleTime("00:15");
 		Schedule test = new Schedule(dayRange.start, dayRange.end, daysUsed, precision);
 		System.out.println("Schedule");
