@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.*;
 
 public class Schedule {
+	ArrayList<ClassInfo> classes;
 	ArrayList<ArrayList<Integer>> schedule;
 	ScheduleTimeRange dayRange;
 	String days = "";
@@ -29,9 +30,15 @@ public class Schedule {
 			}
 			schedule.add(day);
 		}
+		classes = new ArrayList<ClassInfo>();
 	}
 
 	public void printIntegerSchedule() {
+		System.out.format("Full School Day Range: %s\n", ScheduleTimeRange.convert24To12HourRange(dayRange.rangeString()));
+		System.out.format("Class Key:\n");
+		for(int i = 0; i < classes.size(); ++i) {
+			System.out.format("%3d) %s\n", classes.get(i).number, classes.get(i).name);
+		}
 		for(int i = 0; i < numPeriods; ++i) {
 			for(int j = 0; j < days.length(); ++j) {
 				System.out.format("%3d ", schedule.get(j).get(i));
@@ -105,6 +112,10 @@ public class Schedule {
 					}
 				}
 			}
+		}
+		if(!overlap) {
+			classes.add(new ClassInfo(classTime, classNum));
+			classes = ClassInfo.sortClassInfoArrayList(classes);
 		}
 		return !overlap;
 	}
