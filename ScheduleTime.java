@@ -17,6 +17,10 @@ public class ScheduleTime {
 	public ScheduleTime() {
 		this("00:00");
 	}
+
+	public int getMinuteValue() {
+		return hour * 60 + minute;
+	}
 	
 	static public ScheduleTime roundUp(ScheduleTime time, int minuteVal) {
 		if(time.minute > minuteVal) {

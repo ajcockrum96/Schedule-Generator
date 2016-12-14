@@ -16,7 +16,9 @@ public class Schedule {
 		}
 		int numDays = days.length();
 		precisionMinutes = precision.hour * 60 + precision.minute;
-		dayRange = new ScheduleTimeRange(String.format("%02d:%02d - %02d:%02d", start.hour, start.minute, end.hour, end.minute), days)
+		dayRange = new ScheduleTimeRange(String.format("%02d:%02d - %02d:%02d", start.hour, start.minute, end.hour, end.minute), days);
+		dayRange.start = ScheduleTime.roundToPrecision(dayRange.start, precisionMinutes);
+		dayRange.end   = ScheduleTime.roundToPrecision(dayRange.end, precisionMinutes);
 		numPeriods = dayRange.getMinuteLength() / precisionMinutes;
 
 		schedule = new ArrayList<ArrayList<Integer>>();
@@ -29,8 +31,17 @@ public class Schedule {
 		}
 	}
 
-	public getTimeRangeStartPos(ScheduleTimeRange timePeriod) {
-		int pos = ScheduleTimeRange.compareTimeRangeStarts(timePeriod, dayRange) * 60 / precisionMinutes;
+	public void printIntegerSchedule() {
+		for(int i = 0; i < numPeriods; ++i) {
+			for(int j = 0; j < days.length(); ++j) {
+				System.out.format("%3d ", schedule.get(j).get(i));
+			}
+			System.out.println("");
+		}
+	}
+
+	public int getTimeRangeStartPos(ScheduleTimeRange timePeriod) {
+		int pos = (timePeriod.start.getMinuteValue() - dayRange.start.getMinuteValue()) / precisionMinutes;
 		if(pos < 0) {
 			pos = 0;
 		}
@@ -40,8 +51,8 @@ public class Schedule {
 		return pos;
 	}
 
-	public getTimeRangeEndPos(ScheduleTimeRange timePeriod) {
-		int pos = numPeriods - 1 - ScheduleTimeRange.compareTimeRangeEnds(dayRange, timePeriod) * 60 / precisionMinutes;
+	public int getTimeRangeEndPos(ScheduleTimeRange timePeriod) {
+		int pos = numPeriods - 1 - (dayRange.end.getMinuteValue() - timePeriod.end.getMinuteValue()) / precisionMinutes;
 		if(pos < 0) {
 			pos = 0;
 		}
@@ -51,16 +62,50 @@ public class Schedule {
 		return pos;
 	}
 
-	public addClass(ClassTime classTime, int classNum) {
+	public boolean addClass(ClassTime classTime, Integer classNum) {
 		// Round Range Start and Ends to Specified Precision
-		classTime.timePeriod.start = ClassTime.roundToPrecision(classTime.timePeriod.start, precisionMinutes);
-		classTime.timePeriod.end   = ClassTime.roundToPrecision(classTime.timePeriod.end, precisionMinutes);
+		classTime.timePeriod.start = ScheduleTime.roundToPrecision(classTime.timePeriod.start, precisionMinutes);
+		classTime.timePeriod.end   = ScheduleTime.roundToPrecision(classTime.timePeriod.end, precisionMinutes);
 		String classDays = classTime.timePeriod.getDays();
-		for(int i = 0; i < days.length(); ++i) {
+		boolean overlap = false;
+		int startPos = getTimeRangeStartPos(classTime.timePeriod);
+		int endPos   = getTimeRangeEndPos(classTime.timePeriod);
+		int i = 0;
+		for(i = 0; i < days.length(); ++i) {
 			if(classDays.indexOf(days.charAt(i)) != -1) {
-				int startPos = getTimeRangeStartPos(classTime.timePeriod);
-				int endPos   = getTimeRangeEndPos(classTime.timePeriod);
+				int j = startPos;
+				for(j = startPos; j <= endPos; ++j) {
+					if(schedule.get(i).get(j) == 0) {
+						schedule.get(i).remove(j);
+						schedule.get(i).add(j, classNum);
+					}
+					else {
+						overlap = true;
+						break;
+					}
+				}
+				if(overlap) {
+					for(j = j; j >= startPos; --j) {
+						schedule.get(i).remove(j);
+						schedule.get(i).add(j, 0);
+					}
+				}
+			}
+			if(overlap) {
+				break;
 			}
 		}
+		if(overlap) {
+			for(i = i; i >= 0; --i) {
+				if(classDays.indexOf(days.charAt(i)) != -1) {
+					int j = startPos;
+					for(j = startPos; j <= endPos; ++j) {
+						schedule.get(i).remove(j);
+						schedule.get(i).add(j, 0);
+					}
+				}
+			}
+		}
+		return !overlap;
 	}
 }
