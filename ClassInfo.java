@@ -31,9 +31,9 @@ public class ClassInfo {
 		return classes;
 	}
 
-	static public int searchClassInfoArrayList(ArrayList<ClassInfo> classes, String className) {
+	static public int searchClassInfoArrayList(ArrayList<ClassInfo> classes, String className, int classNum) {
 		for(int i = 0; i < classes.size(); ++i) {
-			if(classes.get(i).name.compareTo(className) == 0) {
+			if(classes.get(i).name.compareTo(className) == 0 && classes.get(i).number == classNum) {
 				return i;
 			}
 		}

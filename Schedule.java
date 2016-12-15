@@ -124,7 +124,7 @@ public class Schedule {
 		return !failure;
 	}
 
-	public void removeClass(ClassTime classTime, String className) {
+	public void removeClass(ClassTime classTime, String className, int classNum) {
 		// Round Range Start and Ends to Specified Precision
 		classTime.timePeriod.start = ScheduleTime.roundToPrecision(classTime.timePeriod.start, precisionMinutes);
 		classTime.timePeriod.end   = ScheduleTime.roundToPrecision(classTime.timePeriod.end, precisionMinutes);
@@ -140,6 +140,6 @@ public class Schedule {
 			}
 		}
 		// Remove Class Info
-		classes.remove(ClassInfo.searchClassInfoArrayList(classes, className));
+		classes.remove(ClassInfo.searchClassInfoArrayList(classes, className, classNum));
 	}
 }

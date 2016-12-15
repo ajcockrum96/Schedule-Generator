@@ -62,10 +62,10 @@ public class ScheduleGenerator {
 		}
 		ScheduleTime precision = new ScheduleTime("00:15");
 		Schedule schedule = new Schedule(classTimes.get(0).timePeriod.start, classTimes.get(classTimes.size() - 1).timePeriod.end, daysUsed, precision);
-		generateScheduleWorker(schedule, classTimes, classNames, 0);
+		generateScheduleWorker(schedule, classTimes, classNames, 0, 1);
 	}
 
-	static public void generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName) {
+	static public int generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
 		if(currName < classNames.size()) {
 			// Create Schedule Object to Send
 			for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size(); i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
@@ -74,9 +74,9 @@ public class ScheduleGenerator {
 					boolean success = schedule.addClass(classTimes.get(i), currName + 1);
 					// Recersively Call with next name
 					if(success) {
-						generateScheduleWorker(schedule, classTimes, classNames, currName + 1);
+						scheduleNum = generateScheduleWorker(schedule, classTimes, classNames, currName + 1, scheduleNum);
 						// CLEANUP AND REMOVE CLASS FROM SCHEDULE BEFORE CONTINUING
-						schedule.removeClass(classTimes.get(i), classNames.get(currName));
+						schedule.removeClass(classTimes.get(i), classNames.get(currName), currName + 1);
 					}
 				}
 				else {
@@ -85,9 +85,10 @@ public class ScheduleGenerator {
 			}
 		}
 		else {
-			System.out.println("DONE");
+			System.out.format("Schedule %d:\n", scheduleNum++);
 			schedule.printIntegerSchedule();
 		}
+		return scheduleNum;
 	}
 
 	static public ArrayList<String> readInputFile(String filename) throws Exception {
