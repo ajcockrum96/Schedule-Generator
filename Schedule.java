@@ -95,7 +95,7 @@ public class Schedule {
 					}
 				}
 				if(overlap) {
-					for(j = j; j >= startPos; --j) {
+					for(j = --j; j >= startPos; --j) {
 						schedule.get(i).remove(j);
 						schedule.get(i).add(j, 0);
 					}
@@ -106,7 +106,7 @@ public class Schedule {
 			}
 		}
 		if(overlap) {
-			for(i = i; i >= 0; --i) {
+			for(i = --i; i >= 0; --i) {
 				if(classDays.indexOf(days.charAt(i)) != -1) {
 					int j = startPos;
 					for(j = startPos; j <= endPos; ++j) {

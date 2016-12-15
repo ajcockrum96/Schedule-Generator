@@ -35,22 +35,6 @@ public class ScheduleGenerator {
 			}
 		}
 		classTimes = ClassTime.sortClassTimeArrayList(classTimes);
-		// for(int i = 0; i < classTimes.size(); ++i) {
-			// ClassTime currClass = classTimes.get(i);
-			// System.out.format("%10s: %s\t%s\n", currClass.className, currClass.timePeriod.getDays(), ScheduleTimeRange.convert24To12HourRange(currClass.timePeriod.rangeString()));
-		// }
-		// for(int j = 0; j < classNames.size(); ++j) {
-			// System.out.println(classNames.get(j));
-			// for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(j)); i < classTimes.size(); i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(j), ++i)) {
-				// if(i >= 0) {
-					// ClassTime currClass = classTimes.get(i);
-					// System.out.format("%10s: %s\t%s\n", currClass.className, currClass.timePeriod.getDays(), ScheduleTimeRange.convert24To12HourRange(currClass.timePeriod.rangeString()));
-				// }
-				// else {
-					// break;
-				// }
-			// }
-		// }
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
 		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
 			for(int j = 0; j < classTimes.size(); ++j) {
@@ -67,20 +51,14 @@ public class ScheduleGenerator {
 
 	static public int generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
 		if(currName < classNames.size()) {
-			// Create Schedule Object to Send
-			for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size(); i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
-				if(i >= 0) {
-					// Add First Class to Schedule Object
-					boolean success = schedule.addClass(classTimes.get(i), currName + 1);
+			for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size() && i >= 0; i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
+				// Add First Class to Schedule Object
+				boolean success = schedule.addClass(classTimes.get(i), currName + 1);
+				if(success) {
 					// Recersively Call with next name
-					if(success) {
-						scheduleNum = generateScheduleWorker(schedule, classTimes, classNames, currName + 1, scheduleNum);
-						// CLEANUP AND REMOVE CLASS FROM SCHEDULE BEFORE CONTINUING
-						schedule.removeClass(classTimes.get(i), classNames.get(currName), currName + 1);
-					}
-				}
-				else {
-					break;
+					scheduleNum = generateScheduleWorker(schedule, classTimes, classNames, currName + 1, scheduleNum);
+					// CLEANUP AND REMOVE CLASS FROM SCHEDULE BEFORE CONTINUING
+					schedule.removeClass(classTimes.get(i), classNames.get(currName), currName + 1);
 				}
 			}
 		}
