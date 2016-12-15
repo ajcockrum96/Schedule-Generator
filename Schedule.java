@@ -42,7 +42,6 @@ public class Schedule {
 		}
 		for(int i = 0; i < numPeriods; ++i) {
 			for(int j = 0; j < days.length(); ++j) {
-				// System.out.format("%3d ", schedule.get(j).get(i));
 				System.out.format("\t%d", schedule.get(j).get(i));
 			}
 			System.out.println("");

@@ -63,8 +63,12 @@ public class ScheduleGenerator {
 			}
 		}
 		else {
-			System.out.format("Schedule %d:\n", scheduleNum++);
+			System.out.format("Schedule %d:\n", scheduleNum);
 			schedule.printIntegerSchedule();
+			String filename = String.format("%d.png", scheduleNum);
+			ScheduleImage image = new ScheduleImage(schedule);
+			ScheduleImage.writeImageFile(image, filename);
+			++scheduleNum;
 		}
 		return scheduleNum;
 	}
