@@ -2,12 +2,12 @@ Schedule 1:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -52,12 +52,12 @@ Schedule 2:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -102,12 +102,12 @@ Schedule 3:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -152,12 +152,12 @@ Schedule 4:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -202,12 +202,12 @@ Schedule 5:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -252,12 +252,12 @@ Schedule 6:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -302,12 +302,12 @@ Schedule 7:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -352,12 +352,12 @@ Schedule 8:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -402,12 +402,12 @@ Schedule 9:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -452,12 +452,12 @@ Schedule 10:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -502,12 +502,12 @@ Schedule 11:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -552,12 +552,12 @@ Schedule 12:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -602,12 +602,12 @@ Schedule 13:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -652,12 +652,12 @@ Schedule 14:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -702,12 +702,12 @@ Schedule 15:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -752,12 +752,12 @@ Schedule 16:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -802,12 +802,12 @@ Schedule 17:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -852,12 +852,12 @@ Schedule 18:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -902,12 +902,12 @@ Schedule 19:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -952,12 +952,12 @@ Schedule 20:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1002,12 +1002,12 @@ Schedule 21:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1052,12 +1052,12 @@ Schedule 22:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1102,12 +1102,12 @@ Schedule 23:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1152,12 +1152,12 @@ Schedule 24:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1202,12 +1202,12 @@ Schedule 25:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1252,12 +1252,12 @@ Schedule 26:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1302,12 +1302,12 @@ Schedule 27:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1352,12 +1352,12 @@ Schedule 28:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1402,12 +1402,12 @@ Schedule 29:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1452,12 +1452,12 @@ Schedule 30:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1502,12 +1502,12 @@ Schedule 31:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1552,12 +1552,12 @@ Schedule 32:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1602,12 +1602,12 @@ Schedule 33:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1652,12 +1652,12 @@ Schedule 34:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1702,12 +1702,12 @@ Schedule 35:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1752,12 +1752,12 @@ Schedule 36:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1802,12 +1802,12 @@ Schedule 37:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1852,12 +1852,12 @@ Schedule 38:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1902,12 +1902,12 @@ Schedule 39:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -1952,12 +1952,12 @@ Schedule 40:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -2002,12 +2002,12 @@ Schedule 41:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -2052,12 +2052,12 @@ Schedule 42:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -2102,12 +2102,12 @@ Schedule 43:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
@@ -2152,12 +2152,12 @@ Schedule 44:
 Days on Schedule: MTWRF
 Full School Day Range: 07:30 am - 05:30 pm
 Class Key:
-  1) ECE 20200
-  2) ECE 27000 Lecture
-  3) ECE 27000 Lab
-  4) ECE 36800
-  5) MA 26600
-  6) MA 26500
+(01)	ECE 20200
+(02)	ECE 27000 Lecture
+(03)	ECE 27000 Lab
+(04)	ECE 36800
+(05)	MA 26600
+(06)	MA 26500
   1   0   1   0   1 
   1   0   1   0   1 
   1   0   1   0   1 
