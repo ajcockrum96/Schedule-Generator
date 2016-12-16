@@ -8,6 +8,7 @@ public class SGWindow implements ActionListener {
 	String                          daysUsed = "";
 	ArrayList<ArrayList<JCheckBox>> checkBoxes;
 	ArrayList<ClassTime>            classTimes;
+	JFrame                          win;
 
 	public SGWindow(String filename) throws Exception {
 		// Read File Lines
@@ -40,7 +41,7 @@ public class SGWindow implements ActionListener {
 		}
 
 		// Initialize Window and Setup Check Boxes
-		JFrame win = new JFrame("Schedule Generator");
+		win = new JFrame("Schedule Generator");
 		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		win.setResizable( false );
 		 
@@ -84,7 +85,7 @@ public class SGWindow implements ActionListener {
 	}
 
 	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<ClassTime> classTimes) {
-		// Read in lines to ScheduleTimeRange Objects, OR'ing duplicates for new days
+		// Read in classTimes to ScheduleTimeRange Objects, ignoring duplicate days and overlapping time ranges
 		ArrayList<ScheduleTimeRange> timeRanges = new ArrayList<ScheduleTimeRange>();
 		for(int i = 0; i < classTimes.size(); ++i) {
 			ClassTime         currClass = classTimes.get(i);
@@ -150,6 +151,8 @@ public class SGWindow implements ActionListener {
 	}
 
 	public void actionPerformed( ActionEvent e ) {
+		// Make window invisible
+		win.setVisible( false );
 		// Total up check boxes and generate new schedule
 		ArrayList<ScheduleTimeRange> preferredDayRanges = new ArrayList<ScheduleTimeRange>();
 		for(int i = 0; i < checkBoxes.size(); ++i) {
@@ -220,6 +223,10 @@ public class SGWindow implements ActionListener {
 			}
 		} catch (IOException ioe) {
 			System.err.format("%s%n", ioe);
+			// Flash to convey error
+			win.setVisible( true );
 		}
+		// Close Window when finished
+		win.dispatchEvent(new WindowEvent(win, WindowEvent.WINDOW_CLOSING));
 	}
 }
