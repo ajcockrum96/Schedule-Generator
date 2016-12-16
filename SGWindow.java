@@ -22,21 +22,21 @@ public class SGWindow implements ActionListener {
 		// Get Times from Input Lines as Classes
 		classTimes = getClassTimes(lines);
 
-		// Get Times from Input Lines as Compiled List
-		ArrayList<ScheduleTimeRange> timeRanges = getDayTimes(lines);
+		// Get Times from Input Classes as Compiled List
+		ArrayList<ScheduleTimeRange> timeRanges = getDayTimes(classTimes);
 		int dayLength = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(timeRanges.size() - 1), timeRanges.get(0));
 		daysUsed = determineDaysUsed(timeRanges);
 
 		checkBoxes = new ArrayList<ArrayList<JCheckBox>>();
 		for(int i = 0; i < daysUsed.length(); ++i) {
-				ArrayList<JCheckBox> dayBoxes = new ArrayList<JCheckBox>();
-				for(int j = 0; j < timeRanges.size(); ++j) {
-					ScheduleTimeRange currRange = timeRanges.get(j);
-					if(currRange.getDays().indexOf(daysUsed.charAt(i)) != -1) {
-						dayBoxes.add(new JCheckBox(ScheduleTimeRange.convert24To12HourRange(currRange.rangeString()), true));
-					}
+			ArrayList<JCheckBox> dayBoxes = new ArrayList<JCheckBox>();
+			for(int j = 0; j < timeRanges.size(); ++j) {
+				ScheduleTimeRange currRange = timeRanges.get(j);
+				if(currRange.getDays().indexOf(daysUsed.charAt(i)) != -1) {
+					dayBoxes.add(new JCheckBox(ScheduleTimeRange.convert24To12HourRange(currRange.rangeString()), true));
 				}
-				checkBoxes.add(dayBoxes);
+			}
+			checkBoxes.add(dayBoxes);
 		}
 
 		// Initialize Window and Setup Check Boxes
@@ -82,33 +82,28 @@ public class SGWindow implements ActionListener {
 	public SGWindow() throws Exception {
 		this("input.txt");
 	}
-	
-	
-	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<String> lines) {
+
+	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<ClassTime> classTimes) {
 		// Read in lines to ScheduleTimeRange Objects, OR'ing duplicates for new days
 		ArrayList<ScheduleTimeRange> timeRanges = new ArrayList<ScheduleTimeRange>();
-		for(int i = 0; i < lines.size(); ++i) {
-			String currLine = lines.get(i);
-			if(lines.get(i).length() > 0) {
-				char firstChar = currLine.charAt(0);
-				if(ScheduleTimeRange.weekdays.indexOf(firstChar) != -1) {
-					String lineDays   = currLine.substring(0, currLine.indexOf('\t'));
-					String rangeString = currLine.substring(currLine.indexOf('\t') + 1);
-					ScheduleTimeRange timeRange = new ScheduleTimeRange(rangeString, lineDays);
-					boolean found = false;
-					for(int j = 0; j < timeRanges.size(); ++j) {
-						if(ScheduleTimeRange.compareTimeRangeStarts(timeRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(timeRange, timeRanges.get(j)) == 0) {
-							found = true;
-							// Logically OR the days
-							for(int k = 0; k < ScheduleTimeRange.weekdays.length(); ++k) {
-								timeRanges.get(j).daysUsed[k] = timeRange.daysUsed[k] || timeRanges.get(j).daysUsed[k];
-							}
-						}
-					}
-					if(!found) {
-						timeRanges.add(timeRange);
+		for(int i = 0; i < classTimes.size(); ++i) {
+			ClassTime         currClass = classTimes.get(i);
+			ScheduleTimeRange currRange = currClass.timePeriod;
+			String            currDays  = currRange.getDays();
+			boolean found   = false;
+			boolean overlap = false;
+			for(int j = 0; j < timeRanges.size(); ++j) {
+				overlap = overlap || currRange.overlapsRange(timeRanges.get(j));
+				if(ScheduleTimeRange.compareTimeRangeStarts(currRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(currRange, timeRanges.get(j)) == 0) {
+					found = true;
+					// Logically OR the days
+					for(int k = 0; k < ScheduleTimeRange.weekdays.length(); ++k) {
+						timeRanges.get(j).daysUsed[k] = currRange.daysUsed[k] || timeRanges.get(j).daysUsed[k];
 					}
 				}
+			}
+			if(!found && !overlap) {
+				timeRanges.add(new ScheduleTimeRange(currRange));
 			}
 		}
 		ScheduleTimeRange.mergeSortTimeRangeArrayList(timeRanges, 0, timeRanges.size());

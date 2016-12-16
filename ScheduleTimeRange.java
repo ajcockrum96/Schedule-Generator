@@ -20,6 +20,10 @@ public class ScheduleTimeRange {
 			}
 		}
 	}
+
+	public ScheduleTimeRange(ScheduleTimeRange timeRange) {
+		this(timeRange.rangeString(), timeRange.getDays());
+	}
 	
 	public ScheduleTimeRange(String timeRange) {
 		this(timeRange, "");
@@ -105,6 +109,28 @@ public class ScheduleTimeRange {
 		boolean start = (compareTimeRangeStarts(this, a) <= 0);
 		boolean end   = (compareTimeRangeEnds(this, a) >= 0);
 		return start && end;
+	}
+
+	public boolean overlapsRange(ScheduleTimeRange a) {
+		boolean beforeStart = (compareTimeRangeStarts(this, a) < 0);
+		boolean beforeEnd   = (compareTimeRangeEnds(this, a) < 0);
+		boolean afterStart  = (compareTimeRangeStarts(this, a) > 0);
+		boolean afterEnd    = (compareTimeRangeEnds(this, a) > 0);
+		boolean crossStart  = false;
+		if(this.getStartHour() != a.getEndHour()) {
+			crossStart = (this.getStartHour() < a.getEndHour());
+		}
+		else {
+			crossStart = (this.getStartMinute() < a.getEndMinute());
+		}
+		boolean crossEnd    = false;
+		if(this.getStartHour() != a.getEndHour()) {
+			crossEnd = (this.getEndHour() < a.getStartHour());
+		}
+		else {
+			crossEnd = (this.getEndMinute() < a.getStartMinute());
+		}
+		return ((beforeStart && afterEnd) || (afterStart && beforeEnd) || (beforeStart && beforeEnd && crossEnd) || (afterStart && afterEnd && crossStart));
 	}
 
 	// BUBBLE SORT INEFFICIENT; REDO WHEN POSSIBLE
