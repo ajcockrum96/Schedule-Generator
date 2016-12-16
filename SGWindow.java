@@ -1,14 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-public class SGWindow {
+public class SGWindow implements ActionListener {
 	static String weekdays = "SMTWRFA";
 	boolean daysUsed[] = {false, false, false, false, false, false, false};
+	String days = "";
+	ArrayList<String> lines;
+	ArrayList<ArrayList<JCheckBox>> checkBoxes;
 	public SGWindow(String filename) throws Exception {
 		// Read File Lines
-		ArrayList<String> lines;
 		try {
 			lines = ScheduleGenerator.readInputFile(filename);
 		} catch (Exception e) {
@@ -16,11 +19,12 @@ public class SGWindow {
 			throw new Exception("SGWindow constructor failed", e);
 		}
 		
+		// Get Times from Input Lines
 		ArrayList<ScheduleTimeRange> timeRanges = getDayTimes(lines);
 		int dayLength = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(timeRanges.size() - 1), timeRanges.get(0));
 		determineDaysUsed(timeRanges);
 
-		ArrayList<ArrayList<JCheckBox>> checkBoxes = new ArrayList<ArrayList<JCheckBox>>();
+		checkBoxes = new ArrayList<ArrayList<JCheckBox>>();
 		for(int i = 0; i < weekdays.length(); ++i) {
 			if(daysUsed[i]) {
 				ArrayList<JCheckBox> dayBoxes = new ArrayList<JCheckBox>();
@@ -72,6 +76,7 @@ public class SGWindow {
 		c.gridx = 0;
 		c.fill = GridBagConstraints.NONE;
 		JButton okButton = new JButton("OK");
+		okButton.addActionListener(this);
 		win.add(okButton, c);
 		win.setVisible( true );
 	}
@@ -118,6 +123,59 @@ public class SGWindow {
 			for(int j = 0; j < weekdays.length(); ++j) {
 				daysUsed[j] = daysUsed[j] || currRange.daysUsed[j];
 			}
+		}
+		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
+			if(daysUsed[i]) {
+				days = days.concat(weekdays.substring(i, i + 1));
+			}
+		}
+	}
+
+	public void actionPerformed( ActionEvent e ) {
+		// Total up check boxes and generate new schedule
+		ArrayList<ScheduleTimeRange> preferredDayRanges = new ArrayList<ScheduleTimeRange>();
+		for(int i = 0; i < checkBoxes.size(); ++i) {
+			String rangeString = "";
+			// Get Day Start
+			for(int j = 0; j < checkBoxes.get(i).size(); ++j) {
+				if(checkBoxes.get(i).get(j).isSelected()) {
+					String rangeStart = checkBoxes.get(i).get(j).getText();
+					rangeString = rangeString.concat(rangeStart.substring(0, rangeStart.indexOf('-') + 1));
+					break;
+				}
+			}
+			// Get Day End
+			for(int j = checkBoxes.get(i).size() - 1; j >= 0; --j) {
+				if(checkBoxes.get(i).get(j).isSelected()) {
+					String rangeEnd = checkBoxes.get(i).get(j).getText();
+					rangeString = rangeString.concat(rangeEnd.substring(rangeEnd.indexOf('-') + 2));
+					break;
+				}
+			}
+			// Create Range Time
+			preferredDayRanges.add(new ScheduleTimeRange(rangeString));
+		}
+		// Generate new input file
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("preferredInput.txt"));
+			for(int i = 0; i < lines.size(); ++i) {
+				boolean preferred = true;
+				String currLine = lines.get(i);
+				if(currLine.length() > 0 && ScheduleTimeRange.weekdays.indexOf(currLine.charAt(0)) != -1) {
+					String            lineDays  = currLine.substring(0, currLine.indexOf('\t'));
+					ScheduleTimeRange lineRange = new ScheduleTimeRange(currLine.substring(currLine.indexOf('\t') + 1));
+					for(int j = 0; j < lineDays.length() && preferred; ++j) {
+						preferred = preferredDayRanges.get(days.indexOf(lineDays.charAt(j))).containsRange(lineRange);
+					}
+				}
+				if(preferred) {
+					writer.write(currLine);
+					writer.newLine();
+					writer.flush();
+				}
+			}
+		} catch (IOException ioe) {
+			System.err.format("%s%n", ioe);
 		}
 	}
 }

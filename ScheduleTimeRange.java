@@ -21,8 +21,12 @@ public class ScheduleTimeRange {
 		}
 	}
 	
-	public ScheduleTimeRange(String days) {
-		this("00:00 - 23:59", days);
+	public ScheduleTimeRange(String timeRange) {
+		this(timeRange, "");
+	}
+	
+	public ScheduleTimeRange() {
+		this("00:00 - 23:59", "");
 	}
 	
 	public String rangeString() {
@@ -95,6 +99,12 @@ public class ScheduleTimeRange {
 			return a.getEndHour() - b.getEndHour();
 		}
 		return a.getEndMinute() - b.getEndMinute();
+	}
+
+	public boolean containsRange(ScheduleTimeRange a) {
+		boolean start = (compareTimeRangeStarts(this, a) <= 0);
+		boolean end   = (compareTimeRangeEnds(this, a) >= 0);
+		return start && end;
 	}
 
 	// BUBBLE SORT INEFFICIENT; REDO WHEN POSSIBLE
