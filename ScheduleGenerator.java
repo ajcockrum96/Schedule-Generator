@@ -56,7 +56,8 @@ public class ScheduleGenerator {
 			System.err.format("%e%n", e);
 			throw new Exception("generateSchedule constructor failed", e);
 		}
-		generateScheduleWorker(schedule, classTimes, classNames, 0, 1);
+		int numSchedules = generateScheduleWorker(schedule, classTimes, classNames, 0, 0);
+		System.out.format("%d Total Schedules Generated\n", numSchedules);
 	}
 
 	static public int generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
@@ -73,13 +74,10 @@ public class ScheduleGenerator {
 			}
 		}
 		else {
-			System.out.format("Schedule %d:\n", scheduleNum);
-			schedule.printIntegerSchedule();
-			// String filename = String.format("%d.png", scheduleNum);
+			++scheduleNum;
 			String filename = String.format(".\\Images\\%d.png", scheduleNum);
 			ScheduleImage image = new ScheduleImage(schedule);
 			ScheduleImage.writeImageFile(image, filename);
-			++scheduleNum;
 		}
 		return scheduleNum;
 	}
