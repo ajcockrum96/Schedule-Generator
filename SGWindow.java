@@ -154,28 +154,15 @@ public class SGWindow implements ActionListener {
 		// Make window invisible
 		win.setVisible( false );
 		// Total up check boxes and generate new schedule
-		ArrayList<ScheduleTimeRange> preferredDayRanges = new ArrayList<ScheduleTimeRange>();
+		ArrayList<ArrayList<ScheduleTimeRange>> negPrefDayRanges = new ArrayList<ArrayList<ScheduleTimeRange>>();
 		for(int i = 0; i < checkBoxes.size(); ++i) {
-			String rangeString = "";
-			// FIXME: Add checking if all checkboxes are NOT SELECTED
-			// Get Day Start
+			ArrayList<ScheduleTimeRange> currRanges = new ArrayList<ScheduleTimeRange>();
 			for(int j = 0; j < checkBoxes.get(i).size(); ++j) {
-				if(checkBoxes.get(i).get(j).isSelected()) {
-					String rangeStart = checkBoxes.get(i).get(j).getText();
-					rangeString = rangeString.concat(rangeStart.substring(0, rangeStart.indexOf('-') + 1));
-					break;
+				if(!(checkBoxes.get(i).get(j).isSelected())) {
+					currRanges.add(new ScheduleTimeRange(checkBoxes.get(i).get(j).getText(), daysUsed.substring(i, i + 1)));
 				}
 			}
-			// Get Day End
-			for(int j = checkBoxes.get(i).size() - 1; j >= 0; --j) {
-				if(checkBoxes.get(i).get(j).isSelected()) {
-					String rangeEnd = checkBoxes.get(i).get(j).getText();
-					rangeString = rangeString.concat(rangeEnd.substring(rangeEnd.indexOf('-') + 2));
-					break;
-				}
-			}
-			// Create Range Time
-			preferredDayRanges.add(new ScheduleTimeRange(rangeString));
+			negPrefDayRanges.add(currRanges);
 		}
 		// Generate new input file
 		try {
@@ -198,8 +185,10 @@ public class SGWindow implements ActionListener {
 					ScheduleTimeRange currRange = classTimes.get(j).timePeriod;
 					String            currDays  = currRange.getDays();
 					for(int k = 0; k < currDays.length() && timePreferred; ++k) {
-						ScheduleTimeRange preferredRange = preferredDayRanges.get(daysUsed.indexOf(currDays.charAt(k)));
-						timePreferred = preferredRange.containsRange(currRange);
+						ArrayList<ScheduleTimeRange> negPrefRanges = negPrefDayRanges.get(daysUsed.indexOf(currDays.charAt(k)));
+						for(int l = 0; l < negPrefRanges.size(); ++l) {
+							timePreferred = timePreferred && !currRange.overlapsRange(negPrefRanges.get(l));
+						}
 					}
 					if(timePreferred) {
 						classPreferred = true;

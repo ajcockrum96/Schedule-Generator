@@ -124,13 +124,13 @@ public class ScheduleTimeRange {
 			crossStart = (this.getStartMinute() < a.getEndMinute());
 		}
 		boolean crossEnd    = false;
-		if(this.getStartHour() != a.getEndHour()) {
-			crossEnd = (this.getEndHour() < a.getStartHour());
+		if(this.getEndHour() != a.getStartHour()) {
+			crossEnd = (this.getEndHour() > a.getStartHour());
 		}
 		else {
-			crossEnd = (this.getEndMinute() < a.getStartMinute());
+			crossEnd = (this.getEndMinute() > a.getStartMinute());
 		}
-		return ((beforeStart && afterEnd) || (afterStart && beforeEnd) || (beforeStart && beforeEnd && crossEnd) || (afterStart && afterEnd && crossStart));
+		return ((beforeStart && afterEnd) || (afterStart && beforeEnd) || (beforeStart && beforeEnd && crossEnd) || (afterStart && afterEnd && crossStart) || (compareTimeRangeStarts(this, a) == 0 && compareTimeRangeEnds(this, a) == 0));
 	}
 
 	// BUBBLE SORT INEFFICIENT; REDO WHEN POSSIBLE
