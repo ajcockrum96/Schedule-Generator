@@ -46,6 +46,16 @@ public class ScheduleGenerator {
 		}
 		ScheduleTime precision = new ScheduleTime("00:15");
 		Schedule schedule = new Schedule(classTimes.get(0).timePeriod.start, classTimes.get(classTimes.size() - 1).timePeriod.end, daysUsed, precision);
+		// Open Directory for Image Files
+		try {
+			File folder = new File(".\\Images");
+			if(!folder.isDirectory()) {
+				folder.mkdir();
+			}
+		} catch (SecurityException e) {
+			System.err.format("%e%n", e);
+			throw new Exception("generateSchedule constructor failed", e);
+		}
 		generateScheduleWorker(schedule, classTimes, classNames, 0, 1);
 	}
 
@@ -65,7 +75,8 @@ public class ScheduleGenerator {
 		else {
 			System.out.format("Schedule %d:\n", scheduleNum);
 			schedule.printIntegerSchedule();
-			String filename = String.format("%d.png", scheduleNum);
+			// String filename = String.format("%d.png", scheduleNum);
+			String filename = String.format(".\\Images\\%d.png", scheduleNum);
 			ScheduleImage image = new ScheduleImage(schedule);
 			ScheduleImage.writeImageFile(image, filename);
 			++scheduleNum;
