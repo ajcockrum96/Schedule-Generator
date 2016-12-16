@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 
 public class ScheduleGenerator {
-	static public void generateSchedule(String filename) throws Exception {
+	static public void generateSchedule(String filename, String daysGiven) throws Exception {
 		// Read Input File
 		ArrayList<String> lines;
 		try {
@@ -36,6 +36,13 @@ public class ScheduleGenerator {
 		}
 		classTimes = ClassTime.mergeSortClassTimeArrayList(classTimes, 0, classTimes.size());
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
+		// Account for given days
+		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
+			if(daysGiven.indexOf(ScheduleTimeRange.weekdays.charAt(i)) != -1) {
+				daysUsed[i] = true;
+			}
+		}
+		// Dynamically account for days used
 		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
 			for(int j = 0; j < classTimes.size(); ++j) {
 				if(classTimes.get(j).timePeriod.daysUsed[i]) {
@@ -58,6 +65,10 @@ public class ScheduleGenerator {
 		}
 		int numSchedules = generateScheduleWorker(schedule, classTimes, classNames, 0, 0);
 		System.out.format("%d Total Schedules Generated\n", numSchedules);
+	}
+
+	static public void generateSchedule(String filename) throws Exception {
+		generateSchedule(filename, "");
 	}
 
 	static public int generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
