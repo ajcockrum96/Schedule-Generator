@@ -5,13 +5,13 @@ import java.io.*;
 import java.util.*;
 
 public class SGWindow implements ActionListener {
-	static String weekdays = "SMTWRFA";
-	boolean daysUsed[] = {false, false, false, false, false, false, false};
-	String days = "";
-	ArrayList<String> lines;
+	String                          daysUsed = "";
 	ArrayList<ArrayList<JCheckBox>> checkBoxes;
+	ArrayList<ClassTime>            classTimes;
+
 	public SGWindow(String filename) throws Exception {
 		// Read File Lines
+		ArrayList<String> lines;
 		try {
 			lines = ScheduleGenerator.readInputFile(filename);
 		} catch (Exception e) {
@@ -19,23 +19,24 @@ public class SGWindow implements ActionListener {
 			throw new Exception("SGWindow constructor failed", e);
 		}
 		
-		// Get Times from Input Lines
+		// Get Times from Input Lines as Classes
+		classTimes = getClassTimes(lines);
+
+		// Get Times from Input Lines as Compiled List
 		ArrayList<ScheduleTimeRange> timeRanges = getDayTimes(lines);
 		int dayLength = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(timeRanges.size() - 1), timeRanges.get(0));
-		determineDaysUsed(timeRanges);
+		daysUsed = determineDaysUsed(timeRanges);
 
 		checkBoxes = new ArrayList<ArrayList<JCheckBox>>();
-		for(int i = 0; i < weekdays.length(); ++i) {
-			if(daysUsed[i]) {
+		for(int i = 0; i < daysUsed.length(); ++i) {
 				ArrayList<JCheckBox> dayBoxes = new ArrayList<JCheckBox>();
 				for(int j = 0; j < timeRanges.size(); ++j) {
 					ScheduleTimeRange currRange = timeRanges.get(j);
-					if(currRange.daysUsed[i]) {
+					if(currRange.getDays().indexOf(daysUsed.charAt(i)) != -1) {
 						dayBoxes.add(new JCheckBox(ScheduleTimeRange.convert24To12HourRange(currRange.rangeString()), true));
 					}
 				}
 				checkBoxes.add(dayBoxes);
-			}
 		}
 
 		// Initialize Window and Setup Check Boxes
@@ -59,13 +60,10 @@ public class SGWindow implements ActionListener {
 		for(int i = 0; i < checkBoxes.size(); ++i, ++k) {
 			c.gridx = c.gridheight * i;
 			c.gridy = 0;
-			while(!daysUsed[k]) {
-				++k;
-			}
-			win.add(new JLabel(weekdays.substring(k, k + 1)));
+			win.add(new JLabel(daysUsed.substring(i, i + 1)));
 
 			for(int j = 0; j < checkBoxes.get(i).size(); ++j) {
-				ScheduleTimeRange currRange = new ScheduleTimeRange(checkBoxes.get(i).get(j).getText(), weekdays.substring(k, k + 1));
+				ScheduleTimeRange currRange = new ScheduleTimeRange(checkBoxes.get(i).get(j).getText(), ScheduleTimeRange.weekdays.substring(k, k + 1));
 				int pos = ScheduleTimeRange.compareTimeRangeStarts(currRange, timeRanges.get(0));
 				c.gridy = c.gridheight * pos + 1;
 				win.add(checkBoxes.get(i).get(j), c);
@@ -93,16 +91,16 @@ public class SGWindow implements ActionListener {
 			String currLine = lines.get(i);
 			if(lines.get(i).length() > 0) {
 				char firstChar = currLine.charAt(0);
-				if(weekdays.indexOf(firstChar) != -1) {
-					String daysUsed   = currLine.substring(0, currLine.indexOf('\t'));
+				if(ScheduleTimeRange.weekdays.indexOf(firstChar) != -1) {
+					String lineDays   = currLine.substring(0, currLine.indexOf('\t'));
 					String rangeString = currLine.substring(currLine.indexOf('\t') + 1);
-					ScheduleTimeRange timeRange = new ScheduleTimeRange(rangeString, daysUsed);
+					ScheduleTimeRange timeRange = new ScheduleTimeRange(rangeString, lineDays);
 					boolean found = false;
 					for(int j = 0; j < timeRanges.size(); ++j) {
 						if(ScheduleTimeRange.compareTimeRangeStarts(timeRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(timeRange, timeRanges.get(j)) == 0) {
 							found = true;
 							// Logically OR the days
-							for(int k = 0; k < weekdays.length(); ++k) {
+							for(int k = 0; k < ScheduleTimeRange.weekdays.length(); ++k) {
 								timeRanges.get(j).daysUsed[k] = timeRange.daysUsed[k] || timeRanges.get(j).daysUsed[k];
 							}
 						}
@@ -117,18 +115,43 @@ public class SGWindow implements ActionListener {
 		return timeRanges;
 	}
 
-	public void determineDaysUsed(ArrayList<ScheduleTimeRange> timeRanges) {
+	public ArrayList<ClassTime> getClassTimes(ArrayList<String> lines) {
+		// Read in lines to ClassTime Objects
+		ArrayList<ClassTime> classTimes = new ArrayList<ClassTime>();
+		String className = "";
+		for(int i = 0; i < lines.size(); ++i) {
+			String currLine  = lines.get(i);
+			if(currLine.trim().length() > 0 && ScheduleTimeRange.weekdays.indexOf(currLine.charAt(0)) != -1) {
+				String classDays   = currLine.substring(0, currLine.indexOf('\t'));
+				String rangeString = currLine.substring(currLine.indexOf('\t') + 1);
+				classTimes.add(new ClassTime(rangeString, classDays, className));
+			}
+			else if(currLine.trim().length() > 0) {
+				className = currLine.substring(currLine.indexOf('\t') + 1);
+			}
+			else {
+				className = "";
+			}
+		}
+		ClassTime.mergeSortClassTimeArrayList(classTimes, 0, classTimes.size());
+		return classTimes;
+	}
+
+	public String determineDaysUsed(ArrayList<ScheduleTimeRange> timeRanges) {
+		boolean daysUsed[] = {false, false, false, false, false, false, false};
 		for(int i = 0; i < timeRanges.size(); ++i) {
 			ScheduleTimeRange currRange = timeRanges.get(i);
-			for(int j = 0; j < weekdays.length(); ++j) {
+			for(int j = 0; j < ScheduleTimeRange.weekdays.length(); ++j) {
 				daysUsed[j] = daysUsed[j] || currRange.daysUsed[j];
 			}
 		}
+		String days = "";
 		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
 			if(daysUsed[i]) {
-				days = days.concat(weekdays.substring(i, i + 1));
+				days = days.concat(ScheduleTimeRange.weekdays.substring(i, i + 1));
 			}
 		}
+		return days;
 	}
 
 	public void actionPerformed( ActionEvent e ) {
@@ -136,6 +159,7 @@ public class SGWindow implements ActionListener {
 		ArrayList<ScheduleTimeRange> preferredDayRanges = new ArrayList<ScheduleTimeRange>();
 		for(int i = 0; i < checkBoxes.size(); ++i) {
 			String rangeString = "";
+			// FIXME: Add checking if all checkboxes are NOT SELECTED
 			// Get Day Start
 			for(int j = 0; j < checkBoxes.get(i).size(); ++j) {
 				if(checkBoxes.get(i).get(j).isSelected()) {
@@ -158,21 +182,46 @@ public class SGWindow implements ActionListener {
 		// Generate new input file
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("preferredInput.txt"));
-			for(int i = 0; i < lines.size(); ++i) {
-				boolean preferred = true;
-				String currLine = lines.get(i);
-				if(currLine.length() > 0 && ScheduleTimeRange.weekdays.indexOf(currLine.charAt(0)) != -1) {
-					String            lineDays  = currLine.substring(0, currLine.indexOf('\t'));
-					ScheduleTimeRange lineRange = new ScheduleTimeRange(currLine.substring(currLine.indexOf('\t') + 1));
-					for(int j = 0; j < lineDays.length() && preferred; ++j) {
-						preferred = preferredDayRanges.get(days.indexOf(lineDays.charAt(j))).containsRange(lineRange);
+			// FIXING FOR USE OF CLASS TIME
+			// Get class names
+			ArrayList<String> classNames = new ArrayList<String>();
+			for(int i = 0; i < classTimes.size(); ++i) {
+				if(!classNames.contains(classTimes.get(i).className)) {
+					classNames.add(classTimes.get(i).className);
+				}
+			}
+			for(int i = 0; i < classNames.size(); ++i) {
+				boolean classPreferred = false;
+				writer.write(String.format("%d)\t%s", i + 1, classNames.get(i)));
+				writer.newLine();
+				writer.flush();
+				for(int j = ClassTime.searchForClassInArrayList(classTimes, classNames.get(i)); j < classTimes.size() && j >= 0; j = ClassTime.searchForClassInArrayList(classTimes, classNames.get(i), ++j)) {
+					boolean timePreferred = true;
+					ScheduleTimeRange currRange = classTimes.get(j).timePeriod;
+					String            currDays  = currRange.getDays();
+					for(int k = 0; k < currDays.length() && timePreferred; ++k) {
+						ScheduleTimeRange preferredRange = preferredDayRanges.get(daysUsed.indexOf(currDays.charAt(k)));
+						timePreferred = preferredRange.containsRange(currRange);
+					}
+					if(timePreferred) {
+						classPreferred = true;
+						writer.write(String.format("%s\t%s", currDays, currRange.rangeString()));
+						writer.newLine();
+						writer.flush();
 					}
 				}
-				if(preferred) {
-					writer.write(currLine);
-					writer.newLine();
-					writer.flush();
+				if(!classPreferred) {
+					// EVENTUALLY PROMPT FOR METHOD OF PROCEEDING; FOR NOW, JUST INPUT ALL CLASS TIMES DESPITE CONFLICT
+					for(int j = ClassTime.searchForClassInArrayList(classTimes, classNames.get(i)); j < classTimes.size() && j >= 0; j = ClassTime.searchForClassInArrayList(classTimes, classNames.get(i), ++j)) {
+						ScheduleTimeRange currRange = classTimes.get(j).timePeriod;
+						String            currDays  = currRange.getDays();
+						writer.write(String.format("%s\t%s", currDays, currRange.rangeString()));
+						writer.newLine();
+						writer.flush();
+					}
 				}
+				writer.newLine();
+				writer.flush();
 			}
 		} catch (IOException ioe) {
 			System.err.format("%s%n", ioe);
