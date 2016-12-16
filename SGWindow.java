@@ -108,7 +108,7 @@ public class SGWindow {
 				}
 			}
 		}
-		ScheduleTimeRange.sortTimeRangeArrayList(timeRanges);
+		ScheduleTimeRange.mergeSortTimeRangeArrayList(timeRanges, 0, timeRanges.size());
 		return timeRanges;
 	}
 

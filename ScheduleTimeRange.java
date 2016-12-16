@@ -113,4 +113,50 @@ public class ScheduleTimeRange {
 		}
 		return timeRanges;
 	}
+
+	// Merge Sort Implementation
+	static public ArrayList<ScheduleTimeRange> mergeSortTimeRangeArrayList(ArrayList<ScheduleTimeRange> timeRanges, int startIndex, int endIndex) {
+		int length = endIndex - startIndex;
+		if(length > 2) {
+			int midIndex = length / 2 + startIndex;
+			timeRanges = mergeSortTimeRangeArrayList(timeRanges, startIndex, midIndex);
+			timeRanges = mergeSortTimeRangeArrayList(timeRanges, midIndex, endIndex);
+			int i, j;
+			for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
+				if(compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j)) < 0) {
+					ScheduleTimeRange temp = timeRanges.remove(i);
+					timeRanges.add(startIndex++, temp);
+					++i;
+				}
+				else {
+					ScheduleTimeRange temp = timeRanges.remove(j);
+					timeRanges.add(startIndex++, temp);
+					++midIndex;
+					++i;
+					++j;
+				}
+			}
+			while(i < midIndex) {
+					ScheduleTimeRange temp = timeRanges.remove(i);
+					timeRanges.add(startIndex++, temp);
+					++i;
+			}
+			while(j < endIndex) {
+					ScheduleTimeRange temp = timeRanges.remove(j);
+					timeRanges.add(startIndex++, temp);
+					++j;
+			}
+		}
+		else if(length == 2) {
+				if(compareTimeRangeStarts(timeRanges.get(startIndex), timeRanges.get(startIndex + 1)) > 0) {
+					ScheduleTimeRange a = timeRanges.get(startIndex);
+					ScheduleTimeRange b = timeRanges.get(startIndex + 1);
+					timeRanges.remove(startIndex);
+					timeRanges.remove(startIndex);
+					timeRanges.add(startIndex, b);
+					timeRanges.add(startIndex + 1, a);
+			}
+		}
+		return timeRanges;
+	}
 }

@@ -119,7 +119,7 @@ public class Schedule {
 		}
 		if(!failure) {
 			classes.add(new ClassInfo(classTime, classNum));
-			classes = ClassInfo.sortClassInfoArrayList(classes);
+			classes = ClassInfo.mergeSortClassInfoArrayList(classes, 0, classes.size());
 		}
 		return !failure;
 	}

@@ -34,7 +34,7 @@ public class ScheduleGenerator {
 				}
 			}
 		}
-		classTimes = ClassTime.sortClassTimeArrayList(classTimes);
+		classTimes = ClassTime.mergeSortClassTimeArrayList(classTimes, 0, classTimes.size());
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
 		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
 			for(int j = 0; j < classTimes.size(); ++j) {
