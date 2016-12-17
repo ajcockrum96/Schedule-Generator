@@ -5,10 +5,10 @@ import java.io.*;
 import java.util.*;
 
 public class SGWindow implements ActionListener {
-	String                          daysUsed = "";
-	ArrayList<ArrayList<JCheckBox>> checkBoxes;
-	ArrayList<ClassTime>            classTimes;
-	JFrame                          win;
+	String               daysUsed = "";
+	SGCheckBoxGrid       checkBoxes;
+	ArrayList<ClassTime> classTimes;
+	JFrame               win;
 
 	public SGWindow(String filename) throws Exception {
 		// Read File Lines
@@ -28,49 +28,39 @@ public class SGWindow implements ActionListener {
 		int dayLength = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(timeRanges.size() - 1), timeRanges.get(0));
 		daysUsed = determineDaysUsed(timeRanges);
 
-		checkBoxes = new ArrayList<ArrayList<JCheckBox>>();
-		for(int i = 0; i < daysUsed.length(); ++i) {
-			ArrayList<JCheckBox> dayBoxes = new ArrayList<JCheckBox>();
-			for(int j = 0; j < timeRanges.size(); ++j) {
-				ScheduleTimeRange currRange = timeRanges.get(j);
-				if(currRange.getDays().indexOf(daysUsed.charAt(i)) != -1) {
-					dayBoxes.add(new JCheckBox(ScheduleTimeRange.convert24To12HourRange(currRange.rangeString()), true));
-				}
-			}
-			checkBoxes.add(dayBoxes);
-		}
+		checkBoxes = new SGCheckBoxGrid(timeRanges, daysUsed);
 
 		// Initialize Window and Setup Check Boxes
 		win = new JFrame("Schedule Generator");
 		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		win.setResizable( false );
 		 
-		win.setSize( checkBoxes.size() * 200, dayLength * 50 + 50 );
+		win.setSize( checkBoxes.boxGrid.size() * 200, dayLength * 50 + 50 );
 		win.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx    = 1;
 		c.weighty    = 1;
 		c.gridwidth  = 1;
 		c.gridheight = 1;
-		c.ipadx      = (int)win.getSize().getWidth() / (2 * checkBoxes.size());
+		c.ipadx      = (int)win.getSize().getWidth() / (2 * checkBoxes.boxGrid.size());
 		c.ipady      = (int)win.getSize().getHeight() / (2 * dayLength);
 		c.fill       = GridBagConstraints.BOTH;
 		c.fill = GridBagConstraints.NONE;
 	
 		int k = 0;
-		for(int i = 0; i < checkBoxes.size(); ++i, ++k) {
+		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i, ++k) {
 			c.gridx = c.gridheight * i;
 			c.gridy = 0;
 			win.add(new JLabel(daysUsed.substring(i, i + 1)));
 
-			for(int j = 0; j < checkBoxes.get(i).size(); ++j) {
-				ScheduleTimeRange currRange = new ScheduleTimeRange(checkBoxes.get(i).get(j).getText(), ScheduleTimeRange.weekdays.substring(k, k + 1));
+			for(int j = 0; j < checkBoxes.boxGrid.get(i).size(); ++j) {
+				ScheduleTimeRange currRange = new ScheduleTimeRange(checkBoxes.boxGrid.get(i).get(j).getText(), ScheduleTimeRange.weekdays.substring(k, k + 1));
 				int pos = ScheduleTimeRange.compareTimeRangeStarts(currRange, timeRanges.get(0));
 				c.gridy = c.gridheight * pos + 1;
-				win.add(checkBoxes.get(i).get(j), c);
+				win.add(checkBoxes.boxGrid.get(i).get(j), c);
 			}
 		}
-		c.gridwidth = checkBoxes.size();
+		c.gridwidth = checkBoxes.boxGrid.size();
 		c.gridy += c.gridheight;
 		c.gridx = 0;
 		c.fill = GridBagConstraints.NONE;
@@ -156,11 +146,11 @@ public class SGWindow implements ActionListener {
 		win.setVisible( false );
 		// Total up check boxes and generate new schedule
 		ArrayList<ArrayList<ScheduleTimeRange>> negPrefDayRanges = new ArrayList<ArrayList<ScheduleTimeRange>>();
-		for(int i = 0; i < checkBoxes.size(); ++i) {
+		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i) {
 			ArrayList<ScheduleTimeRange> currRanges = new ArrayList<ScheduleTimeRange>();
-			for(int j = 0; j < checkBoxes.get(i).size(); ++j) {
-				if(!(checkBoxes.get(i).get(j).isSelected())) {
-					currRanges.add(new ScheduleTimeRange(checkBoxes.get(i).get(j).getText(), daysUsed.substring(i, i + 1)));
+			for(int j = 0; j < checkBoxes.boxGrid.get(i).size(); ++j) {
+				if(!(checkBoxes.boxGrid.get(i).get(j).isSelected())) {
+					currRanges.add(new ScheduleTimeRange(checkBoxes.boxGrid.get(i).get(j).getText(), daysUsed.substring(i, i + 1)));
 				}
 			}
 			negPrefDayRanges.add(currRanges);
