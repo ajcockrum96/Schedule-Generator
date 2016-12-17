@@ -77,6 +77,7 @@ public class SGWindow implements ActionListener {
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(this);
 		win.add(okButton, c);
+		win.getRootPane().setDefaultButton(okButton);
 		win.setVisible( true );
 	}
 	
