@@ -44,8 +44,7 @@ public class SGWindow implements ActionListener {
 		c.gridheight = 1;
 		c.ipadx      = (int)win.getSize().getWidth() / (2 * checkBoxes.boxGrid.size());
 		c.ipady      = (int)win.getSize().getHeight() / (2 * dayLength);
-		c.fill       = GridBagConstraints.BOTH;
-		c.fill = GridBagConstraints.NONE;
+		c.fill       = GridBagConstraints.NONE;
 	
 		int k = 0;
 		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i, ++k) {
