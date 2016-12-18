@@ -1,8 +1,23 @@
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
-import java.util.*;
-import javax.imageio.*;
+// import java.awt.*;
+import java.awt.Point;
+
+// import java.awt.image.*;
+import java.awt.image.BandedSampleModel;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferInt;
+import java.awt.image.Raster;
+
+// import java.io.*;
+import java.io.IOException;
+import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
+// import java.util.*;
+
+// import javax.imageio.*;
+import javax.imageio.ImageIO;
 
 public class ScheduleImage {
 	BufferedImage image;
