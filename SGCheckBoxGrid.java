@@ -1,15 +1,27 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+// import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+// import java.awt.*;
+import java.awt.GridLayout;
+
+// import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+// import java.io.*;
+
+// import java.util.*;
+import java.util.ArrayList;
+
 
 public class SGCheckBoxGrid implements ActionListener {
 	ArrayList<ArrayList<JCheckBox>> boxGrid;
 	JPanel fullGrid;
 	int    dayRange;
 	SGHelper helper;
-	boolean options[] = {true};
+	boolean options[] = {true, true};
 
 	public SGCheckBoxGrid(ArrayList<ScheduleTimeRange> timeRanges, String daysUsed) {
 		boxGrid = new ArrayList<ArrayList<JCheckBox>>();
@@ -49,7 +61,7 @@ public class SGCheckBoxGrid implements ActionListener {
 		String    eventDay  = ((JLabel)(eventBox.getParent().getComponent(0))).getText();
 		// System.out.println(eventText);
 		if(!eventBox.isSelected()) {
-			helper = new SGHelper(eventText, options, boxGrid, eventDay);
+			helper = new SGHelper(eventText, eventDay, this);
 		}
 	}
 }
