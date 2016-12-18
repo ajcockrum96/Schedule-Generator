@@ -63,12 +63,23 @@ public class SGWindow implements ActionListener {
 
 		win.add(okButton, c);
 		win.getRootPane().setDefaultButton(okButton);
+		this.centerWindow();
 		win.setVisible( true );
 	}
 	
 	public SGWindow() throws Exception {
 		this("input.txt");
 	}
+
+	public void centerWindow() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if(win != null) {
+			int centerX = (int)(screenSize.getWidth() - win.getWidth()) / 2;
+			int centerY = (int)(screenSize.getHeight() - win.getHeight()) / 2;
+			win.setLocation(centerX, centerY);
+		}
+	}
+
 
 	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<ClassTime> classTimes) {
 		// Read in classTimes to ScheduleTimeRange Objects, ignoring duplicate days and overlapping time ranges
