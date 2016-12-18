@@ -14,6 +14,7 @@ public class SGHelper implements ActionListener {
 	int         currType = -1;
 	String      eventDay = "";
 	ActionEvent prevEvent;
+	ArrayList<JCheckBox> dayBoxes;
 	public SGHelper(String range, boolean []options, ArrayList<ArrayList<JCheckBox>> boxGrid, String eventDay) {
 		int numTypes  = 1;
 		this.range    = range;
@@ -76,6 +77,7 @@ public class SGHelper implements ActionListener {
 				c.gridy = 1;
 				c.gridwidth = 1;
 				window.add(noButton, c);
+				window.getRootPane().setDefaultButton(beforeButton);
 				break;
 				}
 			case(1):
@@ -88,11 +90,13 @@ public class SGHelper implements ActionListener {
 				window.add(question, c);
 
 				c.fill = GridBagConstraints.NONE;
+				dayBoxes = new ArrayList<JCheckBox>();
 				for(int i = 0; i < boxGrid.size(); ++i) {
-					JCheckBox box = new JCheckBox(((JLabel)(boxGrid.get(i).get(0).getParent().getComponent(0))).getText());
+					JCheckBox box = new JCheckBox(((JLabel)(boxGrid.get(i).get(0).getParent().getComponent(0))).getText(), true);
 					c.gridx = i;
 					c.gridy = 1;
 					c.gridwidth = 1;
+					dayBoxes.add(box);
 					window.add(box, c);
 				}
 
@@ -109,6 +113,7 @@ public class SGHelper implements ActionListener {
 				c.gridy = 2;
 				c.gridwidth = 1;
 				window.add(noButton, c);
+				window.getRootPane().setDefaultButton(yesButton);
 				break;
 				}
 		}
@@ -144,9 +149,26 @@ public class SGHelper implements ActionListener {
 				break;
 			case(1):
 				if(eventText.equals("Yes")) {
-					System.out.println("YAY");
+					String eventDays = "";
+					for(int i = 0; i < dayBoxes.size(); ++i) {
+						if(dayBoxes.get(i).isSelected()) {
+							eventDays = eventDays + dayBoxes.get(i).getText();
+						}
+					}
+					JButton prevButton = (JButton)prevEvent.getSource();
+					if(prevButton.getText().equals("Before")) {
+						String timeString = range.substring(range.indexOf('-') + 1).trim();
+						this.uncheckBeforeTime(new ScheduleTime(timeString), eventDays);
+					}
+					if(prevButton.getText().equals("After")) {
+						String timeString = range.substring(0, range.indexOf('-')).trim();
+						this.uncheckAfterTime(new ScheduleTime(timeString), eventDays);
+					}
+					if(prevButton.getText().equals("Neither")) {
+						String timeString = range.substring(0, range.indexOf('-')).trim();
+						this.uncheckDuringTime(new ScheduleTime(timeString), eventDays);
+					}
 				}
-				window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 				window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
 				break;
 		}
@@ -177,6 +199,23 @@ public class SGHelper implements ActionListener {
 					JCheckBox    currBox  = boxGrid.get(i).get(j);
 					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
 					if(ScheduleTime.compareTimes(currTime, time) >= 0) {
+						currBox.setSelected(false);
+					}
+					else {
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	public void uncheckDuringTime(ScheduleTime time, String days) {
+		for(int i = 0; i < boxGrid.size(); ++i) {
+			if(days.contains(((JLabel)(boxGrid.get(i).get(0).getParent().getComponent(0))).getText())) {
+				for(int j = boxGrid.get(i).size() - 1; j >= 0; --j) {
+					JCheckBox    currBox  = boxGrid.get(i).get(j);
+					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
+					if(ScheduleTime.compareTimes(currTime, time) == 0) {
 						currBox.setSelected(false);
 					}
 					else {
