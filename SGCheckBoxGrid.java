@@ -8,6 +8,8 @@ public class SGCheckBoxGrid implements ActionListener {
 	ArrayList<ArrayList<JCheckBox>> boxGrid;
 	JPanel fullGrid;
 	int    dayRange;
+	SGHelper helper;
+	boolean options[] = {true};
 
 	public SGCheckBoxGrid(ArrayList<ScheduleTimeRange> timeRanges, String daysUsed) {
 		boxGrid = new ArrayList<ArrayList<JCheckBox>>();
@@ -44,19 +46,10 @@ public class SGCheckBoxGrid implements ActionListener {
 	public void actionPerformed( ActionEvent e ) {
 		JCheckBox eventBox  = (JCheckBox)e.getSource();
 		String    eventText = eventBox.getText();
-		System.out.println(eventText);
+		String    eventDay  = ((JLabel)(eventBox.getParent().getComponent(0))).getText();
+		// System.out.println(eventText);
 		if(!eventBox.isSelected()) {
-			JFrame reqWin = new JFrame("Helper");
-			reqWin.setResizable( false );
-		 
-			reqWin.setSize( 200, 150 );
-			reqWin.setLayout( new GridLayout(2, 1) );
-			JLabel question = new JLabel(String.format("Do you wish to uncheck ALL times before %s on the following days of the week?", eventText.substring(0, eventText.indexOf('-'))));
-			reqWin.add(question);
-			JButton yesButton = new JButton("Yes");
-			reqWin.add(yesButton);
-
-			reqWin.setVisible( true );
+			helper = new SGHelper(eventText, options, boxGrid, eventDay);
 		}
 	}
 }

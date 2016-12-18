@@ -21,6 +21,10 @@ public class ScheduleTimeRange {
 		}
 	}
 
+	public ScheduleTimeRange(ScheduleTime start, ScheduleTime end) {
+		this(String.format("%d:%d - %d:%d", start.hour, start.minute, end.hour, end.minute));
+	}
+
 	public ScheduleTimeRange(ScheduleTimeRange timeRange) {
 		this(timeRange.rangeString(), timeRange.getDays());
 	}

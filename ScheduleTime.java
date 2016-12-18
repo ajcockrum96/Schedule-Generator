@@ -18,6 +18,11 @@ public class ScheduleTime {
 		this("00:00");
 	}
 
+	public ScheduleTime(int hour, int minute) {
+		this.hour   = hour;
+		this.minute = minute;
+	}
+
 	public int getMinuteValue() {
 		return hour * 60 + minute;
 	}
@@ -66,6 +71,15 @@ public class ScheduleTime {
 		}
 		else {
 			return time;
+		}
+	}
+
+	static public int compareTimes(ScheduleTime a, ScheduleTime b) {
+		if(a.hour != b.hour) {
+			return a.hour - b.hour;
+		}
+		else {
+			return a.minute - b.minute;
 		}
 	}
 	
