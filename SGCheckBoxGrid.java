@@ -5,31 +5,34 @@ import java.io.*;
 import java.util.*;
 
 public class SGCheckBoxGrid implements ActionListener {
+	ArrayList<ArrayList<JCheckBox>> boxGrid;
 	JPanel fullGrid;
 	int    dayRange;
 
 	public SGCheckBoxGrid(ArrayList<ScheduleTimeRange> timeRanges, String daysUsed) {
-		ArrayList<ArrayList<ScheduleTimeRange>> dayRanges = new ArrayList<ArrayList<ScheduleTimeRange>>();
+		boxGrid = new ArrayList<ArrayList<JCheckBox>>();
 		for(int i = 0; i < daysUsed.length(); ++i) {
-			ArrayList<ScheduleTimeRange> currRanges = new ArrayList<ScheduleTimeRange>();
+			ArrayList<JCheckBox> currBoxes = new ArrayList<JCheckBox>();
 			for(int j = 0; j < timeRanges.size(); ++j) {
 				if(timeRanges.get(j).getDays().indexOf(daysUsed.charAt(i)) != -1) {
-					currRanges.add(new ScheduleTimeRange(timeRanges.get(j).rangeString(), daysUsed.substring(i, i + 1)));
+					JCheckBox currBox = new JCheckBox(ScheduleTimeRange.convert24To12HourRange(timeRanges.get(j).rangeString()), true);
+					currBox.addActionListener( this );
+					currBoxes.add( currBox );
 				}
 			}
-			dayRanges.add(currRanges);
+			boxGrid.add(currBoxes);
 		}
 
 		fullGrid = new JPanel();
-		fullGrid.setLayout( new GridLayout(1, dayRanges.size()) );
+		fullGrid.setLayout( new GridLayout(1, boxGrid.size()) );
 		dayRange = 0;
-		for(int i = 0; i < dayRanges.size(); ++i) {
+		for(int i = 0; i < boxGrid.size(); ++i) {
 			int j = 0;
 			JPanel dayGrid = new JPanel();
-			dayGrid.setLayout( new GridLayout(dayRanges.get(i).size() + 1, 1) );
+			dayGrid.setLayout( new GridLayout(boxGrid.get(i).size() + 1, 1) );
 			dayGrid.add( new JLabel(daysUsed.substring(i, i + 1)) );
-			for(j = 0; j < dayRanges.get(i).size(); ++j) {
-				dayGrid.add( new JCheckBox(dayRanges.get(i).get(j).rangeString(), true) );
+			for(j = 0; j < boxGrid.get(i).size(); ++j) {
+				dayGrid.add( boxGrid.get(i).get(j) );
 			}
 			if(j > dayRange) {
 				dayRange = j;

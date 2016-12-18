@@ -46,8 +46,8 @@ public class SGWindow implements ActionListener {
 		c.gridheight = checkBoxes.dayRange;
 		c.weightx    = 1;
 		c.weighty    = 1;
-		c.ipadx      = 0;
-		c.ipady      = 0;
+		c.ipadx      = (int)(win.getSize().getWidth()) / (2 * daysUsed.length());
+		c.ipady      = (int)(win.getSize().getHeight()) / (2 * checkBoxes.dayRange);
 		c.fill       = GridBagConstraints.BOTH;
 		win.add(checkBoxes.fullGrid, c);
 
@@ -57,8 +57,8 @@ public class SGWindow implements ActionListener {
 		c.gridy      = c.gridheight;
 		c.gridwidth  = daysUsed.length();
 		c.gridheight = 1;
-		c.weightx    = 1;
-		c.weighty    = 1;
+		c.weightx    = 0;
+		c.weighty    = 0;
 		c.fill       = GridBagConstraints.NONE;
 
 		win.add(okButton, c);
@@ -137,7 +137,7 @@ public class SGWindow implements ActionListener {
 	}
 
 	public void actionPerformed( ActionEvent e ) {
-		/* // Make window invisible
+		// Make window invisible
 		win.setVisible( false );
 		// Total up check boxes and generate new schedule
 		ArrayList<ArrayList<ScheduleTimeRange>> negPrefDayRanges = new ArrayList<ArrayList<ScheduleTimeRange>>();
@@ -203,6 +203,5 @@ public class SGWindow implements ActionListener {
 		}
 		// Close Window when finished
 		win.dispatchEvent(new WindowEvent(win, WindowEvent.WINDOW_CLOSING));
-		*/
 	}
 }
