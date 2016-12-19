@@ -11,8 +11,6 @@ import java.awt.image.Raster;
 // import java.io.*;
 import java.io.IOException;
 import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 
 // import java.util.*;
 
