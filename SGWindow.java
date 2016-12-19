@@ -3,10 +3,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 // import java.awt.*;
+import java.awt.AWTError;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
+
+// import java.lang.*;
+import java.lang.SecurityException;
 
 // import java.awt.event.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +28,7 @@ import java.util.ArrayList;
 
 
 public class SGWindow implements ActionListener {
-	String               daysUsed = "";
+	String               daysUsed;
 	SGCheckBoxGrid       checkBoxes;
 	ArrayList<ClassTime> classTimes;
 	JFrame               win;
@@ -44,14 +49,23 @@ public class SGWindow implements ActionListener {
 		// Get Times from Input Classes as Compiled List
 		ArrayList<ScheduleTimeRange> timeRanges = getDayTimes(classTimes);
 		int dayLength = ScheduleTimeRange.compareTimeRangeStarts(timeRanges.get(timeRanges.size() - 1), timeRanges.get(0));
-		daysUsed = determineDaysUsed(timeRanges);
+		this.daysUsed = "";
+		this.daysUsed = determineDaysUsed(timeRanges);
 
 		// Set up check boxes
 		checkBoxes = new SGCheckBoxGrid(timeRanges, daysUsed);
 
 		// Initialize Window
+		try {
 		win = new JFrame("Schedule Generator");
 		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		} catch (HeadlessException e) {
+			System.err.format("%e%n", e);
+			throw new Exception("SGWindow constructor failed", e);
+		} catch (SecurityException e) {
+			System.err.format("%e%n", e);
+			throw new Exception("SGWindow constructor failed", e);
+		}
 		win.setResizable( false );
 		 
 		win.setSize( daysUsed.length() * 200, checkBoxes.dayRange * 50 + 50 );
@@ -81,7 +95,11 @@ public class SGWindow implements ActionListener {
 
 		win.add(okButton, c);
 		win.getRootPane().setDefaultButton(okButton);
-		this.centerWindow();
+		try {
+			this.centerWindow();
+		} catch (Exception e) {
+			System.out.println("Error, window could not be centered!");
+		}
 		win.setVisible( true );
 	}
 	
@@ -89,12 +107,17 @@ public class SGWindow implements ActionListener {
 		this("input.txt");
 	}
 
-	public void centerWindow() {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		if(win != null) {
-			int centerX = (int)(screenSize.getWidth() - win.getWidth()) / 2;
-			int centerY = (int)(screenSize.getHeight() - win.getHeight()) / 2;
-			win.setLocation(centerX, centerY);
+	public void centerWindow() throws Exception {
+		try {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			if(win != null) {
+				int centerX = (int)(screenSize.getWidth() - win.getWidth()) / 2;
+				int centerY = (int)(screenSize.getHeight() - win.getHeight()) / 2;
+				win.setLocation(centerX, centerY);
+			}
+		} catch(AWTError e) {
+			System.err.format("%e%n", e);
+			throw new Exception("centerWindow failed", e);
 		}
 	}
 
@@ -102,27 +125,29 @@ public class SGWindow implements ActionListener {
 	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<ClassTime> classTimes) {
 		// Read in classTimes to ScheduleTimeRange Objects, ignoring duplicate days and overlapping time ranges
 		ArrayList<ScheduleTimeRange> timeRanges = new ArrayList<ScheduleTimeRange>();
-		for(int i = 0; i < classTimes.size(); ++i) {
-			ClassTime         currClass = classTimes.get(i);
-			ScheduleTimeRange currRange = currClass.timePeriod;
-			String            currDays  = currRange.getDays();
-			boolean found   = false;
-			boolean overlap = false;
-			for(int j = 0; j < timeRanges.size(); ++j) {
-				overlap = overlap || currRange.overlapsRange(timeRanges.get(j));
-				if(ScheduleTimeRange.compareTimeRangeStarts(currRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(currRange, timeRanges.get(j)) == 0) {
-					found = true;
-					// Logically OR the days
-					for(int k = 0; k < ScheduleTimeRange.weekdays.length(); ++k) {
-						timeRanges.get(j).daysUsed[k] = currRange.daysUsed[k] || timeRanges.get(j).daysUsed[k];
+		if(classTimes != null) {
+			for(int i = 0; i < classTimes.size(); ++i) {
+				ClassTime         currClass = classTimes.get(i);
+				ScheduleTimeRange currRange = currClass.timePeriod;
+				String            currDays  = currRange.getDays();
+				boolean found   = false;
+				boolean overlap = false;
+				for(int j = 0; j < timeRanges.size(); ++j) {
+					overlap = overlap || currRange.overlapsRange(timeRanges.get(j));
+					if(ScheduleTimeRange.compareTimeRangeStarts(currRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(currRange, timeRanges.get(j)) == 0) {
+						found = true;
+						// Logically OR the days
+						for(int k = 0; k < ScheduleTimeRange.weekdays.length(); ++k) {
+							timeRanges.get(j).daysUsed[k] = currRange.daysUsed[k] || timeRanges.get(j).daysUsed[k];
+						}
 					}
 				}
+				if(!found && !overlap) {
+					timeRanges.add(new ScheduleTimeRange(currRange));
+				}
 			}
-			if(!found && !overlap) {
-				timeRanges.add(new ScheduleTimeRange(currRange));
-			}
+			ScheduleTimeRange.mergeSortTimeRangeArrayList(timeRanges, 0, timeRanges.size());
 		}
-		ScheduleTimeRange.mergeSortTimeRangeArrayList(timeRanges, 0, timeRanges.size());
 		return timeRanges;
 	}
 
@@ -130,36 +155,40 @@ public class SGWindow implements ActionListener {
 		// Read in lines to ClassTime Objects
 		ArrayList<ClassTime> classTimes = new ArrayList<ClassTime>();
 		String className = "";
-		for(int i = 0; i < lines.size(); ++i) {
-			String currLine  = lines.get(i);
-			if(currLine.trim().length() > 0 && ScheduleTimeRange.weekdays.indexOf(currLine.charAt(0)) != -1) {
-				String classDays   = currLine.substring(0, currLine.indexOf('\t'));
-				String rangeString = currLine.substring(currLine.indexOf('\t') + 1);
-				classTimes.add(new ClassTime(rangeString, classDays, className));
+		if(lines != null) {
+			for(int i = 0; i < lines.size(); ++i) {
+				String currLine  = lines.get(i);
+				if(currLine.trim().length() > 0 && ScheduleTimeRange.weekdays.indexOf(currLine.charAt(0)) != -1) {
+					String classDays   = currLine.substring(0, currLine.indexOf('\t'));
+					String rangeString = currLine.substring(currLine.indexOf('\t') + 1);
+					classTimes.add(new ClassTime(rangeString, classDays, className));
+				}
+				else if(currLine.trim().length() > 0) {
+					className = currLine.substring(currLine.indexOf('\t') + 1);
+				}
+				else {
+					className = "";
+				}
 			}
-			else if(currLine.trim().length() > 0) {
-				className = currLine.substring(currLine.indexOf('\t') + 1);
-			}
-			else {
-				className = "";
-			}
+			ClassTime.mergeSortClassTimeArrayList(classTimes, 0, classTimes.size());
 		}
-		ClassTime.mergeSortClassTimeArrayList(classTimes, 0, classTimes.size());
 		return classTimes;
 	}
 
 	public String determineDaysUsed(ArrayList<ScheduleTimeRange> timeRanges) {
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
-		for(int i = 0; i < timeRanges.size(); ++i) {
-			ScheduleTimeRange currRange = timeRanges.get(i);
-			for(int j = 0; j < ScheduleTimeRange.weekdays.length(); ++j) {
-				daysUsed[j] = daysUsed[j] || currRange.daysUsed[j];
-			}
-		}
 		String days = "";
-		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
-			if(daysUsed[i]) {
-				days = days.concat(ScheduleTimeRange.weekdays.substring(i, i + 1));
+		if(timeRanges != null) {
+			for(int i = 0; i < timeRanges.size(); ++i) {
+				ScheduleTimeRange currRange = timeRanges.get(i);
+				for(int j = 0; j < ScheduleTimeRange.weekdays.length(); ++j) {
+					daysUsed[j] = daysUsed[j] || currRange.daysUsed[j];
+				}
+			}
+			for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
+				if(daysUsed[i]) {
+					days = days.concat(ScheduleTimeRange.weekdays.substring(i, i + 1));
+				}
 			}
 		}
 		return days;
