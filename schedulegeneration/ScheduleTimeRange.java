@@ -1,3 +1,5 @@
+package schedulegeneration;
+
 // import java.awt.*;
 
 // import java.io.*;

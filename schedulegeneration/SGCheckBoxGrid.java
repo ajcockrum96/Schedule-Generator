@@ -1,3 +1,5 @@
+package schedulegeneration;
+
 // import javax.swing.*;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
