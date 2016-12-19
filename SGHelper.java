@@ -5,9 +5,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 // import java.awt.*;
+import java.awt.AWTError;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 
 // import java.awt.event.*;
@@ -33,7 +35,7 @@ public class SGHelper implements ActionListener {
 	ArrayList<JCheckBox> dayBoxes;
 	ArrayList<JCheckBox> optionBoxes;
 
-	public SGHelper(String range, String eventDay, SGCheckBoxGrid checkBoxes) {
+	public SGHelper(String range, String eventDay, SGCheckBoxGrid checkBoxes) throws Exception {
 		this.range      = range;
 		this.eventDay   = eventDay;
 		this.checkBoxes = checkBoxes;
@@ -45,13 +47,18 @@ public class SGHelper implements ActionListener {
 
 		for(int i = 0; i < NUM_TYPES; ++i) {
 			if(checkBoxes.options[i]) {
+				try {
 				this.buildHelperWindow(i);
+				} catch(Exception e) {
+					System.err.format("%e%n", e);
+					throw new Exception("SGHelper constructor failed", e);
+				}
 				break;
 			}
 		}
 	}
 
-	public void buildHelperWindow(int option) {
+	public void buildHelperWindow(int option) throws Exception {
 		// Set Constraints
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx    = 1;
@@ -63,7 +70,12 @@ public class SGHelper implements ActionListener {
 		c.fill       = GridBagConstraints.BOTH;
 
 		// Launch Window
-		window = new JFrame("Helper");
+		try {
+			window = new JFrame("Helper");
+		} catch(HeadlessException e) {
+			System.err.format("%e%n", e);
+			throw new Exception("SGHelper buildHelperWindow failed", e);
+		}
 		window.setResizable( false );
 		window.setSize( DEFAULT_X, DEFAULT_Y );
 		window.setLayout( new GridBagLayout() );
@@ -156,17 +168,26 @@ public class SGHelper implements ActionListener {
 				break;
 				}
 		}
-		this.centerWindow();
+		try {
+			this.centerWindow();
+		} catch(Exception e) {
+			System.out.println("Error, window could not be centered!");
+		}
 		window.setVisible( true );
 		currType = option;
 	}
 
-	public void centerWindow() {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		if(window != null) {
-			int centerX = (int)(screenSize.getWidth() - window.getWidth()) / 2;
-			int centerY = (int)(screenSize.getHeight() - window.getHeight()) / 2;
-			window.setLocation(centerX, centerY);
+	public void centerWindow() throws Exception {
+		try {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			if(window != null) {
+				int centerX = (int)(screenSize.getWidth() - window.getWidth()) / 2;
+				int centerY = (int)(screenSize.getHeight() - window.getHeight()) / 2;
+				window.setLocation(centerX, centerY);
+			}
+		} catch(AWTError e) {
+			System.err.format("%e%n", e);
+			throw new Exception("centerWindow failed", e);
 		}
 	}
 
@@ -215,7 +236,11 @@ public class SGHelper implements ActionListener {
 		prevEvent = e;
 		for(int i = currType + 1; i < NUM_TYPES; ++i) {
 			if(checkBoxes.options[i]) {
-				this.buildHelperWindow(i);
+				try {
+					this.buildHelperWindow(i);
+				} catch(Exception ex) {
+					System.out.println("Error, helper window could not be launched!");
+				}
 				break;
 			}
 		}

@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 // import java.util.*;
 import java.util.ArrayList;
 
-
 public class SGCheckBoxGrid implements ActionListener {
 	ArrayList<ArrayList<JCheckBox>> boxGrid;
 	JPanel fullGrid;
@@ -55,12 +54,16 @@ public class SGCheckBoxGrid implements ActionListener {
 		}
 	}
 
-	public void actionPerformed( ActionEvent e ) {
-		JCheckBox eventBox  = (JCheckBox)e.getSource();
+	public void actionPerformed( ActionEvent ae ) {
+		JCheckBox eventBox  = (JCheckBox)ae.getSource();
 		String    eventText = eventBox.getText();
 		String    eventDay  = ((JLabel)(eventBox.getParent().getComponent(0))).getText();
 		if(!eventBox.isSelected()) {
-			this.helper = new SGHelper(eventText, eventDay, this);
+			try {
+				this.helper = new SGHelper(eventText, eventDay, this);
+			} catch(Exception e) {
+				System.out.println("Error, helper window could not be launched!");
+			}
 		}
 	}
 }
