@@ -24,7 +24,7 @@ public class SGCheckBoxGrid implements ActionListener {
 	boolean options[] = {true, true};
 
 	public SGCheckBoxGrid(ArrayList<ScheduleTimeRange> timeRanges, String daysUsed) {
-		boxGrid = new ArrayList<ArrayList<JCheckBox>>();
+		this.boxGrid = new ArrayList<ArrayList<JCheckBox>>();
 		for(int i = 0; i < daysUsed.length(); ++i) {
 			ArrayList<JCheckBox> currBoxes = new ArrayList<JCheckBox>();
 			for(int j = 0; j < timeRanges.size(); ++j) {
@@ -34,24 +34,24 @@ public class SGCheckBoxGrid implements ActionListener {
 					currBoxes.add( currBox );
 				}
 			}
-			boxGrid.add(currBoxes);
+			this.boxGrid.add(currBoxes);
 		}
 
-		fullGrid = new JPanel();
-		fullGrid.setLayout( new GridLayout(1, boxGrid.size()) );
-		dayRange = 0;
-		for(int i = 0; i < boxGrid.size(); ++i) {
+		this.fullGrid = new JPanel();
+		this.fullGrid.setLayout( new GridLayout(1, this.boxGrid.size()) );
+		this.dayRange = 0;
+		for(int i = 0; i < this.boxGrid.size(); ++i) {
 			int j = 0;
 			JPanel dayGrid = new JPanel();
-			dayGrid.setLayout( new GridLayout(boxGrid.get(i).size() + 1, 1) );
+			dayGrid.setLayout( new GridLayout(this.boxGrid.get(i).size() + 1, 1) );
 			dayGrid.add( new JLabel(daysUsed.substring(i, i + 1)) );
-			for(j = 0; j < boxGrid.get(i).size(); ++j) {
-				dayGrid.add( boxGrid.get(i).get(j) );
+			for(j = 0; j < this.boxGrid.get(i).size(); ++j) {
+				dayGrid.add( this.boxGrid.get(i).get(j) );
 			}
-			if(j > dayRange) {
-				dayRange = j;
+			if(j > this.dayRange) {
+				this.dayRange = j;
 			}
-			fullGrid.add(dayGrid);
+			this.fullGrid.add(dayGrid);
 		}
 	}
 
@@ -59,9 +59,8 @@ public class SGCheckBoxGrid implements ActionListener {
 		JCheckBox eventBox  = (JCheckBox)e.getSource();
 		String    eventText = eventBox.getText();
 		String    eventDay  = ((JLabel)(eventBox.getParent().getComponent(0))).getText();
-		// System.out.println(eventText);
 		if(!eventBox.isSelected()) {
-			helper = new SGHelper(eventText, eventDay, this);
+			this.helper = new SGHelper(eventText, eventDay, this);
 		}
 	}
 }
