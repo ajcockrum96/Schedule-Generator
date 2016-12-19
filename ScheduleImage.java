@@ -45,23 +45,23 @@ public class ScheduleImage {
 
 	public ScheduleImage(Schedule schedule) {
 		int [][]colors = {
-			BLACK,
-			RED,
-			GREEN,
-			BLUE,
-			YELLOW,
-			CYAN,
-			MAGENTA,
-			ORANGE,
-			TURQUOISE,
-			PURPLE,
-			PUKE,
-			COBALT,
-			CRIMSON,
-			DARKGRAY,
-			GRAY,
-			LIGHTGRAY,
-			WHITE
+			this.BLACK,
+			this.RED,
+			this.GREEN,
+			this.BLUE,
+			this.YELLOW,
+			this.CYAN,
+			this.MAGENTA,
+			this.ORANGE,
+			this.TURQUOISE,
+			this.PURPLE,
+			this.PUKE,
+			this.COBALT,
+			this.CRIMSON,
+			this.DARKGRAY,
+			this.GRAY,
+			this.LIGHTGRAY,
+			this.WHITE
 		};
 		int hScale      = 15;
 		int vScale      = 5;
@@ -71,8 +71,7 @@ public class ScheduleImage {
 		// Create Buffer, Model, and Image
 		DataBufferInt    buffer = new DataBufferInt(hScale * vScale, numBands);
 		BandedSampleModel model = new BandedSampleModel(DataBuffer.TYPE_INT, hScale, vScale, numBands);
-		                  image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_4BYTE_ABGR);
-		// model.setPixel(x, y, color, buffer);
+		             this.image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_4BYTE_ABGR);
 		Point point = new Point(0, 0);
 		for(int i = 0; i < schedule.days.length(); ++i) {
 			point.x = i * hScale;
@@ -83,7 +82,7 @@ public class ScheduleImage {
 					}
 				}
 				point.y = j * vScale;
-				image.setData(Raster.createRaster(model, buffer, point));
+				this.image.setData(Raster.createRaster(model, buffer, point));
 			}
 		}
 	}
