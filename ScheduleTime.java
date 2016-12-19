@@ -14,8 +14,8 @@ public class ScheduleTime {
 		if(time.indexOf("am") != -1 || time.indexOf("pm") != -1) {
 			time = convert12To24Hour(time);
 		}
-		hour = Integer.parseInt(time.substring(0, time.indexOf(':')));
-		minute = Integer.parseInt(time.substring(time.indexOf(':') + 1));
+		this.hour = Integer.parseInt(time.substring(0, time.indexOf(':')));
+		this.minute = Integer.parseInt(time.substring(time.indexOf(':') + 1));
 	}
 	
 	public ScheduleTime() {
@@ -28,7 +28,7 @@ public class ScheduleTime {
 	}
 
 	public int getMinuteValue() {
-		return hour * 60 + minute;
+		return this.hour * 60 + this.minute;
 	}
 	
 	static public ScheduleTime roundUp(ScheduleTime time, int minuteVal) {
@@ -61,7 +61,7 @@ public class ScheduleTime {
 			distances.add(minutes - time.minute);
 		}
 		int i = 0;
-		for(i = 0; i < distances.size(); ++i) {
+		for(i = 0; i < distances.size() - 1; ++i) {
 			if(Math.abs(distances.get(i + 1)) < Math.abs(distances.get(i))) {
 				continue;
 			}
