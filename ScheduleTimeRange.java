@@ -137,7 +137,7 @@ public class ScheduleTimeRange {
 		else {
 			crossEnd = (this.getEndMinute() > a.getStartMinute());
 		}
-		return ((beforeStart && afterEnd) || (afterStart && beforeEnd) || (beforeStart && beforeEnd && crossEnd) || (afterStart && afterEnd && crossStart) || (compareTimeRangeStarts(this, a) == 0 && compareTimeRangeEnds(this, a) == 0));
+		return ((beforeStart && afterEnd) || (afterStart && beforeEnd) || (beforeStart && beforeEnd && crossEnd) || (afterStart && afterEnd && crossStart) || (compareTimeRangeStarts(this, a) == 0 || compareTimeRangeEnds(this, a) == 0));
 	}
 
 	// BUBBLE SORT INEFFICIENT; REDO WHEN POSSIBLE
@@ -169,17 +169,33 @@ public class ScheduleTimeRange {
 				timeRanges = mergeSortTimeRangeArrayList(timeRanges, midIndex, endIndex);
 				int i, j;
 				for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
-					if(compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j)) < 0) {
+					int compNum = compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j));
+					if(compNum < 0) {
 						ScheduleTimeRange temp = timeRanges.remove(i);
 						timeRanges.add(startIndex++, temp);
 						++i;
 					}
-					else {
+					else if(compNum > 0) {
 						ScheduleTimeRange temp = timeRanges.remove(j);
 						timeRanges.add(startIndex++, temp);
 						++midIndex;
 						++i;
 						++j;
+					}
+					else {
+						compNum = compareTimeRangeEnds(timeRanges.get(i), timeRanges.get(j));
+						if(compNum < 0) {
+							ScheduleTimeRange temp = timeRanges.remove(i);
+							timeRanges.add(startIndex++, temp);
+							++i;
+						}
+						else {
+							ScheduleTimeRange temp = timeRanges.remove(j);
+							timeRanges.add(startIndex++, temp);
+							++midIndex;
+							++i;
+							++j;
+						}
 					}
 				}
 				for(; i < midIndex; ++i) {
@@ -192,13 +208,25 @@ public class ScheduleTimeRange {
 				}
 			}
 			else if(length == 2) {
-				if(compareTimeRangeStarts(timeRanges.get(startIndex), timeRanges.get(startIndex + 1)) > 0) {
+				int compNum = compareTimeRangeStarts(timeRanges.get(startIndex), timeRanges.get(startIndex + 1));
+				if(compNum > 0) {
 					ScheduleTimeRange a = timeRanges.get(startIndex);
 					ScheduleTimeRange b = timeRanges.get(startIndex + 1);
 					timeRanges.remove(startIndex);
 					timeRanges.remove(startIndex);
 					timeRanges.add(startIndex, b);
 					timeRanges.add(startIndex + 1, a);
+				}
+				else if(compNum == 0) {
+					compNum = compareTimeRangeEnds(timeRanges.get(startIndex), timeRanges.get(startIndex + 1));
+					if(compNum > 0) {
+						ScheduleTimeRange a = timeRanges.get(startIndex);
+						ScheduleTimeRange b = timeRanges.get(startIndex + 1);
+						timeRanges.remove(startIndex);
+						timeRanges.remove(startIndex);
+						timeRanges.add(startIndex, b);
+						timeRanges.add(startIndex + 1, a);
+					}
 				}
 			}
 		}

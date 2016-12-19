@@ -131,9 +131,7 @@ public class SGWindow implements ActionListener {
 				ScheduleTimeRange currRange = currClass.timePeriod;
 				String            currDays  = currRange.getDays();
 				boolean found   = false;
-				boolean overlap = false;
 				for(int j = 0; j < timeRanges.size(); ++j) {
-					overlap = overlap || currRange.overlapsRange(timeRanges.get(j));
 					if(ScheduleTimeRange.compareTimeRangeStarts(currRange, timeRanges.get(j)) == 0 && ScheduleTimeRange.compareTimeRangeEnds(currRange, timeRanges.get(j)) == 0) {
 						found = true;
 						// Logically OR the days
@@ -142,11 +140,31 @@ public class SGWindow implements ActionListener {
 						}
 					}
 				}
-				if(!found && !overlap) {
+				if(!found) {
 					timeRanges.add(new ScheduleTimeRange(currRange));
 				}
 			}
 			ScheduleTimeRange.mergeSortTimeRangeArrayList(timeRanges, 0, timeRanges.size());
+		}
+		// Remove Overlaps, preferring shorter time periods
+		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
+			for(int j = 0; j < timeRanges.size(); ++j) {
+				if(timeRanges.get(j).daysUsed[i]) {
+					ScheduleTimeRange currRange = timeRanges.get(j);
+					for(int k = j + 1; k < timeRanges.size(); ++k) {
+						if(timeRanges.get(k).daysUsed[i]) {
+							ScheduleTimeRange compRange = timeRanges.get(k);
+							if(currRange.overlapsRange(compRange)) {
+								timeRanges.remove(k);
+								--k;
+							}
+							else if(ScheduleTimeRange.compareTimeRangeStarts(currRange, compRange) < 0) {
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 		return timeRanges;
 	}

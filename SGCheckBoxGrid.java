@@ -28,6 +28,7 @@ public class SGCheckBoxGrid implements ActionListener {
 			ArrayList<JCheckBox> currBoxes = new ArrayList<JCheckBox>();
 			for(int j = 0; j < timeRanges.size(); ++j) {
 				if(timeRanges.get(j).getDays().indexOf(daysUsed.charAt(i)) != -1) {
+					ScheduleTimeRange currRange = timeRanges.get(j);
 					JCheckBox currBox = new JCheckBox(ScheduleTimeRange.convert24To12HourRange(timeRanges.get(j).rangeString()), true);
 					currBox.addActionListener( this );
 					currBoxes.add( currBox );
