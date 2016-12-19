@@ -60,10 +60,10 @@ public class SGWindow implements ActionListener {
 		win = new JFrame("Schedule Generator");
 		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		} catch (HeadlessException e) {
-			System.err.format("%e%n", e);
+			System.err.format("%s%n", e);
 			throw new Exception("SGWindow constructor failed", e);
 		} catch (SecurityException e) {
-			System.err.format("%e%n", e);
+			System.err.format("%s%n", e);
 			throw new Exception("SGWindow constructor failed", e);
 		}
 		win.setResizable( false );
@@ -116,7 +116,7 @@ public class SGWindow implements ActionListener {
 				win.setLocation(centerX, centerY);
 			}
 		} catch(AWTError e) {
-			System.err.format("%e%n", e);
+			System.err.format("%s%n", e);
 			throw new Exception("centerWindow failed", e);
 		}
 	}
@@ -258,6 +258,12 @@ public class SGWindow implements ActionListener {
 			System.err.format("%s%n", ioe);
 			// Flash to convey error
 			win.setVisible( true );
+		}
+		// Generate Schedules
+		try {
+			ScheduleGenerator.generateSchedule("preferredInput.txt");
+		} catch(Exception ex) {
+			System.out.println("Error, schedules unable to be generated!");
 		}
 		// Close Window when finished
 		win.dispatchEvent(new WindowEvent(win, WindowEvent.WINDOW_CLOSING));

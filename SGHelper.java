@@ -50,7 +50,7 @@ public class SGHelper implements ActionListener {
 				try {
 				this.buildHelperWindow(i);
 				} catch(Exception e) {
-					System.err.format("%e%n", e);
+					System.err.format("%s%n", e);
 					throw new Exception("SGHelper constructor failed", e);
 				}
 				break;
@@ -73,7 +73,7 @@ public class SGHelper implements ActionListener {
 		try {
 			window = new JFrame("Helper");
 		} catch(HeadlessException e) {
-			System.err.format("%e%n", e);
+			System.err.format("%s%n", e);
 			throw new Exception("SGHelper buildHelperWindow failed", e);
 		}
 		window.setResizable( false );
@@ -186,7 +186,7 @@ public class SGHelper implements ActionListener {
 				window.setLocation(centerX, centerY);
 			}
 		} catch(AWTError e) {
-			System.err.format("%e%n", e);
+			System.err.format("%s%n", e);
 			throw new Exception("centerWindow failed", e);
 		}
 	}

@@ -91,7 +91,7 @@ public class ScheduleImage {
 			String fileType = filename.substring(filename.lastIndexOf('.') + 1);
 			ImageIO.write(scheduleImage.image, fileType, output);
 		} catch (IOException e) {
-			System.err.format("%e%n", e);
+			System.err.format("%s%n", e);
 		}
 	}
 }

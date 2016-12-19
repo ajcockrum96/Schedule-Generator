@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class ScheduleGenerator {
 	static public void generateSchedule(String filename, String daysGiven) throws Exception {
+		System.out.println("Starting");
 		// Read Input File
 		ArrayList<String> lines;
 		try {
@@ -67,7 +68,7 @@ public class ScheduleGenerator {
 				folder.mkdir();
 			}
 		} catch (SecurityException e) {
-			System.err.format("%e%n", e);
+			System.err.format("%s%n", e);
 			throw new Exception("generateSchedule constructor failed", e);
 		}
 		int numSchedules = generateScheduleWorker(schedule, classTimes, classNames, 0, 0);
