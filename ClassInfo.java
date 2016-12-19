@@ -72,12 +72,12 @@ public class ClassInfo {
 			}
 			else if(length == 2) {
 				if(classes.get(startIndex).number > classes.get(startIndex + 1).number) {
-						ClassInfo a = classes.get(startIndex);
-						ClassInfo b = classes.get(startIndex + 1);
-						classes.remove(startIndex);
-						classes.remove(startIndex);
-						classes.add(startIndex, b);
-						classes.add(startIndex + 1, a);
+					ClassInfo a = classes.get(startIndex);
+					ClassInfo b = classes.get(startIndex + 1);
+					classes.remove(startIndex);
+					classes.remove(startIndex);
+					classes.add(startIndex, b);
+					classes.add(startIndex + 1, a);
 				}
 			}
 		}

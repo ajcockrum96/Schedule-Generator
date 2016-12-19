@@ -53,7 +53,7 @@ public class ClassTime {
 
 	// Merge Sort Implementation
 	static public ArrayList<ClassTime> mergeSortClassTimeArrayList(ArrayList<ClassTime> classTimes, int startIndex, int endIndex) {
-		if(classes != null && startIndex >= 0 && endIndex <= classes.size()) {
+		if(classTimes != null && startIndex >= 0 && endIndex <= classTimes.size()) {
 			int length = endIndex - startIndex;
 			if(length > 2) {
 				int midIndex = length / 2 + startIndex;
@@ -85,12 +85,12 @@ public class ClassTime {
 			}
 			else if(length == 2) {
 				if(ScheduleTimeRange.compareTimeRangeStarts(classTimes.get(startIndex).timePeriod, classTimes.get(startIndex + 1).timePeriod) > 0) {
-						ClassTime a = classTimes.get(startIndex);
-						ClassTime b = classTimes.get(startIndex + 1);
-						classTimes.remove(startIndex);
-						classTimes.remove(startIndex);
-						classTimes.add(startIndex, b);
-						classTimes.add(startIndex + 1, a);
+					ClassTime a = classTimes.get(startIndex);
+					ClassTime b = classTimes.get(startIndex + 1);
+					classTimes.remove(startIndex);
+					classTimes.remove(startIndex);
+					classTimes.add(startIndex, b);
+					classTimes.add(startIndex + 1, a);
 				}
 			}
 		}

@@ -7,19 +7,19 @@ import java.util.ArrayList;
 
 public class ScheduleTimeRange {
 	static String weekdays = "SMTWRFA";
-	boolean daysUsed[] = {false, false, false, false, false, false, false};
-	ScheduleTime start;
-	ScheduleTime end;
+	boolean       daysUsed[] = {false, false, false, false, false, false, false};
+	ScheduleTime  start;
+	ScheduleTime  end;
 	
 	public ScheduleTimeRange(String timeRange, String days) {
 		if(timeRange.indexOf("am") != -1 || timeRange.indexOf("pm") != -1) {
 			timeRange = convert12To24HourRange(timeRange);
 		}
-		start = new ScheduleTime(timeRange.substring(0, timeRange.indexOf('-')).trim());
-		end   = new ScheduleTime(timeRange.substring(timeRange.indexOf('-') + 1).trim());
+		this.start = new ScheduleTime(timeRange.substring(0, timeRange.indexOf('-')).trim());
+		this.end   = new ScheduleTime(timeRange.substring(timeRange.indexOf('-') + 1).trim());
 		for(int i = 0; i < weekdays.length(); ++i) {
 			if(days.indexOf(weekdays.charAt(i)) != -1) {
-				daysUsed[i] = true;
+				this.daysUsed[i] = true;
 			}
 		}
 	}
@@ -41,37 +41,37 @@ public class ScheduleTimeRange {
 	}
 	
 	public String rangeString() {
-		return String.format("%02d:%02d - %02d:%02d", start.hour, start.minute, end.hour, end.minute);
+		return String.format("%02d:%02d - %02d:%02d", this.start.hour, this.start.minute, this.end.hour, this.end.minute);
 	}
 	
 	public int getStartHour() {
-		return start.hour;
+		return this.start.hour;
 	}
 	
 	public int getStartMinute() {
-		return start.minute;
+		return this.start.minute;
 	}
 	
 	public int getEndHour() {
-		return end.hour;
+		return this.end.hour;
 	}
 	
 	public int getEndMinute() {
-		return end.minute;
+		return this.end.minute;
 	}
 	
 	public double getHourLength() {
-		return ((end.hour - start.hour) + (double)((end.minute) - (start.minute)) / 60.0);
+		return ((this.end.hour - this.start.hour) + (double)((this.end.minute) - (this.start.minute)) / 60.0);
 	}
 	
 	public int getMinuteLength() {
-		return ((end.hour - start.hour) * 60 + (end.minute - start.minute));
+		return ((this.end.hour - this.start.hour) * 60 + (this.end.minute - this.start.minute));
 	}
 
 	public String getDays() {
 		String days = "";
 		for(int i = 0; i < weekdays.length(); ++i) {
-			if(daysUsed[i]) {
+			if(this.daysUsed[i]) {
 				days = days.concat(weekdays.substring(i, i + 1));
 			}
 		}
@@ -142,15 +142,17 @@ public class ScheduleTimeRange {
 
 	// BUBBLE SORT INEFFICIENT; REDO WHEN POSSIBLE
 	static public ArrayList<ScheduleTimeRange> sortTimeRangeArrayList(ArrayList<ScheduleTimeRange> timeRanges) {
-		for(int i = 0; i < timeRanges.size() - 1; ++i) {
-			for(int j = i + 1; j < timeRanges.size(); ++j) {
-				if(compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j)) > 0) {
-					ScheduleTimeRange a = timeRanges.get(i);
-					ScheduleTimeRange b = timeRanges.get(j);
-					timeRanges.remove(i);
-					timeRanges.remove(j - 1);
-					timeRanges.add(i, b);
-					timeRanges.add(j, a);
+		if(timeRanges != null) {
+			for(int i = 0; i < timeRanges.size() - 1; ++i) {
+				for(int j = i + 1; j < timeRanges.size(); ++j) {
+					if(compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j)) > 0) {
+						ScheduleTimeRange a = timeRanges.get(i);
+						ScheduleTimeRange b = timeRanges.get(j);
+						timeRanges.remove(i);
+						timeRanges.remove(j - 1);
+						timeRanges.add(i, b);
+						timeRanges.add(j, a);
+					}
 				}
 			}
 		}
@@ -159,38 +161,37 @@ public class ScheduleTimeRange {
 
 	// Merge Sort Implementation
 	static public ArrayList<ScheduleTimeRange> mergeSortTimeRangeArrayList(ArrayList<ScheduleTimeRange> timeRanges, int startIndex, int endIndex) {
-		int length = endIndex - startIndex;
-		if(length > 2) {
-			int midIndex = length / 2 + startIndex;
-			timeRanges = mergeSortTimeRangeArrayList(timeRanges, startIndex, midIndex);
-			timeRanges = mergeSortTimeRangeArrayList(timeRanges, midIndex, endIndex);
-			int i, j;
-			for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
-				if(compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j)) < 0) {
-					ScheduleTimeRange temp = timeRanges.remove(i);
-					timeRanges.add(startIndex++, temp);
-					++i;
+		if(timeRanges != null && startIndex >= 0 && endIndex <= timeRanges.size()) {
+			int length = endIndex - startIndex;
+			if(length > 2) {
+				int midIndex = length / 2 + startIndex;
+				timeRanges = mergeSortTimeRangeArrayList(timeRanges, startIndex, midIndex);
+				timeRanges = mergeSortTimeRangeArrayList(timeRanges, midIndex, endIndex);
+				int i, j;
+				for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
+					if(compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j)) < 0) {
+						ScheduleTimeRange temp = timeRanges.remove(i);
+						timeRanges.add(startIndex++, temp);
+						++i;
+					}
+					else {
+						ScheduleTimeRange temp = timeRanges.remove(j);
+						timeRanges.add(startIndex++, temp);
+						++midIndex;
+						++i;
+						++j;
+					}
 				}
-				else {
-					ScheduleTimeRange temp = timeRanges.remove(j);
-					timeRanges.add(startIndex++, temp);
-					++midIndex;
-					++i;
-					++j;
+				for(; i < midIndex; ++i) {
+						ScheduleTimeRange temp = timeRanges.remove(i);
+						timeRanges.add(startIndex++, temp);
+				}
+				for(; j < endIndex; ++j) {
+						ScheduleTimeRange temp = timeRanges.remove(j);
+						timeRanges.add(startIndex++, temp);
 				}
 			}
-			while(i < midIndex) {
-					ScheduleTimeRange temp = timeRanges.remove(i);
-					timeRanges.add(startIndex++, temp);
-					++i;
-			}
-			while(j < endIndex) {
-					ScheduleTimeRange temp = timeRanges.remove(j);
-					timeRanges.add(startIndex++, temp);
-					++j;
-			}
-		}
-		else if(length == 2) {
+			else if(length == 2) {
 				if(compareTimeRangeStarts(timeRanges.get(startIndex), timeRanges.get(startIndex + 1)) > 0) {
 					ScheduleTimeRange a = timeRanges.get(startIndex);
 					ScheduleTimeRange b = timeRanges.get(startIndex + 1);
@@ -198,6 +199,7 @@ public class ScheduleTimeRange {
 					timeRanges.remove(startIndex);
 					timeRanges.add(startIndex, b);
 					timeRanges.add(startIndex + 1, a);
+				}
 			}
 		}
 		return timeRanges;
