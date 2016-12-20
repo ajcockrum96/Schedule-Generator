@@ -13,6 +13,7 @@ import java.awt.HeadlessException;
 import java.awt.Toolkit;
 
 // import java.lang.*;
+import java.lang.NullPointerException;
 import java.lang.SecurityException;
 
 // import java.awt.event.*;
@@ -22,6 +23,7 @@ import java.awt.event.WindowEvent;
 
 // import java.io.*;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -34,12 +36,14 @@ public class SGWindow implements ActionListener {
 	SGCheckBoxGrid       checkBoxes;
 	ArrayList<ClassTime> classTimes;
 	JFrame               win;
+	String               newFilename;
 
-	public SGWindow(String filename) throws Exception {
+	public SGWindow(String inputFilename, String prefFilename) throws Exception {
+		this.newFilename   = prefFilename;
 		// Read File Lines
 		ArrayList<String> lines;
 		try {
-			lines = ScheduleGenerator.readInputFile(filename);
+			lines = ScheduleGenerator.readInputFile(inputFilename);
 		} catch (Exception e) {
 			System.err.format("%s%n", e);
 			throw new Exception("SGWindow constructor failed", e);
@@ -106,7 +110,7 @@ public class SGWindow implements ActionListener {
 	}
 	
 	public SGWindow() throws Exception {
-		this("input.txt");
+		this("input.txt", "newInput.txt");
 	}
 
 	public void centerWindow() throws Exception {
@@ -281,7 +285,7 @@ public class SGWindow implements ActionListener {
 		}
 		// Generate Schedules
 		try {
-			ScheduleGenerator.generateSchedule("preferredInput.txt");
+			ScheduleGenerator.generateSchedule(this.newFilename);
 		} catch(Exception ex) {
 			System.out.println("Error, schedules unable to be generated!");
 		}
