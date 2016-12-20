@@ -13,7 +13,6 @@ import java.awt.HeadlessException;
 import java.awt.Toolkit;
 
 // import java.lang.*;
-import java.lang.NullPointerException;
 import java.lang.SecurityException;
 
 // import java.awt.event.*;
@@ -23,7 +22,6 @@ import java.awt.event.WindowEvent;
 
 // import java.io.*;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 

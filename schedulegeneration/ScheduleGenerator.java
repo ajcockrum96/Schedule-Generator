@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ScheduleGenerator {
 	static public void generateSchedule(String filename, String daysGiven) throws Exception {
-		System.out.println("Starting");
+		System.out.println("Generating");
 		// Read Input File
 		ArrayList<String> lines;
 		try {
@@ -68,6 +68,14 @@ public class ScheduleGenerator {
 			File folder = new File(".\\Images");
 			if(!folder.isDirectory()) {
 				folder.mkdir();
+			}
+			// Delete old schedules to make way for new ones
+			else {
+				for(File file: folder.listFiles()) {
+					if(!file.isDirectory()) {
+						file.delete();
+					}
+				}
 			}
 		} catch (SecurityException e) {
 			System.err.format("%s%n", e);
