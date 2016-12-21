@@ -49,7 +49,6 @@ public class FinalWindow {
 					" <br> which matches the colors with class names.";
 		this.win.add(new JLabel("<html><div style='text-align: center;'>" + info + "</div></html>"), c);
 		this.centerWindow();
-
 		this.win.setVisible( true );
 	}
 

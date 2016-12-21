@@ -217,16 +217,22 @@ public class SGHelper implements ActionListener {
 							eventDays = eventDays + dayBoxes.get(i).getText();
 						}
 					}
-					JButton prevButton = (JButton)prevEvent.getSource();
-					if(prevButton.getText().equals("Before")) {
-						String timeString = range.substring(range.indexOf('-') + 1).trim();
-						this.uncheckBeforeTime(new ScheduleTime(timeString), eventDays);
+					if(checkBoxes.options[currType - 1]) {
+						JButton prevButton = (JButton)prevEvent.getSource();
+						if(prevButton.getText().equals("Before")) {
+							String timeString = range.substring(range.indexOf('-') + 1).trim();
+							this.uncheckBeforeTime(new ScheduleTime(timeString), eventDays);
+						}
+						if(prevButton.getText().equals("After")) {
+							String timeString = range.substring(0, range.indexOf('-')).trim();
+							this.uncheckAfterTime(new ScheduleTime(timeString), eventDays);
+						}
+						if(prevButton.getText().equals("Neither")) {
+							String timeString = range.substring(0, range.indexOf('-')).trim();
+							this.uncheckDuringTime(new ScheduleTime(timeString), eventDays);
+						}
 					}
-					if(prevButton.getText().equals("After")) {
-						String timeString = range.substring(0, range.indexOf('-')).trim();
-						this.uncheckAfterTime(new ScheduleTime(timeString), eventDays);
-					}
-					if(prevButton.getText().equals("Neither")) {
+					else {
 						String timeString = range.substring(0, range.indexOf('-')).trim();
 						this.uncheckDuringTime(new ScheduleTime(timeString), eventDays);
 					}

@@ -3,6 +3,7 @@ package schedulegeneration;
 // import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 // import java.awt.*;
 import java.awt.AWTError;
@@ -62,6 +63,7 @@ public class SGWindow implements ActionListener {
 		// Initialize Window
 		try {
 			win = new JFrame("Schedule Generator");
+			win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		} catch (HeadlessException e) {
 			System.err.format("%s%n", e);
 			throw new Exception("SGWindow constructor failed", e);
@@ -279,13 +281,14 @@ public class SGWindow implements ActionListener {
 			// Flash to convey error
 			win.setVisible( true );
 		}
+		// Close Window when finished with preferences
+		win.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+		win.dispatchEvent(new WindowEvent(win, WindowEvent.WINDOW_CLOSING));
 		// Generate Schedules
 		try {
 			ScheduleGenerator.generateSchedule(this.newFilename);
 		} catch(Exception ex) {
 			System.out.println("Error, schedules unable to be generated!");
 		}
-		// Close Window when finished
-		win.dispatchEvent(new WindowEvent(win, WindowEvent.WINDOW_CLOSING));
 	}
 }
