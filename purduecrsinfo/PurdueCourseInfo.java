@@ -1,7 +1,6 @@
 /*
  * © 2016-2017 Caleb Tung and Alexander Cockrum, all rights reserved. 
  */
-package purduecrsinfo;
 
 import java.io.*;
 import java.net.URL;
