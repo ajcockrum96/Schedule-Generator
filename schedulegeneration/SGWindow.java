@@ -61,8 +61,7 @@ public class SGWindow implements ActionListener {
 
 		// Initialize Window
 		try {
-		win = new JFrame("Schedule Generator");
-		win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+			win = new JFrame("Schedule Generator");
 		} catch (HeadlessException e) {
 			System.err.format("%s%n", e);
 			throw new Exception("SGWindow constructor failed", e);
@@ -124,7 +123,6 @@ public class SGWindow implements ActionListener {
 			throw new Exception("centerWindow failed", e);
 		}
 	}
-
 
 	public ArrayList<ScheduleTimeRange> getDayTimes(ArrayList<ClassTime> classTimes) {
 		// Read in classTimes to ScheduleTimeRange Objects, ignoring duplicate days and overlapping time ranges

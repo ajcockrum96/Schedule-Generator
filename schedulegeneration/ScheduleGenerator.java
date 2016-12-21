@@ -83,6 +83,12 @@ public class ScheduleGenerator {
 		}
 		int numSchedules = generateScheduleWorker(schedule, classTimes, classNames, 0, 0);
 		System.out.format("%d Total Schedules Generated\n", numSchedules);
+
+		try {
+			FinalWindow win = new FinalWindow(numSchedules);
+		} catch(Exception e) {
+			System.err.format("%s%n", e);
+		}
 	}
 
 	static public void generateSchedule(String filename) throws Exception {
@@ -107,6 +113,10 @@ public class ScheduleGenerator {
 			String filename = String.format(".\\Images\\%d.png", scheduleNum);
 			ScheduleImage image = new ScheduleImage(schedule);
 			ScheduleImage.writeImageFile(image, filename);
+			// Output Key
+			if(scheduleNum == 1) {
+				ScheduleImage.writeImageKey(".\\Images\\Key.png", schedule.classes);
+			}
 		}
 		return scheduleNum;
 	}
