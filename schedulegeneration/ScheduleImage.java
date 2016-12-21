@@ -71,8 +71,9 @@ public class ScheduleImage {
 			this.LIGHTGRAY,
 			this.WHITE
 		};
-		int hScale      = 15;
-		int vScale      = 5;
+		int scale       = 2;
+		int hScale      = 15 * scale;
+		int vScale      = 5 * scale;
 		int imageWidth  = hScale * schedule.days.length();
 		int imageHeight = vScale * schedule.numPeriods;
 		int numBands    = 4;	// Number of data banks in buffer; one for each part of pixel type ABGR
