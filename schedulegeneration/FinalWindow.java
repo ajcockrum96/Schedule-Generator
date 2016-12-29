@@ -1,22 +1,52 @@
 package schedulegeneration;
 
-// import javax.swing.*;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
-
-// import java.awt.*;
 import java.awt.AWTError;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
-
-// import java.lang.*;
 import java.lang.SecurityException;
 
+/**
+ * <p>
+ * A simple window wrapper that informs the user that the schedule generation
+ * operation has completed.
+ *
+ * The following information is included:
+ * </p>
+ * <p>
+ * &nbsp;&nbsp;&nbsp;&nbsp;-The number of schedules generated
+ * <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;-Where to find the schedule image files
+ * <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;-Where to find the schedule key image file
+ * </p>
+ */
 public class FinalWindow {
+	/**
+	 * Pop-up window
+	 */
 	JFrame win;
+
+	/**
+	 * Default Width of the window
+	 */
+	static int DEFAULT_X = 300;
+
+	/**
+	 * Default Height of the window
+	 */
+	static int DEFAULT_Y = 200;
+
+	/**
+	 * Constructs a new FinalWindow that launches an informational window.
+	 *
+	 * @param  scheduleCount	the number of schedules generated
+	 * @throws Exception		If JFrame cannot be constructed or if JFrame.EXIT_ON_CLOSE causes a SecurityException
+	 */
 	public FinalWindow(int scheduleCount) throws Exception {
 		try {
 			this.win = new JFrame("Schedule Results");
@@ -29,7 +59,7 @@ public class FinalWindow {
 			throw new Exception("FinalWindow constructor failed", e);
 		}
 
-		this.win.setSize( 300, 200 );
+		this.win.setSize( this.DEFAULT_X, this.DEFAULT_Y );
 		this.win.setResizable( false );
 		this.win.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
@@ -52,6 +82,12 @@ public class FinalWindow {
 		this.win.setVisible( true );
 	}
 
+	/**
+	 * Centers JFrame in window, if the Toolkit is "obtainable".
+	 *
+	 * @throws Exception	If the Toolkit could not be obtained
+	 * @see    Toolkit
+	 */
 	public void centerWindow() throws Exception {
 		try {
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

@@ -1,29 +1,71 @@
 package schedulegeneration;
 
-// import javax.swing.*;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-// import java.awt.*;
 import java.awt.GridLayout;
-
-// import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-// import java.io.*;
-
-// import java.util.*;
 import java.util.ArrayList;
 
+/**
+ * <p>
+ * An object containing a 2D ArrayList of check boxes that represent time
+ * options for a schedule.
+ * </p>
+ * <p>
+ * The check boxes are organized dynamically based on the days used and the
+ * number of valid time ranges for each day.  Additionally, the check boxes
+ * are preset onto JPanels for each day, and one overall JPanel so that the
+ * grid can be easily added to a Container.
+ * </p>
+ * @see SGWindow
+ */
 public class SGCheckBoxGrid implements ActionListener {
+	/**
+	 * 2D Representation of current check box grid
+	 */
 	ArrayList<ArrayList<JCheckBox>> boxGrid;
+
+	/**
+	 * JPanel containing the JCheckBox objects in boxGrid
+	 */
 	JPanel fullGrid;
+
+	/**
+	 * Maximum number of check boxes on a given day
+	 */
 	int    dayRange;
+
+	/**
+	 * SGHelper instance created for every unchecking action
+	 */
 	SGHelper helper;
+
+	/**
+	 * SGHelper constructor information regarding user preferences
+	 */
 	boolean options[] = {true, true};
 
+	/**
+	 * <p>
+	 * Constructs a new SGCheckBoxGrid with the given time ranges in columns
+	 * given by daysUsed.
+	 *
+	 * The timeRanges given are made into JCheckBox objects and put into
+	 * ArrayLists for each of the days they apply that are in daysUsed. These
+	 * ArrayLists make up the 2D boxGrid.
+	 * </p>
+	 * <p>
+	 * After these lists are created, the check boxes are then added to JPanel
+	 * instances for each day. These JPanels each contain a JLabel as their first
+	 * element to identify them with their corresponding day. One parent
+	 * JPanel contains all of these containers.
+	 * </p>
+	 *
+	 * @param timeRanges	the ArrayList of time ranges to assign to check boxes
+	 * @param daysUsed		the String of day columns to sort the check boxes into
+	 */
 	public SGCheckBoxGrid(ArrayList<ScheduleTimeRange> timeRanges, String daysUsed) {
 		this.boxGrid = new ArrayList<ArrayList<JCheckBox>>();
 		for(int i = 0; i < daysUsed.length(); ++i) {
@@ -57,6 +99,12 @@ public class SGCheckBoxGrid implements ActionListener {
 		}
 	}
 
+	/**
+	 * Launches SGHelper instance if a JCheckBox is unselected; other actions
+	 * are ignored.
+	 *
+	 * @param ae	the ActionEvent that invoked the method
+	 */
 	public void actionPerformed( ActionEvent ae ) {
 		JCheckBox eventBox  = (JCheckBox)ae.getSource();
 		String    eventText = eventBox.getText();

@@ -1,42 +1,130 @@
 package schedulegeneration;
 
-// import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import javax.swing.JLabel;
-
-// import java.awt.*;
 import java.awt.AWTError;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
-
-// import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-
-// import java.io.*;
-
-// import java.util.*;
 import java.util.ArrayList;
 
+/**
+ * <p>
+ * An object that launches helper windows that aid in time preference selection
+ * on an {@link SGCheckBoxGrid} object.
+ *
+ * These instances are assumed to be built off of a SGCheckBoxGrid instance and
+ * will not behave properly otherwise.
+ * </p>
+ * <p>
+ * The following options are implemented and delegate their work to private
+ * functions:
+ * </p>
+ * <p>
+ * &nbsp;&nbsp;&nbsp;&nbsp;0) Offers to uncheck boxes before or after the current time box that
+ * was unselected.  It also gives a "neither" option if you only wish to operate
+ * with time ranges at the current time.
+ * </p>
+ * <p>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Before option uses end time of current time range.
+ * <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After option uses end time of current time range.
+ * <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Neither option uses start time of current time range.
+ * </p>
+ * <p>
+ * &nbsp;&nbsp;&nbsp;&nbsp;1) Offers to repeat previous action on certain days. A check box
+ * is generated for each day that is found in the SGCheckBoxGrid. If the user
+ * selects no, then no extra actions are taken. If the user selects yes:
+ * </p>
+ * <p>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If option 0 was launched prior to this, then the previous action,
+ * which is saved in the prevEvent static field, will be repeated for the
+ * selected days, which are stored in the optionBoxes static field.
+ * <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If option 0 was <b>not</b> launched prior to this, then this
+ * prompt will act as if "neither" was selected in the option 0 prompt. In other
+ * words, only the ranges that start at the same time will be effected.
+ * </p>
+ */
 public class SGHelper implements ActionListener {
+	/**
+	 * Number of prompt types able to be generated
+	 */
 	static int NUM_TYPES = 2;
-	int        DEFAULT_X = 350;
-	int        DEFAULT_Y = 250;
+
+	/**
+	 * Default Width of the window
+	 */
+	static int DEFAULT_X = 350;
+
+	/**
+	 * Default Height of the window
+	 */
+	static int DEFAULT_Y = 250;
+
+	/**
+	 * SGCheckBoxGrid Object that generated this SGHelper
+	 */
 	SGCheckBoxGrid       checkBoxes;
+
+	/**
+	 * Prompt window
+	 */
 	JFrame               window;
+
+	/**
+	 * Time range of check box that was unselected
+	 */
 	String               range;
+
+	/**
+	 * Day of check box that was unselected
+	 */
 	String               eventDay;
+
+	/**
+	 * Current prompt type
+	 */
 	int                  currType;
+
+	/**
+	 * Previous action taken by SGHelper on SGCheckBoxGrid
+	 */
 	ActionEvent          prevEvent;
+
+	/**
+	 * Days available on SGCheckBoxGrid
+	 */
 	ArrayList<JCheckBox> dayBoxes;
+
+	/**
+	 * Check boxes for prompt window
+	 */
 	ArrayList<JCheckBox> optionBoxes;
 
+	/**
+	 * <p>
+	 * Constructs a new SGHelper based around the given time range, day(s), and
+	 * {@link SGCheckBoxGrid}.
+	 *
+	 * When the SGHelper is created, the first "allowed" prompt type is launched.
+	 * If no options are "allowed", then the SGHelper launches nothing.
+	 * </p>
+	 *
+	 * @param  range		the String containing the range for this SGHelper
+	 * @param  eventDay		the String of day(s) for this SGHelper
+	 * @param  checkBoxes	the SGCheckBoxGrid instance that constructed this SGHelper
+	 * @throws Exception	If buildHelperWindow fails and throws Exception
+	 */
 	public SGHelper(String range, String eventDay, SGCheckBoxGrid checkBoxes) throws Exception {
 		this.range      = range;
 		this.eventDay   = eventDay;
@@ -60,6 +148,17 @@ public class SGHelper implements ActionListener {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Creates and launches a centered prompt window, filling it with elements based on
+	 * the prompt option chosen.
+	 *
+	 * See the class description for prompt types and the options they contain.
+	 * </p>
+	 *
+	 * @param  option		the prompt option type to be built
+	 * @throws Exception	If JFrame cannot be constructed due to HeadlessException
+	 */
 	public void buildHelperWindow(int option) throws Exception {
 		// Set Constraints
 		GridBagConstraints c = new GridBagConstraints();
@@ -179,6 +278,12 @@ public class SGHelper implements ActionListener {
 		currType = option;
 	}
 
+	/**
+	 * Centers JFrame in window, if the Toolkit is "obtainable".
+	 *
+	 * @throws Exception	If the Toolkit could not be obtained
+	 * @see    Toolkit
+	 */
 	public void centerWindow() throws Exception {
 		try {
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -193,6 +298,17 @@ public class SGHelper implements ActionListener {
 		}
 	}
 
+	/**
+	 * Takes action of current prompt window based on user input and launches
+	 * next prompt window.
+	 *
+	 * The next prompt window that is launched follows the order of increasing
+	 * numbers. However, a window type will be skipped if the element of the
+	 * option array in the {@link SGCheckBoxGrid} is false, which occurs when the
+	 * "Don't ask me this again" box is checked on a prompt window.
+	 *
+	 * @param e		the ActionEvent that invoked the method
+	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton eventButton = (JButton)(e.getSource());
 		String  eventText   = eventButton.getText();
@@ -238,10 +354,13 @@ public class SGHelper implements ActionListener {
 					}
 				}
 				checkBoxes.options[currType] = !optionBoxes.get(currType).isSelected();
+				// CHECK ME AND MAKE SURE I'M OKAY
+				window.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 				window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
 				break;
 		}
 		prevEvent = e;
+		// Launch next "allowed" window or exit if out of types
 		for(int i = currType + 1; i < NUM_TYPES; ++i) {
 			if(checkBoxes.options[i]) {
 				try {
@@ -254,12 +373,20 @@ public class SGHelper implements ActionListener {
 		}
 	}
 
-	public void uncheckBeforeTime(ScheduleTime time, String days) {
+	/**
+	 * Unchecks all boxes that contain a time range that starts at or before the
+	 * time of the given ScheduleTime.
+	 *
+	 * @param time		the ScheduleTime to compare others against
+	 * @param days		the String of days to modify
+	 */
+	private void uncheckBeforeTime(ScheduleTime time, String days) {
 		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i) {
 			if(days.contains(((JLabel)(checkBoxes.boxGrid.get(i).get(0).getParent().getComponent(0))).getText())) {
 				for(int j = 0; j < checkBoxes.boxGrid.get(i).size(); ++j) {
 					JCheckBox    currBox  = checkBoxes.boxGrid.get(i).get(j);
 					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
+					// Assume the check boxes are in ascending order
 					if(ScheduleTime.compareTimes(currTime, time) <= 0) {
 						currBox.setSelected(false);
 					}
@@ -271,12 +398,20 @@ public class SGHelper implements ActionListener {
 		}
 	}
 
-	public void uncheckAfterTime(ScheduleTime time, String days) {
+	/**
+	 * Unchecks all boxes that contain a time range that ends at or after the
+	 * time of the given ScheduleTime.
+	 *
+	 * @param time		the ScheduleTime to compare others against
+	 * @param days		the String of days to modify
+	 */
+	private void uncheckAfterTime(ScheduleTime time, String days) {
 		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i) {
 			if(days.contains(((JLabel)(checkBoxes.boxGrid.get(i).get(0).getParent().getComponent(0))).getText())) {
 				for(int j = checkBoxes.boxGrid.get(i).size() - 1; j >= 0; --j) {
 					JCheckBox    currBox  = checkBoxes.boxGrid.get(i).get(j);
 					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
+					// Assume the check boxes are in ascending order
 					if(ScheduleTime.compareTimes(currTime, time) >= 0) {
 						currBox.setSelected(false);
 					}
@@ -288,12 +423,20 @@ public class SGHelper implements ActionListener {
 		}
 	}
 
-	public void uncheckDuringTime(ScheduleTime time, String days) {
+	/**
+	 * Unchecks all boxes that contain a time range that starts at the time
+	 * of the given ScheduleTime.
+	 *
+	 * @param time		the ScheduleTime to compare others against
+	 * @param days		the String of days to modify
+	 */
+	private void uncheckDuringTime(ScheduleTime time, String days) {
 		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i) {
 			if(days.contains(((JLabel)(checkBoxes.boxGrid.get(i).get(0).getParent().getComponent(0))).getText())) {
 				for(int j = 0; j < checkBoxes.boxGrid.get(i).size(); ++j) {
 					JCheckBox    currBox  = checkBoxes.boxGrid.get(i).get(j);
 					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
+					// Assume the check boxes are in ascending order
 					if(ScheduleTime.compareTimes(currTime, time) == 0) {
 						currBox.setSelected(false);
 						break;
