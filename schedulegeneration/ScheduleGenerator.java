@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * by using the {@link schedulegeneration} package objects and methods.
  *
  * This class contains no instance fields or methods. All methods are static
- * and there is no constructor for this class. <b><u>IT WAS NOT DESIGNED TO
+ * and there is no functioning constructor for this class. <b><u>IT WAS NOT DESIGNED TO
  * BE CONSTRUCTED.</u></b>
  * </p>
  * <p>
@@ -23,6 +23,15 @@ import java.util.ArrayList;
  * @see SGWindow
  */
 public class ScheduleGenerator {
+	/**
+	 * <p>
+	 * This constructor is unusable. <b><u>THIS CLASS WAS NOT DESIGNED TO
+	 * BE CONSTRUCTED.</u></b>
+	 * </p>
+	 */
+	private ScheduleGenerator() {
+	}
+
 	/**
 	 * <p>
 	 * Reads in input file data, begins brute force schedule generation process
