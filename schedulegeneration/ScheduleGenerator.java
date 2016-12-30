@@ -171,7 +171,7 @@ public class ScheduleGenerator {
 	 * @param  scheduleNum			the current number of schedules generated
 	 * @return						the new number of schedules generated
 	 */
-	static public int generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
+	static private int generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
 		if(currName < classNames.size()) {
 			for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size() && i >= 0; i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
 				// Add First Class to Schedule Object

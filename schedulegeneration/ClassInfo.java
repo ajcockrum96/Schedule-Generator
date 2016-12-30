@@ -25,12 +25,12 @@ public class ClassInfo {
 	/**
 	 * Name associated with the Class
 	 */
-	String name;
+	public String name;
 
 	/**
 	 * Number associated with the class
 	 */
-	int number;
+	public int number;
 
 	/**
 	 * Constructs a {@link ClassInfo} Object with specified name and number.

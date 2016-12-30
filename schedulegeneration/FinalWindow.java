@@ -29,17 +29,17 @@ public class FinalWindow {
 	/**
 	 * Pop-up window
 	 */
-	JFrame win;
+	private JFrame win;
 
 	/**
 	 * Default Width of the window
 	 */
-	static int DEFAULT_X = 300;
+	public static final int DEFAULT_X = 300;
 
 	/**
 	 * Default Height of the window
 	 */
-	static int DEFAULT_Y = 200;
+	public static final int DEFAULT_Y = 200;
 
 	/**
 	 * Constructs a new FinalWindow that launches an informational window.

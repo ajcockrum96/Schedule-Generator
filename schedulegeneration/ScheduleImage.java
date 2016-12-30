@@ -32,92 +32,92 @@ public class ScheduleImage {
 	/**
 	 * Buffered Image of this ScheduleImage
 	 */
-	BufferedImage image;
+	public BufferedImage image;
 
 	/**
 	 * ABGR representation of the Color Black
 	 */
-	static int []BLACK     = {  0,   0,   0, 255};
+	public static int []BLACK     = {  0,   0,   0, 255};
 
 	/**
 	 * ABGR representation of the Color Dark Gray
 	 */
-	static int []DARKGRAY  = { 63,  63,  63, 255};
+	public static int []DARKGRAY  = { 63,  63,  63, 255};
 
 	/**
 	 * ABGR representation of the Color Gray
 	 */
-	static int []GRAY      = {127, 127, 127, 255};
+	public static int []GRAY      = {127, 127, 127, 255};
 
 	/**
 	 * ABGR representation of the Color Light Gray
 	 */
-	static int []LIGHTGRAY = {191, 191, 191, 255};
+	public static int []LIGHTGRAY = {191, 191, 191, 255};
 
 	/**
 	 * ABGR representation of the Color White
 	 */
-	static int []WHITE     = {255, 255, 255, 255};
+	public static int []WHITE     = {255, 255, 255, 255};
 
 	/**
 	 * ABGR representation of the Color Red
 	 */
-	static int []RED       = {255,   0,   0, 255};
+	public static int []RED       = {255,   0,   0, 255};
 
 	/**
 	 * ABGR representation of the Color Green
 	 */
-	static int []GREEN     = {  0, 255,   0, 255};
+	public static int []GREEN     = {  0, 255,   0, 255};
 
 	/**
 	 * ABGR representation of the Color Blue
 	 */
-	static int []BLUE      = {  0,   0, 255, 255};
+	public static int []BLUE      = {  0,   0, 255, 255};
 
 	/**
 	 * ABGR representation of the Color Yellow
 	 */
-	static int []YELLOW    = {255, 255,   0, 255};
+	public static int []YELLOW    = {255, 255,   0, 255};
 
 	/**
 	 * ABGR representation of the Color Cyan
 	 */
-	static int []CYAN      = {  0, 255, 255, 255};
+	public static int []CYAN      = {  0, 255, 255, 255};
 
 	/**
 	 * ABGR representation of the Color Magenta
 	 */
-	static int []MAGENTA   = {255,   0, 255, 255};
+	public static int []MAGENTA   = {255,   0, 255, 255};
 
 	/**
 	 * ABGR representation of the Color Orange
 	 */
-	static int []ORANGE    = {255, 127,   0, 255};
+	public static int []ORANGE    = {255, 127,   0, 255};
 
 	/**
 	 * ABGR representation of the Color Turquoise
 	 */
-	static int []TURQUOISE = {  0, 255, 127, 255};
+	public static int []TURQUOISE = {  0, 255, 127, 255};
 
 	/**
 	 * ABGR representation of the Color Purple
 	 */
-	static int []PURPLE    = {127,   0, 255, 255};
+	public static int []PURPLE    = {127,   0, 255, 255};
 
 	/**
 	 * ABGR representation of the Color Puke
 	 */
-	static int []PUKE      = {127, 255,   0, 255};
+	public static int []PUKE      = {127, 255,   0, 255};
 
 	/**
 	 * ABGR representation of the Color Cobalt
 	 */
-	static int []COBALT    = {  0, 127, 255, 255};
+	public static int []COBALT    = {  0, 127, 255, 255};
 
 	/**
 	 * ABGR representation of the Color Crimson
 	 */
-	static int []CRIMSON   = {255,   0, 127, 255};
+	public static int []CRIMSON   = {255,   0, 127, 255};
 
 	/**
 	 * <p>

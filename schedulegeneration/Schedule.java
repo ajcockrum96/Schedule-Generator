@@ -21,32 +21,32 @@ public class Schedule {
 	/**
 	 * List of classes included in the current Schedule
 	 */
-	ArrayList<ClassInfo>          classes;
+	public ArrayList<ClassInfo> classes;
 
 	/**
 	 * 2D representation of the current Schedule
 	 */
-	ArrayList<ArrayList<Integer>> schedule;
+	public ArrayList<ArrayList<Integer>> schedule;
 
 	/**
 	 * Time Period representation of the entire possible Schedule day
 	 */
-	ScheduleTimeRange             dayRange;
+	public ScheduleTimeRange dayRange;
 
 	/**
 	 * String of days present in the Schedule
 	 */
-	String                        days;
+	public String days;
 
 	/**
 	 * Value representing the size of the "time periods" in the Schedule
 	 */
-	int                           precisionMinutes;
+	private final int precisionMinutes;
 	
 	/**
 	 * Number of full periods per Schedule day
 	 */
-	int                           numPeriods;
+	protected int numPeriods;
 
 	/**
 	 * Constructs a new Schedule with specified start and end times, days of
@@ -118,7 +118,7 @@ public class Schedule {
 	 * @param timePeriod	the ScheduleTimeRange to locate
 	 * @return				position at which the timePeriod starts in the Schedule
 	 */
-	public int getTimeRangeStartPos(ScheduleTimeRange timePeriod) {
+	private int getTimeRangeStartPos(ScheduleTimeRange timePeriod) {
 		int pos = (timePeriod.start.getMinuteValue() - this.dayRange.start.getMinuteValue()) / this.precisionMinutes;
 		if(pos < 0) {
 			pos = 0;
@@ -139,7 +139,7 @@ public class Schedule {
 	 * @param timePeriod	the ScheduleTimeRange to locate
 	 * @return				position at which the timePeriod ends in the Schedule
 	 */
-	public int getTimeRangeEndPos(ScheduleTimeRange timePeriod) {
+	private int getTimeRangeEndPos(ScheduleTimeRange timePeriod) {
 		int pos = this.numPeriods - 1 - (this.dayRange.end.getMinuteValue() - timePeriod.end.getMinuteValue()) / this.precisionMinutes;
 		if(pos < 0) {
 			pos = 0;

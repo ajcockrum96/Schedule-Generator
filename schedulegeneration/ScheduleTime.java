@@ -20,12 +20,12 @@ public class ScheduleTime {
 	/**
 	 * Hour value (in 24-hour time)
 	 */
-	int hour;
+	public int hour;
 
 	/**
 	 * Minute value
 	 */
-	int minute;
+	public int minute;
 
 	/**
 	 * Constructs a new ScheduleTime instance set at the time in the given

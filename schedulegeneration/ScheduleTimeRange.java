@@ -24,22 +24,22 @@ public class ScheduleTimeRange {
 	 *
 	 * Sunday(S) through Saturday(A)
 	 */
-	static String weekdays = "SMTWRFA";
+	protected static final String weekdays = "SMTWRFA";
 
 	/**
 	 * Days on which the ScheduleTimeRange is present/valid/important
 	 */
-	boolean       daysUsed[] = {false, false, false, false, false, false, false};
+	protected boolean daysUsed[] = {false, false, false, false, false, false, false};
 
 	/**
 	 * Beginning ScheduleTime value
 	 */
-	ScheduleTime  start;
+	public ScheduleTime start;
 
 	/**
 	 * Ending ScheduleTime value
 	 */
-	ScheduleTime  end;
+	public ScheduleTime end;
 	
 	/**
 	 * Constructs a ScheduleTimeRange with start and end ScheduleTimes as

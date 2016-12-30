@@ -36,27 +36,27 @@ public class SGWindow implements ActionListener {
 	/**
 	 * Days included in the schedule
 	 */
-	String               days;
+	private String days;
 
 	/**
 	 * The check boxes for inputting schedule preferences
 	 */
-	SGCheckBoxGrid       checkBoxes;
+	private SGCheckBoxGrid checkBoxes;
 
 	/**
 	 * Compiled list of class time period options
 	 */
-	ArrayList<ClassTime> classTimes;
+	private ArrayList<ClassTime> classTimes;
 
 	/**
 	 * Prompt window
 	 */
-	JFrame               win;
+	private JFrame win;
 
 	/**
 	 * Filename for the filtered input file
 	 */
-	String               newFilename;
+	private String newFilename;
 
 	/**
 	 * <p>

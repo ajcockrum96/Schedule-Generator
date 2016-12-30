@@ -28,12 +28,12 @@ public class ClassTime {
 	/**
 	 * Time range that is associated with the Class
 	 */
-	ScheduleTimeRange timePeriod;
+	public ScheduleTimeRange timePeriod;
 
 	/**
 	 * Class name that represents the {@link timePeriod}
 	 */
-	String className;
+	public String className;
 
 	/**
 	 * Constructs a new ClassTime with the specified timeRange and name.

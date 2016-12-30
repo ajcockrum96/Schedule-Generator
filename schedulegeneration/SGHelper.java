@@ -59,57 +59,57 @@ public class SGHelper implements ActionListener {
 	/**
 	 * Number of prompt types able to be generated
 	 */
-	static int NUM_TYPES = 2;
+	private static final int NUM_TYPES = 2;
 
 	/**
 	 * Default Width of the window
 	 */
-	static int DEFAULT_X = 350;
+	public static final int DEFAULT_X = 350;
 
 	/**
 	 * Default Height of the window
 	 */
-	static int DEFAULT_Y = 250;
+	public static final int DEFAULT_Y = 250;
 
 	/**
 	 * SGCheckBoxGrid Object that generated this SGHelper
 	 */
-	SGCheckBoxGrid       checkBoxes;
+	private SGCheckBoxGrid checkBoxes;
 
 	/**
 	 * Prompt window
 	 */
-	JFrame               window;
+	private JFrame window;
 
 	/**
 	 * Time range of check box that was unselected
 	 */
-	String               range;
+	protected String range;
 
 	/**
 	 * Day of check box that was unselected
 	 */
-	String               eventDay;
+	protected String eventDay;
 
 	/**
 	 * Current prompt type
 	 */
-	int                  currType;
+	protected int currType;
 
 	/**
 	 * Previous action taken by SGHelper on SGCheckBoxGrid
 	 */
-	ActionEvent          prevEvent;
+	private ActionEvent prevEvent;
 
 	/**
 	 * Days available on SGCheckBoxGrid
 	 */
-	ArrayList<JCheckBox> dayBoxes;
+	private ArrayList<JCheckBox> dayBoxes;
 
 	/**
 	 * Check boxes for prompt window
 	 */
-	ArrayList<JCheckBox> optionBoxes;
+	private ArrayList<JCheckBox> optionBoxes;
 
 	/**
 	 * <p>
@@ -159,7 +159,7 @@ public class SGHelper implements ActionListener {
 	 * @param  option		the prompt option type to be built
 	 * @throws Exception	If JFrame cannot be constructed due to HeadlessException
 	 */
-	public void buildHelperWindow(int option) throws Exception {
+	private void buildHelperWindow(int option) throws Exception {
 		// Set Constraints
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx    = 1;

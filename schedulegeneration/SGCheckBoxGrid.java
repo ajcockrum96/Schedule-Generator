@@ -25,27 +25,27 @@ public class SGCheckBoxGrid implements ActionListener {
 	/**
 	 * 2D Representation of current check box grid
 	 */
-	ArrayList<ArrayList<JCheckBox>> boxGrid;
+	public ArrayList<ArrayList<JCheckBox>> boxGrid;
 
 	/**
 	 * JPanel containing the JCheckBox objects in boxGrid
 	 */
-	JPanel fullGrid;
+	public JPanel fullGrid;
 
 	/**
-	 * Maximum number of check boxes on a given day
+	 * Length (in check boxes) of the longest day
 	 */
-	int    dayRange;
+	protected int dayRange;
 
 	/**
 	 * SGHelper instance created for every unchecking action
 	 */
-	SGHelper helper;
+	private SGHelper helper;
 
 	/**
 	 * SGHelper constructor information regarding user preferences
 	 */
-	boolean options[] = {true, true};
+	protected boolean options[] = {true, true};
 
 	/**
 	 * <p>
