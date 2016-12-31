@@ -46,7 +46,7 @@ public class SGWindow implements ActionListener {
 	/**
 	 * Compiled list of class time period options
 	 */
-	private ArrayList<SGClassTime> classTimes;
+	private ArrayList<SGCourseTime> classTimes;
 
 	/**
 	 * Prompt window
@@ -65,7 +65,7 @@ public class SGWindow implements ActionListener {
 	 * </p>
 	 * <p>
 	 * This Schedule Generation program starts by reading in the given input
-	 * filename as lines. Then a list of SGClassTime objects is obtained from the
+	 * filename as lines. Then a list of SGCourseTime objects is obtained from the
 	 * lines and a compiled list of SGTimeRange objects is obtained from
 	 * those.
 	 * </p>
@@ -188,16 +188,16 @@ public class SGWindow implements ActionListener {
 
 	/**
 	 * <p>
-	 * Compiles a list of SGClassTime objects into a list of SGTimeRange
+	 * Compiles a list of SGCourseTime objects into a list of SGTimeRange
 	 * objects based on the time ranges in the class times.
 	 *
 	 * The output ArrayList of SGTimeRange objects is sorted using the
 	 * {@link SGTimeRange#mergeSortTimeRangeArrayList} method. The input
-	 * ArrayList of SGClassTime objects is assumed to be sorted in ascending
+	 * ArrayList of SGCourseTime objects is assumed to be sorted in ascending
 	 * order.
 	 * </p>
 	 * <p>
-	 * For each SGClassTime object, the time range is compared to those already
+	 * For each SGCourseTime object, the time range is compared to those already
 	 * added to the compiled list. If the time ranges are the same, the days
 	 * used for both time ranges are logically OR'd and saved in the compiled
 	 * list. If the time ranges are different, the time range is added to the
@@ -210,15 +210,15 @@ public class SGWindow implements ActionListener {
 	 * shortest of those that are overlapping).
 	 * </p>
 	 *
-	 * @param classTimes	the ArrayList of SGClassTime objects for all classes
+	 * @param classTimes	the ArrayList of SGCourseTime objects for all classes
 	 * @return				the ArrayList of compiled SGTimeRange objects
 	 */
-	private ArrayList<SGTimeRange> getDayTimes(ArrayList<SGClassTime> classTimes) {
+	private ArrayList<SGTimeRange> getDayTimes(ArrayList<SGCourseTime> classTimes) {
 		// Read in classTimes to SGTimeRange Objects, ignoring duplicate days and overlapping time ranges
 		ArrayList<SGTimeRange> timeRanges = new ArrayList<SGTimeRange>();
 		if(classTimes != null) {
 			for(int i = 0; i < classTimes.size(); ++i) {
-				SGClassTime         currClass = classTimes.get(i);
+				SGCourseTime         currClass = classTimes.get(i);
 				SGTimeRange currRange = currClass.timePeriod;
 				String            currDays  = currRange.getDays();
 				boolean found   = false;
@@ -262,11 +262,11 @@ public class SGWindow implements ActionListener {
 
 	/**
 	 * <p>
-	 * Creates an ArrayList of SGClassTime objects from an ArrayList of lines
+	 * Creates an ArrayList of SGCourseTime objects from an ArrayList of lines
 	 * from a formatted input file.
 	 *
-	 * The output ArrayList of SGClassTime objects is sorted using the
-	 * {@link SGClassTime#mergeSortSGClassTimeArrayList}.
+	 * The output ArrayList of SGCourseTime objects is sorted using the
+	 * {@link SGCourseTime#mergeSortSGClassTimeArrayList}.
 	 * </p>
 	 * <p>
 	 * The file is assumed to be formatted where all available time period
@@ -293,8 +293,8 @@ public class SGWindow implements ActionListener {
 	 * @param lines		the ArrayList of lines from the input file
 	 */
 	private void getSGClassTimes(ArrayList<String> lines) {
-		// Read in lines to SGClassTime Objects
-		this.classTimes = new ArrayList<SGClassTime>();
+		// Read in lines to SGCourseTime Objects
+		this.classTimes = new ArrayList<SGCourseTime>();
 		String className = "";
 		if(lines != null) {
 			for(int i = 0; i < lines.size(); ++i) {
@@ -302,7 +302,7 @@ public class SGWindow implements ActionListener {
 				if(currLine.trim().length() > 0 && SGTimeRange.weekdays.indexOf(currLine.charAt(0)) != -1) {
 					String classDays   = currLine.substring(0, currLine.indexOf('\t'));
 					String rangeString = currLine.substring(currLine.indexOf('\t') + 1);
-					this.classTimes.add(new SGClassTime(rangeString, classDays, className));
+					this.classTimes.add(new SGCourseTime(rangeString, classDays, className));
 				}
 				else if(currLine.trim().length() > 0) {
 					className = currLine.substring(currLine.indexOf('\t') + 1);
@@ -311,7 +311,7 @@ public class SGWindow implements ActionListener {
 					className = "";
 				}
 			}
-			SGClassTime.mergeSortSGClassTimeArrayList(this.classTimes, 0, this.classTimes.size());
+			SGCourseTime.mergeSortSGClassTimeArrayList(this.classTimes, 0, this.classTimes.size());
 		}
 	}
 
@@ -378,7 +378,7 @@ public class SGWindow implements ActionListener {
 	}
 
 	/**
-	 * Determines all of the class names from the SGClassTime objects.
+	 * Determines all of the class names from the SGCourseTime objects.
 	 *
 	 * @return	the ArrayList of class names
 	 */
@@ -407,12 +407,12 @@ public class SGWindow implements ActionListener {
 	 * Then the new input file writing begins, writing a number to start
 	 * the line and then finishing with a tab followed by the class name (to
 	 * follow the format shown above in the {@link getSGClassTimes} method).
-	 * After writing the class name, the first SGClassTime for this class is found
+	 * After writing the class name, the first SGCourseTime for this class is found
 	 * and its time range is compared to the "off-limits" ranges. If they overlap
 	 * in any way, the time range is skipped.
 	 * </p>
 	 * <p>
-	 * This process repeats until all SGClassTime instances have been found for
+	 * This process repeats until all SGCourseTime instances have been found for
 	 * the respective class. If all were skipped, it overrides the preferences
 	 * and writes all options for <i>that class only</i>. Finally, it proceeds
 	 * to the next class and so on until all classes have been written to the
@@ -442,7 +442,7 @@ public class SGWindow implements ActionListener {
 				writer.write(String.format("%d)\t%s", i + 1, classNames.get(i)));
 				writer.newLine();
 				writer.flush();
-				for(int j = SGClassTime.searchForClassInArrayList(this.classTimes, classNames.get(i)); j < this.classTimes.size() && j >= 0; j = SGClassTime.searchForClassInArrayList(this.classTimes, classNames.get(i), ++j)) {
+				for(int j = SGCourseTime.searchForClassInArrayList(this.classTimes, classNames.get(i)); j < this.classTimes.size() && j >= 0; j = SGCourseTime.searchForClassInArrayList(this.classTimes, classNames.get(i), ++j)) {
 					boolean timePreferred = true;
 					SGTimeRange currRange = this.classTimes.get(j).timePeriod;
 					String            currDays  = currRange.getDays();
@@ -461,7 +461,7 @@ public class SGWindow implements ActionListener {
 				}
 				if(!classPreferred) {
 					// EVENTUALLY PROMPT FOR METHOD OF PROCEEDING; FOR NOW, JUST INPUT ALL CLASS TIMES DESPITE CONFLICT
-					for(int j = SGClassTime.searchForClassInArrayList(this.classTimes, classNames.get(i)); j < this.classTimes.size() && j >= 0; j = SGClassTime.searchForClassInArrayList(this.classTimes, classNames.get(i), ++j)) {
+					for(int j = SGCourseTime.searchForClassInArrayList(this.classTimes, classNames.get(i)); j < this.classTimes.size() && j >= 0; j = SGCourseTime.searchForClassInArrayList(this.classTimes, classNames.get(i), ++j)) {
 						SGTimeRange currRange = this.classTimes.get(j).timePeriod;
 						String            currDays  = currRange.getDays();
 						writer.write(String.format("%s\t%s", currDays, currRange.rangeString()));

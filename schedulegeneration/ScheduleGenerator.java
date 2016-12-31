@@ -40,7 +40,7 @@ public class ScheduleGenerator {
 	 * </p>
 	 * <p>
 	 * This brute force portion reads in the data from the file into lines, then
-	 * translates it into SGClassTime objects and Strings of the class names. The
+	 * translates it into SGCourseTime objects and Strings of the class names. The
 	 * file is assumed to always have class times after a given class name; if
 	 * this is not the case, unexpected behavior may occur.
 	 * </p>
@@ -74,7 +74,7 @@ public class ScheduleGenerator {
 		}
 
 		// Create Class Times
-		ArrayList<SGClassTime> classTimes = new ArrayList<SGClassTime>();
+		ArrayList<SGCourseTime> classTimes = new ArrayList<SGCourseTime>();
 		ArrayList<String>    classNames = new ArrayList<String>();
 		String className = "";
 		for(int i = 0; i < lines.size(); ++i) {
@@ -88,12 +88,12 @@ public class ScheduleGenerator {
 				else if(SGTimeRange.weekdays.indexOf(firstChar) != -1) {
 					String days = currLine.substring(0, currLine.indexOf('\t'));
 					String rangeString = currLine.substring(currLine.indexOf('\t'));
-					SGClassTime classTime = new SGClassTime(rangeString, days, className);
+					SGCourseTime classTime = new SGCourseTime(rangeString, days, className);
 					classTimes.add(classTime);
 				}
 			}
 		}
-		SGClassTime.mergeSortSGClassTimeArrayList(classTimes, 0, classTimes.size());
+		SGCourseTime.mergeSortSGClassTimeArrayList(classTimes, 0, classTimes.size());
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
 		// Account for given days
 		for(int i = 0; i < SGTimeRange.weekdays.length(); ++i) {
@@ -174,15 +174,15 @@ public class ScheduleGenerator {
 	 * </p>
 	 *
 	 * @param  schedule				the Schedule instance to modify
-	 * @param  classTimes			the ArrayList of SGClassTime objects
+	 * @param  classTimes			the ArrayList of SGCourseTime objects
 	 * @param  classNames			the ArrayList of class names
 	 * @param  currName				the index of the current class name
 	 * @param  scheduleNum			the current number of schedules generated
 	 * @return						the new number of schedules generated
 	 */
-	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
+	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGCourseTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
 		if(currName < classNames.size()) {
-			for(int i = SGClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size() && i >= 0; i = SGClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
+			for(int i = SGCourseTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size() && i >= 0; i = SGCourseTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
 				// Add First Class to Schedule Object
 				boolean success = schedule.addClass(classTimes.get(i), currName + 1);
 				if(success) {

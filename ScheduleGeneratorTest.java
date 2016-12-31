@@ -18,12 +18,12 @@ public class ScheduleGeneratorTest {
 		// System.out.println("Schedule");
 		// test.printIntegerSchedule();
 		// System.out.println("");
-		// SGClassTime testClass = new SGClassTime("07:30 am - 8:20 am", "MWF", "ECE Test");
+		// SGCourseTime testClass = new SGCourseTime("07:30 am - 8:20 am", "MWF", "ECE Test");
 		// test.addClass(testClass, 1);
 		// System.out.println("Schedule");
 		// test.printIntegerSchedule();
 		// System.out.println("");
-		// SGClassTime testClass2 = new SGClassTime("07:30 am - 8:25 am", "TR", "ECE Test2");
+		// SGCourseTime testClass2 = new SGCourseTime("07:30 am - 8:25 am", "TR", "ECE Test2");
 		// test.addClass(testClass2, 2);
 		// System.out.println("Schedule");
 		// test.printIntegerSchedule();

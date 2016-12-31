@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * "periods" is determined by the static field {@link precisionMinutes}.
  * </p>
  * <p>
- * A Schedule instance also contains an ArrayList of SGClassInfo objects that
+ * A Schedule instance also contains an ArrayList of SGCourseInfo objects that
  * function as a key, associating the values in the 2D Integer ArrayList with
  * the names of the classes.
  * </p>
@@ -21,7 +21,7 @@ public class Schedule {
 	/**
 	 * List of classes included in the current Schedule
 	 */
-	public ArrayList<SGClassInfo> classes;
+	public ArrayList<SGCourseInfo> classes;
 
 	/**
 	 * 2D representation of the current Schedule
@@ -82,7 +82,7 @@ public class Schedule {
 			}
 			this.schedule.add(day);
 		}
-		this.classes = new ArrayList<SGClassInfo>();
+		this.classes = new ArrayList<SGCourseInfo>();
 	}
 
 	/**
@@ -156,8 +156,8 @@ public class Schedule {
 	 * return true if and only if every addition was successful.
 	 *
 	 * The addition of the class includes the addition to the 2D ArrayList of
-	 * Integers, as specified in the {@link SGClassTime#timePeriod} static field,
-	 * and the addition to the ArrayList of SGClassInfo objects.
+	 * Integers, as specified in the {@link SGCourseTime#timePeriod} static field,
+	 * and the addition to the ArrayList of SGCourseInfo objects.
 	 * </p>
 	 * <p>
 	 * This method does not make the assumption that the given class will fit in
@@ -166,11 +166,11 @@ public class Schedule {
 	 * If this occurs, the method returns false.
 	 * </p>
 	 *
-	 * @param classTime	the SGClassTime that represents the new class's time period
+	 * @param classTime	the SGCourseTime that represents the new class's time period
 	 * @param classNum	the value to represent the new class in the Schedule
 	 * @return			true if addition was successful
 	 */
-	public boolean addClass(SGClassTime classTime, Integer classNum) {
+	public boolean addClass(SGCourseTime classTime, Integer classNum) {
 		// Round Range Start and Ends to Specified Precision
 		classTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
 		classTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
@@ -218,8 +218,8 @@ public class Schedule {
 			failure = true;
 		}
 		if(!failure) {
-			this.classes.add(new SGClassInfo(classTime, classNum));
-			SGClassInfo.mergeSortSGClassInfoArrayList(this.classes, 0, this.classes.size());
+			this.classes.add(new SGCourseInfo(classTime, classNum));
+			SGCourseInfo.mergeSortSGClassInfoArrayList(this.classes, 0, this.classes.size());
 		}
 		return !failure;
 	}
@@ -229,19 +229,19 @@ public class Schedule {
 	 * Removes the class specified by classTime and classNum from the Schedule.
 	 *
 	 * The removal of the class includes the removal from the 2D ArrayList of
-	 * Integers, as specified in the {@link SGClassTime#timePeriod} static field,
+	 * Integers, as specified in the {@link SGCourseTime#timePeriod} static field,
 	 * and the removal of the first matching instances in the ArrayList of
-	 * SGClassInfo objects.
+	 * SGCourseInfo objects.
 	 * </p>
 	 * <p>
 	 * This method does make the assumption that the class is already in
 	 * the schedule and does not check otherwise.
 	 * </p>
 	 *
-	 * @param classTime	the SGClassTime that represents the class's time period
+	 * @param classTime	the SGCourseTime that represents the class's time period
 	 * @param classNum	the value that represents the class in the Schedule
 	 */
-	public void removeClass(SGClassTime classTime, int classNum) {
+	public void removeClass(SGCourseTime classTime, int classNum) {
 		// Round Range Start and Ends to Specified Precision
 		classTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
 		classTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
@@ -257,6 +257,6 @@ public class Schedule {
 			}
 		}
 		// Remove Class Info
-		this.classes.remove(SGClassInfo.searchSGClassInfoArrayList(this.classes, classTime.className, classNum));
+		this.classes.remove(SGCourseInfo.searchSGClassInfoArrayList(this.classes, classTime.className, classNum));
 	}
 }
