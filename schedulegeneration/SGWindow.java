@@ -79,9 +79,10 @@ public class SGWindow implements ActionListener {
 	 * Generation Process.
 	 * </p>
 	 *
-	 * @param  inputFilename	FIXME
-	 * @param  prefFilename		FIXME
-	 * @throws Exception		FIXME: If the input could not be read, JFrame could not be constructed, or if JFrame.EXIT_ON_CLOSE causes a SecurityException
+	 * @param  inputFilename	the String of the filename to read
+	 * @param  prefFilename		the String of the filename to write
+	 * @throws Exception		If there are I/O Errors or JFrame Exceptions
+	 * @see    JFrame
 	 */
 	public SGWindow(String inputFilename, String prefFilename) throws Exception {
 		this.newFilename   = prefFilename;
@@ -160,7 +161,8 @@ public class SGWindow implements ActionListener {
 	 * as the filtered input filename.
 	 * </p>
 	 *
-	 * @throws Exception		FIXME: If the input could not be read, JFrame could not be constructed, or if JFrame.EXIT_ON_CLOSE causes a SecurityException
+	 * @throws Exception		If there are I/O Errors or JFrame Exceptions
+	 * @see    JFrame
 	 */
 	public SGWindow() throws Exception {
 		this("input.txt", "newInput.txt");

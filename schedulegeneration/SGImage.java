@@ -273,8 +273,8 @@ public class SGImage {
 			WHITE
 		};
 		int hScale      = 250;
-		int vScale      = 100;
-		int imageWidth  = hScale * 5;	// FIXME
+		int vScale      = hScale * 2 / 5;
+		int imageWidth  = hScale * 5;	// Corresponds to MAX_LENGTH to avoid overflow
 		int imageHeight = vScale * courses.size();
 		int numBands    = 4;			// Number of data banks in buffer; one for each part of pixel type ABGR
 

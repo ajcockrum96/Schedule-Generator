@@ -167,8 +167,8 @@ public class Schedule {
 	 * </p>
 	 *
 	 * @param courseTime	the SGCourseTime that represents the new course's time period
-	 * @param courseNum	the value to represent the new course in the Schedule
-	 * @return			true if addition was successful
+	 * @param courseNum		the value to represent the new course in the Schedule
+	 * @return				true if addition was successful
 	 */
 	public boolean addCourse(SGCourseTime courseTime, Integer courseNum) {
 		// Round Range Start and Ends to Specified Precision

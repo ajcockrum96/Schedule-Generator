@@ -158,6 +158,7 @@ public class SGHelper implements ActionListener {
 	 *
 	 * @param  option		the prompt option type to be built
 	 * @throws Exception	If JFrame cannot be constructed due to HeadlessException
+	 * @see    JFrame
 	 */
 	private void buildHelperWindow(int option) throws Exception {
 		// Set Constraints

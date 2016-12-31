@@ -44,13 +44,6 @@ public class SGTime {
 	}
 	
 	/**
-	 * Constructs a new SGTime instance set to 00:00 (midnight).
-	 */
-	public SGTime() {
-		this("00:00");
-	}
-
-	/**
 	 * Constructs a new SGTime instance with the given hour and minute
 	 * values.
 	 *
@@ -62,6 +55,13 @@ public class SGTime {
 	public SGTime(int hour, int minute) {
 		this.hour   = hour;
 		this.minute = minute;
+	}
+
+	/**
+	 * Constructs a new SGTime instance set to 00:00 (midnight).
+	 */
+	public SGTime() {
+		this(0, 0);
 	}
 
 	/**

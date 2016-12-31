@@ -46,6 +46,7 @@ public class SGFinal {
 	 *
 	 * @param  scheduleCount	the number of schedules generated
 	 * @throws Exception		If JFrame cannot be constructed or if JFrame.EXIT_ON_CLOSE causes a SecurityException
+	 * @see    JFrame
 	 */
 	public SGFinal(int scheduleCount) throws Exception {
 		try {

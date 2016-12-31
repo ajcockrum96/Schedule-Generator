@@ -16,7 +16,19 @@ import java.util.ArrayList;
  * BE CONSTRUCTED.</u></b>
  * </p>
  * <p>
- * FIXME: Insert process description here
+ * See the constructor for specific details on the Schedule Generation Process.
+ * The generator first reads in the file and then recursively adds the course options
+ * to a {@link Schedule} object in a brute force manner. No schedule will be
+ * generated that contains an overlap, but courses can be added even if they
+ * go beyond the bounds of the schedule time period (they will just be
+ * truncated).
+ * </p>
+ * <p>
+ * Each schedule option that is finished will be written to a
+ * {@link ScheduleImage} and then that image will be written to a file. When
+ * all course options have been iterated through, {@link SGFinal} will be launched
+ * with the final count of schedules generated and direction on where to find the
+ * image files and the course key for the images.
  * </p>
  * @see Schedule
  * @see SGImage
@@ -57,9 +69,9 @@ public class ScheduleGenerator {
 	 * options. And once this worker is done, the SGFinal is launched.
 	 * </p>
 	 *
-	 * @param  filename				the String of the filename to read
-	 * @param  daysGiven			the String containing days to force into schedule
-	 * @throws Exception			If an I/O error occurs
+	 * @param  filename		the String of the filename to read
+	 * @param  daysGiven	the String containing days to force into schedule
+	 * @throws Exception	If an I/O error occurs
 	 */
 	static public void generateSchedule(String filename, String daysGiven) throws Exception {
 		System.out.println("Generating");
@@ -145,8 +157,8 @@ public class ScheduleGenerator {
 	 * (using only the days found in the input file), and launches SGFinal
 	 * object to alert user that the process has finished.
 	 *
-	 * @param  filename				the String of the filename to read
-	 * @throws Exception			If an I/O error occurs
+	 * @param  filename		the String of the filename to read
+	 * @throws Exception	If an I/O error occurs
 	 */
 	static public void generateSchedule(String filename) throws Exception {
 		generateSchedule(filename, "");
@@ -173,12 +185,12 @@ public class ScheduleGenerator {
 	 * given course is found. If no more options exist, the function returns.
 	 * </p>
 	 *
-	 * @param  schedule				the Schedule instance to modify
-	 * @param  courseTimes			the ArrayList of SGCourseTime objects
-	 * @param  courseNames			the ArrayList of course names
-	 * @param  currName				the index of the current course name
-	 * @param  scheduleNum			the current number of schedules generated
-	 * @return						the new number of schedules generated
+	 * @param  schedule		the Schedule instance to modify
+	 * @param  courseTimes	the ArrayList of SGCourseTime objects
+	 * @param  courseNames	the ArrayList of course names
+	 * @param  currName		the index of the current course name
+	 * @param  scheduleNum	the current number of schedules generated
+	 * @return				the new number of schedules generated
 	 */
 	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGCourseTime> courseTimes, ArrayList<String> courseNames, int currName, int scheduleNum) {
 		if(currName < courseNames.size()) {
