@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 /**
  * <p>
- * ScheduleTimeRange is an growth of ScheduleTime, containing
+ * SGTimeRange is an growth of SGTime, containing
  * a time range and the days on which the time range is applicable.
  *
- * This class contains two ScheduleTime instances that represent the beginning
+ * This class contains two SGTime instances that represent the beginning
  * and end of a time range. It also contains the static field of all 7 weekdays
  * for the package {@link schedulegeneration}.
  * </p>
  * <p>
- * Many of the methods within this class are similar to those of ScheduleTime,
+ * Many of the methods within this class are similar to those of SGTime,
  * with added methods to compensate for the properties of a time range.
  * </p>
- * @see ScheduleTime
+ * @see SGTime
  */
-public class ScheduleTimeRange {
+public class SGTimeRange {
 	/**
 	 * Weekday string representation assumed for all in {@link schedulegeneration}
 	 * package.
@@ -27,33 +27,33 @@ public class ScheduleTimeRange {
 	protected static final String weekdays = "SMTWRFA";
 
 	/**
-	 * Days on which the ScheduleTimeRange is present/valid/important
+	 * Days on which the SGTimeRange is present/valid/important
 	 */
 	protected boolean daysUsed[] = {false, false, false, false, false, false, false};
 
 	/**
-	 * Beginning ScheduleTime value
+	 * Beginning SGTime value
 	 */
-	public ScheduleTime start;
+	public SGTime start;
 
 	/**
-	 * Ending ScheduleTime value
+	 * Ending SGTime value
 	 */
-	public ScheduleTime end;
+	public SGTime end;
 	
 	/**
-	 * Constructs a ScheduleTimeRange with start and end ScheduleTimes as
+	 * Constructs a SGTimeRange with start and end SGTimes as
 	 * represented in the time range string on the given days.
 	 *
 	 * @param rangeString	the String containing the formatted range
 	 * @param days			the String containing the used days
 	 */
-	public ScheduleTimeRange(String rangeString, String days) {
+	public SGTimeRange(String rangeString, String days) {
 		if(rangeString.indexOf("am") != -1 || rangeString.indexOf("pm") != -1) {
 			rangeString = convert12To24HourRange(rangeString);
 		}
-		this.start = new ScheduleTime(rangeString.substring(0, rangeString.indexOf('-')).trim());
-		this.end   = new ScheduleTime(rangeString.substring(rangeString.indexOf('-') + 1).trim());
+		this.start = new SGTime(rangeString.substring(0, rangeString.indexOf('-')).trim());
+		this.end   = new SGTime(rangeString.substring(rangeString.indexOf('-') + 1).trim());
 		for(int i = 0; i < weekdays.length(); ++i) {
 			if(days.indexOf(weekdays.charAt(i)) != -1) {
 				this.daysUsed[i] = true;
@@ -62,56 +62,56 @@ public class ScheduleTimeRange {
 	}
 
 	/**
-	 * Constructs a ScheduleTimeRange with start and end ScheduleTimes on the
+	 * Constructs a SGTimeRange with start and end SGTimes on the
 	 * given days.
 	 *
-	 * @param start			the ScheduleTime containing the start time
-	 * @param end			the ScheduleTime containing the end time
+	 * @param start			the SGTime containing the start time
+	 * @param end			the SGTime containing the end time
 	 * @param days			the String containing the used days
 	 */
-	public ScheduleTimeRange(ScheduleTime start, ScheduleTime end, String days) {
+	public SGTimeRange(SGTime start, SGTime end, String days) {
 		this(String.format("%d:%d - %d:%d", start.hour, start.minute, end.hour, end.minute), days);
 	}
 
 	/**
-	 * Constructs a ScheduleTimeRange with start and end ScheduleTimes on all
+	 * Constructs a SGTimeRange with start and end SGTimes on all
 	 * of the days in weekdays.
 	 *
-	 * @param start			the ScheduleTime containing the start time
-	 * @param end			the ScheduleTime containing the end time
+	 * @param start			the SGTime containing the start time
+	 * @param end			the SGTime containing the end time
 	 */
-	public ScheduleTimeRange(ScheduleTime start, ScheduleTime end) {
+	public SGTimeRange(SGTime start, SGTime end) {
 		this(String.format("%d:%d - %d:%d", start.hour, start.minute, end.hour, end.minute), weekdays);
 	}
 
 	/**
-	 * Constructs a duplicate ScheduleTimeRange.
+	 * Constructs a duplicate SGTimeRange.
 	 *
-	 * @param timeRange		the ScheduleTimeRange to duplicate
+	 * @param timeRange		the SGTimeRange to duplicate
 	 */
-	public ScheduleTimeRange(ScheduleTimeRange timeRange) {
+	public SGTimeRange(SGTimeRange timeRange) {
 		this(timeRange.rangeString(), timeRange.getDays());
 	}
 	
 	/**
-	 * Constructs a ScheduleTimeRange with start and end ScheduleTimes as
+	 * Constructs a SGTimeRange with start and end SGTimes as
 	 * represented in the time range string on all of the days in weekdays.
 	 *
 	 * @param rangeString	the String containing the formatted range
 	 */
-	public ScheduleTimeRange(String rangeString) {
+	public SGTimeRange(String rangeString) {
 		this(rangeString, weekdays);
 	}
 	
 	/**
-	 * Constructs a ScheduleTimeRange of a full day on all of the days in weekdays.
+	 * Constructs a SGTimeRange of a full day on all of the days in weekdays.
 	 */
-	public ScheduleTimeRange() {
+	public SGTimeRange() {
 		this("00:00 - 23:59", weekdays);
 	}
 	
 	/**
-	 * Returns a String representing the ScheduleTimeRange in 24-hour format.
+	 * Returns a String representing the SGTimeRange in 24-hour format.
 	 *
 	 * @return		the String of the formatted range
 	 */
@@ -120,7 +120,7 @@ public class ScheduleTimeRange {
 	}
 	
 	/**
-	 * Returns the length of the ScheduleTimeRange in decimal hours.
+	 * Returns the length of the SGTimeRange in decimal hours.
 	 *
 	 * @return		the decimal length of the range in hours
 	 */
@@ -129,7 +129,7 @@ public class ScheduleTimeRange {
 	}
 	
 	/**
-	 * Returns the length of the ScheduleTimeRange in minutes.
+	 * Returns the length of the SGTimeRange in minutes.
 	 *
 	 * @return		the length of the range in minutes
 	 */
@@ -138,7 +138,7 @@ public class ScheduleTimeRange {
 	}
 
 	/**
-	 * Returns a String containing the days represented by the ScheduleTimeRange
+	 * Returns a String containing the days represented by the SGTimeRange
 	 * in the same order as {@link weekdays}.
 	 *
 	 * @return		the String of days used
@@ -176,7 +176,7 @@ public class ScheduleTimeRange {
 		if(timeRange.indexOf('-') != -1) {
 			String firstTime  = timeRange.substring(0, timeRange.indexOf('-'));
 			String secondTime = timeRange.substring(timeRange.indexOf('-') + 1);
-			String newTimeRange = String.format("%s - %s", ScheduleTime.convert12To24Hour(firstTime), ScheduleTime.convert12To24Hour(secondTime));
+			String newTimeRange = String.format("%s - %s", SGTime.convert12To24Hour(firstTime), SGTime.convert12To24Hour(secondTime));
 			return newTimeRange;
 		}
 		return timeRange;
@@ -205,53 +205,53 @@ public class ScheduleTimeRange {
 		if(timeRange.indexOf('-') != -1) {
 			String firstTime  = timeRange.substring(0, timeRange.indexOf('-'));
 			String secondTime = timeRange.substring(timeRange.indexOf('-') + 1);
-			String newTimeRange = String.format("%s - %s", ScheduleTime.convert24To12Hour(firstTime), ScheduleTime.convert24To12Hour(secondTime));
+			String newTimeRange = String.format("%s - %s", SGTime.convert24To12Hour(firstTime), SGTime.convert24To12Hour(secondTime));
 			return newTimeRange;
 		}
 		return timeRange;
 	}
 	
 	/**
-	 * Compares the beginning times of two ScheduleTimeRanges.
+	 * Compares the beginning times of two SGTimeRanges.
 	 *
 	 * The function returns the difference between the two times in minutes,
 	 * positive if the first start time is later, negative if sooner, and equal
 	 * if neither.
 	 *
-	 * @param a		the ScheduleTimeRange to compare against
-	 * @param b		the ScheduleTimeRange to compare to a
+	 * @param a		the SGTimeRange to compare against
+	 * @param b		the SGTimeRange to compare to a
 	 * @return		the difference between the two start times in minutes
 	 */
-	static public int compareTimeRangeStarts(ScheduleTimeRange a, ScheduleTimeRange b) {
+	static public int compareTimeRangeStarts(SGTimeRange a, SGTimeRange b) {
 		return a.start.getMinuteValue() - b.start.getMinuteValue();
 	}
 
 	/**
-	 * Compares the end times of two ScheduleTimeRanges.
+	 * Compares the end times of two SGTimeRanges.
 	 *
 	 * The function returns the difference between the two times in minutes,
 	 * positive if the first end time is later, negative if sooner, and equal
 	 * if neither.
 	 *
-	 * @param a		the ScheduleTimeRange to compare against
-	 * @param b		the ScheduleTimeRange to compare to a
+	 * @param a		the SGTimeRange to compare against
+	 * @param b		the SGTimeRange to compare to a
 	 * @return		the difference between the two end times in minutes
 	 */
-	static public int compareTimeRangeEnds(ScheduleTimeRange a, ScheduleTimeRange b) {
+	static public int compareTimeRangeEnds(SGTimeRange a, SGTimeRange b) {
 		return a.end.getMinuteValue() - b.end.getMinuteValue();
 	}
 
 	/**
-	 * Determines if a given ScheduleTimeRange is within the current instance.
+	 * Determines if a given SGTimeRange is within the current instance.
 	 *
 	 * The function returns true if the ranges are equivalent or if the range
-	 * passed as an argument is within the bounds of the current ScheduleTimeRange
+	 * passed as an argument is within the bounds of the current SGTimeRange
 	 * times.
 	 *
-	 * @param a		the ScheduleTimeRange to compare to the current instance
+	 * @param a		the SGTimeRange to compare to the current instance
 	 * @return		true if the range contains/is equal to the given range, false otherwise
 	 */
-	public boolean containsRange(ScheduleTimeRange a) {
+	public boolean containsRange(SGTimeRange a) {
 		boolean start = (compareTimeRangeStarts(this, a) <= 0);
 		boolean end   = (compareTimeRangeEnds(this, a) >= 0);
 		return start && end;
@@ -259,7 +259,7 @@ public class ScheduleTimeRange {
 
 	/**
 	 * <p>
-	 * Determines if a given ScheduleTimeRange overlaps the current instance.
+	 * Determines if a given SGTimeRange overlaps the current instance.
 	 *
 	 * The function returns true if the ranges are equivalent, if the ranges
 	 * contain one another, or if any other form of time overlap occurrs.
@@ -275,10 +275,10 @@ public class ScheduleTimeRange {
 	 * do <b>not</b> overlap.
 	 * </p>
 	 *
-	 * @param a		the ScheduleTimeRange to compare to the current instance
+	 * @param a		the SGTimeRange to compare to the current instance
 	 * @return		true if the range overlaps the given range, false otherwise
 	 */
-	public boolean overlapsRange(ScheduleTimeRange a) {
+	public boolean overlapsRange(SGTimeRange a) {
 		// If "this" contains "a" or if "a" contains "this" or if they are equivalent
 		if(this.containsRange(a) || a.containsRange(this)) {
 			return true;
@@ -301,18 +301,18 @@ public class ScheduleTimeRange {
 	}
 
 	/**
-	 * Merge sorts an ArrayList of ScheduleTimeRange objects based on start and
+	 * Merge sorts an ArrayList of SGTimeRange objects based on start and
 	 * end times.
 	 *
 	 * The order is first determined by the beginning of the time ranges; however,
 	 * if both ranges start at the same time, they are ordered based on their end
 	 * times. If the ranges are equivalent, the behavior is unspecified.
 	 *
-	 * @param timeRanges	the ArrayList of ScheduleTimeRange objects to sort
+	 * @param timeRanges	the ArrayList of SGTimeRange objects to sort
 	 * @param startIndex	the first index of the ArrayList that needs sorting
 	 * @param endIndex		the last index (non-inclusive) of the ArrayList that needs sorting
 	 */
-	static public void mergeSortTimeRangeArrayList(ArrayList<ScheduleTimeRange> timeRanges, int startIndex, int endIndex) {
+	static public void mergeSortTimeRangeArrayList(ArrayList<SGTimeRange> timeRanges, int startIndex, int endIndex) {
 		if(timeRanges != null && startIndex >= 0 && endIndex <= timeRanges.size()) {
 			int length = endIndex - startIndex;
 			if(length > 2) {
@@ -323,12 +323,12 @@ public class ScheduleTimeRange {
 				for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
 					int compNum = compareTimeRangeStarts(timeRanges.get(i), timeRanges.get(j));
 					if(compNum < 0) {
-						ScheduleTimeRange temp = timeRanges.remove(i);
+						SGTimeRange temp = timeRanges.remove(i);
 						timeRanges.add(startIndex++, temp);
 						++i;
 					}
 					else if(compNum > 0) {
-						ScheduleTimeRange temp = timeRanges.remove(j);
+						SGTimeRange temp = timeRanges.remove(j);
 						timeRanges.add(startIndex++, temp);
 						++midIndex;
 						++i;
@@ -337,12 +337,12 @@ public class ScheduleTimeRange {
 					else {
 						compNum = compareTimeRangeEnds(timeRanges.get(i), timeRanges.get(j));
 						if(compNum < 0) {
-							ScheduleTimeRange temp = timeRanges.remove(i);
+							SGTimeRange temp = timeRanges.remove(i);
 							timeRanges.add(startIndex++, temp);
 							++i;
 						}
 						else {
-							ScheduleTimeRange temp = timeRanges.remove(j);
+							SGTimeRange temp = timeRanges.remove(j);
 							timeRanges.add(startIndex++, temp);
 							++midIndex;
 							++i;
@@ -351,19 +351,19 @@ public class ScheduleTimeRange {
 					}
 				}
 				for(; i < midIndex; ++i) {
-						ScheduleTimeRange temp = timeRanges.remove(i);
+						SGTimeRange temp = timeRanges.remove(i);
 						timeRanges.add(startIndex++, temp);
 				}
 				for(; j < endIndex; ++j) {
-						ScheduleTimeRange temp = timeRanges.remove(j);
+						SGTimeRange temp = timeRanges.remove(j);
 						timeRanges.add(startIndex++, temp);
 				}
 			}
 			else if(length == 2) {
 				int compNum = compareTimeRangeStarts(timeRanges.get(startIndex), timeRanges.get(startIndex + 1));
 				if(compNum > 0) {
-					ScheduleTimeRange a = timeRanges.get(startIndex);
-					ScheduleTimeRange b = timeRanges.get(startIndex + 1);
+					SGTimeRange a = timeRanges.get(startIndex);
+					SGTimeRange b = timeRanges.get(startIndex + 1);
 					timeRanges.remove(startIndex);
 					timeRanges.remove(startIndex);
 					timeRanges.add(startIndex, b);
@@ -372,8 +372,8 @@ public class ScheduleTimeRange {
 				else if(compNum == 0) {
 					compNum = compareTimeRangeEnds(timeRanges.get(startIndex), timeRanges.get(startIndex + 1));
 					if(compNum > 0) {
-						ScheduleTimeRange a = timeRanges.get(startIndex);
-						ScheduleTimeRange b = timeRanges.get(startIndex + 1);
+						SGTimeRange a = timeRanges.get(startIndex);
+						SGTimeRange b = timeRanges.get(startIndex + 1);
 						timeRanges.remove(startIndex);
 						timeRanges.remove(startIndex);
 						timeRanges.add(startIndex, b);

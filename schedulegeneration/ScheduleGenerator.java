@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * FIXME: Insert process description here
  * </p>
  * @see Schedule
- * @see ScheduleImage
+ * @see SGImage
  * @see SGWindow
  */
 public class ScheduleGenerator {
@@ -36,11 +36,11 @@ public class ScheduleGenerator {
 	 * <p>
 	 * Reads in input file data, begins brute force schedule generation process
 	 * (including the days from daysGiven and those found in the input file),
-	 * and launches FinalWindow object to alert user that the process has finished.
+	 * and launches SGFinal object to alert user that the process has finished.
 	 * </p>
 	 * <p>
 	 * This brute force portion reads in the data from the file into lines, then
-	 * translates it into ClassTime objects and Strings of the class names. The
+	 * translates it into SGClassTime objects and Strings of the class names. The
 	 * file is assumed to always have class times after a given class name; if
 	 * this is not the case, unexpected behavior may occur.
 	 * </p>
@@ -54,7 +54,7 @@ public class ScheduleGenerator {
 	 * <p>
 	 * The {@link generateScheduleWorker} is then called to recursively call
 	 * itself and modify a Schedule instance to generate all possible schedule
-	 * options. And once this worker is done, the FinalWindow is launched.
+	 * options. And once this worker is done, the SGFinal is launched.
 	 * </p>
 	 *
 	 * @param  filename				the String of the filename to read
@@ -74,7 +74,7 @@ public class ScheduleGenerator {
 		}
 
 		// Create Class Times
-		ArrayList<ClassTime> classTimes = new ArrayList<ClassTime>();
+		ArrayList<SGClassTime> classTimes = new ArrayList<SGClassTime>();
 		ArrayList<String>    classNames = new ArrayList<String>();
 		String className = "";
 		for(int i = 0; i < lines.size(); ++i) {
@@ -85,24 +85,24 @@ public class ScheduleGenerator {
 					className = currLine.substring(currLine.indexOf('\t') + 1);
 					classNames.add(className);
 				}
-				else if(ScheduleTimeRange.weekdays.indexOf(firstChar) != -1) {
+				else if(SGTimeRange.weekdays.indexOf(firstChar) != -1) {
 					String days = currLine.substring(0, currLine.indexOf('\t'));
 					String rangeString = currLine.substring(currLine.indexOf('\t'));
-					ClassTime classTime = new ClassTime(rangeString, days, className);
+					SGClassTime classTime = new SGClassTime(rangeString, days, className);
 					classTimes.add(classTime);
 				}
 			}
 		}
-		ClassTime.mergeSortClassTimeArrayList(classTimes, 0, classTimes.size());
+		SGClassTime.mergeSortSGClassTimeArrayList(classTimes, 0, classTimes.size());
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
 		// Account for given days
-		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
-			if(daysGiven.indexOf(ScheduleTimeRange.weekdays.charAt(i)) != -1) {
+		for(int i = 0; i < SGTimeRange.weekdays.length(); ++i) {
+			if(daysGiven.indexOf(SGTimeRange.weekdays.charAt(i)) != -1) {
 				daysUsed[i] = true;
 			}
 		}
 		// Dynamically account for days used
-		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
+		for(int i = 0; i < SGTimeRange.weekdays.length(); ++i) {
 			for(int j = 0; j < classTimes.size(); ++j) {
 				if(classTimes.get(j).timePeriod.daysUsed[i]) {
 					daysUsed[i] = true;
@@ -110,7 +110,7 @@ public class ScheduleGenerator {
 				}
 			}
 		}
-		ScheduleTime precision = new ScheduleTime("00:15");
+		SGTime precision = new SGTime("00:15");
 		Schedule schedule = new Schedule(classTimes.get(0).timePeriod.start, classTimes.get(classTimes.size() - 1).timePeriod.end, daysUsed, precision);
 		// Open Directory for Image Files
 		try {
@@ -134,7 +134,7 @@ public class ScheduleGenerator {
 		System.out.format("%d Total Schedules Generated\n", numSchedules);
 
 		try {
-			FinalWindow win = new FinalWindow(numSchedules);
+			SGFinal win = new SGFinal(numSchedules);
 		} catch(Exception e) {
 			System.err.format("%s%n", e);
 		}
@@ -142,7 +142,7 @@ public class ScheduleGenerator {
 
 	/**
 	 * Reads in input file data, begins brute force schedule generation process
-	 * (using only the days found in the input file), and launches FinalWindow
+	 * (using only the days found in the input file), and launches SGFinal
 	 * object to alert user that the process has finished.
 	 *
 	 * @param  filename				the String of the filename to read
@@ -160,13 +160,13 @@ public class ScheduleGenerator {
 	 * </p>
 	 * <p>
 	 * If the given class is past the end of the list of class names, the schedule
-	 * is deemed "finished", a ScheduleImage is generated for the schedule, the
+	 * is deemed "finished", a SGImage is generated for the schedule, the
 	 * image is written to a file based on the now incremented schedule number, and
 	 * the function returns.
 	 * </p>
 	 * <p>
 	 * When the first schedule is generated, the image key is generated using
-	 * {@link ScheduleImage#writeImageKey} method.
+	 * {@link SGImage#writeImageKey} method.
 	 * </p>
 	 * <p>
 	 * When the recursive call returns each time, the next time option for the
@@ -174,15 +174,15 @@ public class ScheduleGenerator {
 	 * </p>
 	 *
 	 * @param  schedule				the Schedule instance to modify
-	 * @param  classTimes			the ArrayList of ClassTime objects
+	 * @param  classTimes			the ArrayList of SGClassTime objects
 	 * @param  classNames			the ArrayList of class names
 	 * @param  currName				the index of the current class name
 	 * @param  scheduleNum			the current number of schedules generated
 	 * @return						the new number of schedules generated
 	 */
-	static private int generateScheduleWorker(Schedule schedule, ArrayList<ClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
+	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGClassTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
 		if(currName < classNames.size()) {
-			for(int i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size() && i >= 0; i = ClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
+			for(int i = SGClassTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size() && i >= 0; i = SGClassTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
 				// Add First Class to Schedule Object
 				boolean success = schedule.addClass(classTimes.get(i), currName + 1);
 				if(success) {
@@ -196,11 +196,11 @@ public class ScheduleGenerator {
 		else {
 			++scheduleNum;
 			String filename = String.format(".\\Images\\%d.png", scheduleNum);
-			ScheduleImage image = new ScheduleImage(schedule);
-			ScheduleImage.writeImageFile(image, filename);
+			SGImage image = new SGImage(schedule);
+			SGImage.writeImageFile(image, filename);
 			// Output Key
 			if(scheduleNum == 1) {
-				ScheduleImage.writeImageKey(".\\Images\\Key.png", schedule.classes);
+				SGImage.writeImageKey(".\\Images\\Key.png", schedule.classes);
 			}
 		}
 		return scheduleNum;

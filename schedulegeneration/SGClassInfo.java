@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * the static field {@link number} and searching based on both fields.
  * </p>
  */
-public class ClassInfo {
+public class SGClassInfo {
 	/**
 	 * Name associated with the Class
 	 */
@@ -33,50 +33,50 @@ public class ClassInfo {
 	public int number;
 
 	/**
-	 * Constructs a {@link ClassInfo} Object with specified name and number.
+	 * Constructs a {@link SGClassInfo} Object with specified name and number.
 	 *
 	 * @param className		the String of the class name
 	 * @param classNum		the number associated with this class instance
 	 */
-	public ClassInfo(String className, int classNum) {
+	public SGClassInfo(String className, int classNum) {
 		name = className;
 		number = classNum;
 	}
 
 	/**
-	 * Constructs a {@link ClassInfo} Object from the name of a specified
-	 * {@link ClassTime} and number.
+	 * Constructs a {@link SGClassInfo} Object from the name of a specified
+	 * {@link SGClassTime} and number.
 	 * 
-	 * @param classTime		the ClassTime object containing the desired class name
+	 * @param classTime		the SGClassTime object containing the desired class name
 	 * @param classNum		the number associated with this class instance
 	 */
-	public ClassInfo(ClassTime classTime, int classNum) {
+	public SGClassInfo(SGClassTime classTime, int classNum) {
 		this(classTime.className, classNum);
 	}
 
 	/**
-	 * Merge sorts an ArrayList of ClassInfo Objects based on number fields.
+	 * Merge sorts an ArrayList of SGClassInfo Objects based on number fields.
 	 *
-	 * @param classes		the ArrayList of ClassInfo objects to sort
+	 * @param classes		the ArrayList of SGClassInfo objects to sort
 	 * @param startIndex	the first index of the ArrayList that needs sorting
 	 * @param endIndex		the last index (non-inclusive) of the ArrayList that needs sorting
 	 */
-	static public void mergeSortClassInfoArrayList(ArrayList<ClassInfo> classes, int startIndex, int endIndex) {
+	static public void mergeSortSGClassInfoArrayList(ArrayList<SGClassInfo> classes, int startIndex, int endIndex) {
 		if(classes != null && startIndex >= 0 && endIndex <= classes.size()) {
 			int length = endIndex - startIndex;
 			if(length > 2) {
 				int midIndex = length / 2 + startIndex;
-				mergeSortClassInfoArrayList(classes, startIndex, midIndex);
-				mergeSortClassInfoArrayList(classes, midIndex, endIndex);
+				mergeSortSGClassInfoArrayList(classes, startIndex, midIndex);
+				mergeSortSGClassInfoArrayList(classes, midIndex, endIndex);
 				int i, j;
 				for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
 					if(classes.get(i).number < classes.get(j).number) {
-						ClassInfo temp = classes.remove(i);
+						SGClassInfo temp = classes.remove(i);
 						classes.add(startIndex++, temp);
 						++i;
 					}
 					else {
-						ClassInfo temp = classes.remove(j);
+						SGClassInfo temp = classes.remove(j);
 						classes.add(startIndex++, temp);
 						++midIndex;
 						++i;
@@ -84,18 +84,18 @@ public class ClassInfo {
 					}
 				}
 				for(; i < midIndex; ++i) {
-						ClassInfo temp = classes.remove(i);
+						SGClassInfo temp = classes.remove(i);
 						classes.add(startIndex++, temp);
 				}
 				for(; j < endIndex; ++j) {
-						ClassInfo temp = classes.remove(j);
+						SGClassInfo temp = classes.remove(j);
 						classes.add(startIndex++, temp);
 				}
 			}
 			else if(length == 2) {
 				if(classes.get(startIndex).number > classes.get(startIndex + 1).number) {
-					ClassInfo a = classes.get(startIndex);
-					ClassInfo b = classes.get(startIndex + 1);
+					SGClassInfo a = classes.get(startIndex);
+					SGClassInfo b = classes.get(startIndex + 1);
 					classes.remove(startIndex);
 					classes.remove(startIndex);
 					classes.add(startIndex, b);
@@ -106,15 +106,15 @@ public class ClassInfo {
 	}
 
 	/**
-	 * Searches for a ClassInfo object based on both {@link name} and {@link number} fields.
+	 * Searches for a SGClassInfo object based on both {@link name} and {@link number} fields.
 	 *
-	 * @param classes		the ArrayList of ClassInfo objects to search
+	 * @param classes		the ArrayList of SGClassInfo objects to search
 	 * @param className		the String that the name field must match
 	 * @param classNum		the value that the number field must match
-	 * @return 				the index of the first matching ClassInfo Object
+	 * @return 				the index of the first matching SGClassInfo Object
 	 * 						returns -1 (FAILURE) if match not found
 	 */
-	static public int searchClassInfoArrayList(ArrayList<ClassInfo> classes, String className, int classNum) {
+	static public int searchSGClassInfoArrayList(ArrayList<SGClassInfo> classes, String className, int classNum) {
 		if(classes != null) {
 			for(int i = 0; i < classes.size(); ++i) {
 				if(classes.get(i).name.compareTo(className) == 0 && classes.get(i).number == classNum) {

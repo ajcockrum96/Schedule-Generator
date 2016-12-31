@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * precisions or minute values for various applications.
  * </p>
  * <p>
- * ScheduleTime also aids in reformatting strings to aid with outputting
+ * SGTime also aids in reformatting strings to aid with outputting
  * the object's values to a user.
  * </p>
  */
-public class ScheduleTime {
+public class SGTime {
 	/**
 	 * Hour value (in 24-hour time)
 	 */
@@ -28,14 +28,14 @@ public class ScheduleTime {
 	public int minute;
 
 	/**
-	 * Constructs a new ScheduleTime instance set at the time in the given
+	 * Constructs a new SGTime instance set at the time in the given
 	 * string.
 	 *
 	 * The parameter String time is assumed to be in 12- or 24-hour time.
 	 *
 	 * @param time	the String containing the desired time
 	 */
-	public ScheduleTime(String time) {
+	public SGTime(String time) {
 		if(time.indexOf("am") != -1 || time.indexOf("pm") != -1) {
 			time = convert12To24Hour(time);
 		}
@@ -44,14 +44,14 @@ public class ScheduleTime {
 	}
 	
 	/**
-	 * Constructs a new ScheduleTime instance set to 00:00 (midnight).
+	 * Constructs a new SGTime instance set to 00:00 (midnight).
 	 */
-	public ScheduleTime() {
+	public SGTime() {
 		this("00:00");
 	}
 
 	/**
-	 * Constructs a new ScheduleTime instance with the given hour and minute
+	 * Constructs a new SGTime instance with the given hour and minute
 	 * values.
 	 *
 	 * The input hour value is assumed to be in 24-hour format.
@@ -59,7 +59,7 @@ public class ScheduleTime {
 	 * @param hour		the hour value desired
 	 * @param minute	the minute value desired
 	 */
-	public ScheduleTime(int hour, int minute) {
+	public SGTime(int hour, int minute) {
 		this.hour   = hour;
 		this.minute = minute;
 	}
@@ -74,7 +74,7 @@ public class ScheduleTime {
 	}
 	
 	/**
-	 * Rounds the ScheduleTime instance's time forward to the next given minuteVal
+	 * Rounds the SGTime instance's time forward to the next given minuteVal
 	 *
 	 * @param minuteVal	the desired minute value
 	 */
@@ -86,14 +86,14 @@ public class ScheduleTime {
 	}
 	
 	/**
-	 * Rounds the ScheduleTime instance's time forward to the next hour
+	 * Rounds the SGTime instance's time forward to the next hour
 	 */
 	public void roundUp() {
 		this.roundUp(0);
 	}
 	
 	/**
-	 * Rounds the ScheduleTime instance's time backward to the previous given minuteVal
+	 * Rounds the SGTime instance's time backward to the previous given minuteVal
 	 *
 	 * @param minuteVal	the desired minute value
 	 */
@@ -105,7 +105,7 @@ public class ScheduleTime {
 	}
 	
 	/**
-	 * Rounds the ScheduleTime instance's time backward to the previous hour
+	 * Rounds the SGTime instance's time backward to the previous hour
 	 */
 	public void roundDown() {
 		this.roundDown(0);
@@ -113,7 +113,7 @@ public class ScheduleTime {
 
 	/**
 	 * <p>
-	 * Rounds the ScheduleTime instance's time to a given minute precision.
+	 * Rounds the SGTime instance's time to a given minute precision.
 	 *
 	 * The precision is assumed be a clean division of an hour; uneven intervals
 	 * start cleanly on the hour and reset to each hour, which could result in
@@ -147,17 +147,17 @@ public class ScheduleTime {
 	}
 
 	/**
-	 * Compares two ScheduleTime instances' time values
+	 * Compares two SGTime instances' time values
 	 *
 	 * The function returns the difference between the two times in minutes,
 	 * positive if the first time is later, negative if sooner, and equal
 	 * if neither.
 	 *
-	 * @param a		the ScheduleTime to compare against
-	 * @param b		the ScheduleTime to compare to a
+	 * @param a		the SGTime to compare against
+	 * @param b		the SGTime to compare to a
 	 * @return		the difference between the two times in minutes
 	 */
-	static public int compareTimes(ScheduleTime a, ScheduleTime b) {
+	static public int compareTimes(SGTime a, SGTime b) {
 		return a.getMinuteValue() - b.getMinuteValue();
 	}
 	

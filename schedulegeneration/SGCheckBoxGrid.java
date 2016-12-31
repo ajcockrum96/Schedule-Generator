@@ -66,14 +66,14 @@ public class SGCheckBoxGrid implements ActionListener {
 	 * @param timeRanges	the ArrayList of time ranges to assign to check boxes
 	 * @param daysUsed		the String of day columns to sort the check boxes into
 	 */
-	public SGCheckBoxGrid(ArrayList<ScheduleTimeRange> timeRanges, String daysUsed) {
+	public SGCheckBoxGrid(ArrayList<SGTimeRange> timeRanges, String daysUsed) {
 		this.boxGrid = new ArrayList<ArrayList<JCheckBox>>();
 		for(int i = 0; i < daysUsed.length(); ++i) {
 			ArrayList<JCheckBox> currBoxes = new ArrayList<JCheckBox>();
 			for(int j = 0; j < timeRanges.size(); ++j) {
 				if(timeRanges.get(j).getDays().indexOf(daysUsed.charAt(i)) != -1) {
-					ScheduleTimeRange currRange = timeRanges.get(j);
-					JCheckBox currBox = new JCheckBox(ScheduleTimeRange.convert24To12HourRange(timeRanges.get(j).rangeString()), true);
+					SGTimeRange currRange = timeRanges.get(j);
+					JCheckBox currBox = new JCheckBox(SGTimeRange.convert24To12HourRange(timeRanges.get(j).rangeString()), true);
 					currBox.addActionListener( this );
 					currBoxes.add( currBox );
 				}

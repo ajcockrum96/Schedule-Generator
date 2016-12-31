@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * "periods" is determined by the static field {@link precisionMinutes}.
  * </p>
  * <p>
- * A Schedule instance also contains an ArrayList of ClassInfo objects that
+ * A Schedule instance also contains an ArrayList of SGClassInfo objects that
  * function as a key, associating the values in the 2D Integer ArrayList with
  * the names of the classes.
  * </p>
@@ -21,7 +21,7 @@ public class Schedule {
 	/**
 	 * List of classes included in the current Schedule
 	 */
-	public ArrayList<ClassInfo> classes;
+	public ArrayList<SGClassInfo> classes;
 
 	/**
 	 * 2D representation of the current Schedule
@@ -31,7 +31,7 @@ public class Schedule {
 	/**
 	 * Time Period representation of the entire possible Schedule day
 	 */
-	public ScheduleTimeRange dayRange;
+	public SGTimeRange dayRange;
 
 	/**
 	 * String of days present in the Schedule
@@ -54,23 +54,23 @@ public class Schedule {
 	 * to 0.
 	 *
 	 * The boolean array daysUsed is assumed to correspond with each
-	 * non-null character in the string {@link ScheduleTimeRange#weekdays}.
+	 * non-null character in the string {@link SGTimeRange#weekdays}.
 	 *
-	 * @param start		the ScheduleTime when the schedule day begins
-	 * @param end		the ScheduleTime when the schedule day ends
+	 * @param start		the SGTime when the schedule day begins
+	 * @param end		the SGTime when the schedule day ends
 	 * @param daysUsed	the boolean array of schedule days
 	 * @param precision	the String of the class name
 	 */
-	public Schedule(ScheduleTime start, ScheduleTime end, boolean daysUsed[], ScheduleTime precision) {
+	public Schedule(SGTime start, SGTime end, boolean daysUsed[], SGTime precision) {
 		this.days = "";
-		for(int i = 0; i < ScheduleTimeRange.weekdays.length(); ++i) {
+		for(int i = 0; i < SGTimeRange.weekdays.length(); ++i) {
 			if(daysUsed[i]) {
-				this.days = this.days.concat(ScheduleTimeRange.weekdays.substring(i, i + 1));
+				this.days = this.days.concat(SGTimeRange.weekdays.substring(i, i + 1));
 			}
 		}
 		int numDays = this.days.length();
 		this.precisionMinutes = precision.hour * 60 + precision.minute;
-		this.dayRange = new ScheduleTimeRange(String.format("%02d:%02d - %02d:%02d", start.hour, start.minute, end.hour, end.minute), this.days);
+		this.dayRange = new SGTimeRange(String.format("%02d:%02d - %02d:%02d", start.hour, start.minute, end.hour, end.minute), this.days);
 		this.dayRange.start.roundToPrecision(this.precisionMinutes);
 		this.dayRange.end.roundToPrecision(this.precisionMinutes);
 		this.numPeriods = this.dayRange.getMinuteLength() / this.precisionMinutes;
@@ -82,7 +82,7 @@ public class Schedule {
 			}
 			this.schedule.add(day);
 		}
-		this.classes = new ArrayList<ClassInfo>();
+		this.classes = new ArrayList<SGClassInfo>();
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class Schedule {
 	 */
 	public void printIntegerSchedule() {
 		System.out.format("Days on Schedule: %s\n", this.days);
-		System.out.format("Full Day Range: %s\n", ScheduleTimeRange.convert24To12HourRange(this.dayRange.rangeString()));
+		System.out.format("Full Day Range: %s\n", SGTimeRange.convert24To12HourRange(this.dayRange.rangeString()));
 		System.out.format("Class Key:\n");
 		for(int i = 0; i < this.classes.size(); ++i) {
 			System.out.format("%2d)\t%s\n", this.classes.get(i).number, this.classes.get(i).name);
@@ -115,10 +115,10 @@ public class Schedule {
 	 * If the time Period starts before the schedule day, 0 is returned.
 	 * If the time Period starts after the schedule day, numPeriods - 1 is returned.
 	 *
-	 * @param timePeriod	the ScheduleTimeRange to locate
+	 * @param timePeriod	the SGTimeRange to locate
 	 * @return				position at which the timePeriod starts in the Schedule
 	 */
-	private int getTimeRangeStartPos(ScheduleTimeRange timePeriod) {
+	private int getTimeRangeStartPos(SGTimeRange timePeriod) {
 		int pos = (timePeriod.start.getMinuteValue() - this.dayRange.start.getMinuteValue()) / this.precisionMinutes;
 		if(pos < 0) {
 			pos = 0;
@@ -136,10 +136,10 @@ public class Schedule {
 	 * If the time Period ends before the schedule day, 0 is returned.
 	 * If the time Period ends after the schedule day, numPeriods - 1 is returned.
 	 *
-	 * @param timePeriod	the ScheduleTimeRange to locate
+	 * @param timePeriod	the SGTimeRange to locate
 	 * @return				position at which the timePeriod ends in the Schedule
 	 */
-	private int getTimeRangeEndPos(ScheduleTimeRange timePeriod) {
+	private int getTimeRangeEndPos(SGTimeRange timePeriod) {
 		int pos = this.numPeriods - 1 - (this.dayRange.end.getMinuteValue() - timePeriod.end.getMinuteValue()) / this.precisionMinutes;
 		if(pos < 0) {
 			pos = 0;
@@ -156,8 +156,8 @@ public class Schedule {
 	 * return true if and only if every addition was successful.
 	 *
 	 * The addition of the class includes the addition to the 2D ArrayList of
-	 * Integers, as specified in the {@link ClassTime#timePeriod} static field,
-	 * and the addition to the ArrayList of ClassInfo objects.
+	 * Integers, as specified in the {@link SGClassTime#timePeriod} static field,
+	 * and the addition to the ArrayList of SGClassInfo objects.
 	 * </p>
 	 * <p>
 	 * This method does not make the assumption that the given class will fit in
@@ -166,11 +166,11 @@ public class Schedule {
 	 * If this occurs, the method returns false.
 	 * </p>
 	 *
-	 * @param classTime	the ClassTime that represents the new class's time period
+	 * @param classTime	the SGClassTime that represents the new class's time period
 	 * @param classNum	the value to represent the new class in the Schedule
 	 * @return			true if addition was successful
 	 */
-	public boolean addClass(ClassTime classTime, Integer classNum) {
+	public boolean addClass(SGClassTime classTime, Integer classNum) {
 		// Round Range Start and Ends to Specified Precision
 		classTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
 		classTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
@@ -218,8 +218,8 @@ public class Schedule {
 			failure = true;
 		}
 		if(!failure) {
-			this.classes.add(new ClassInfo(classTime, classNum));
-			ClassInfo.mergeSortClassInfoArrayList(this.classes, 0, this.classes.size());
+			this.classes.add(new SGClassInfo(classTime, classNum));
+			SGClassInfo.mergeSortSGClassInfoArrayList(this.classes, 0, this.classes.size());
 		}
 		return !failure;
 	}
@@ -229,19 +229,19 @@ public class Schedule {
 	 * Removes the class specified by classTime and classNum from the Schedule.
 	 *
 	 * The removal of the class includes the removal from the 2D ArrayList of
-	 * Integers, as specified in the {@link ClassTime#timePeriod} static field,
+	 * Integers, as specified in the {@link SGClassTime#timePeriod} static field,
 	 * and the removal of the first matching instances in the ArrayList of
-	 * ClassInfo objects.
+	 * SGClassInfo objects.
 	 * </p>
 	 * <p>
 	 * This method does make the assumption that the class is already in
 	 * the schedule and does not check otherwise.
 	 * </p>
 	 *
-	 * @param classTime	the ClassTime that represents the class's time period
+	 * @param classTime	the SGClassTime that represents the class's time period
 	 * @param classNum	the value that represents the class in the Schedule
 	 */
-	public void removeClass(ClassTime classTime, int classNum) {
+	public void removeClass(SGClassTime classTime, int classNum) {
 		// Round Range Start and Ends to Specified Precision
 		classTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
 		classTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
@@ -257,6 +257,6 @@ public class Schedule {
 			}
 		}
 		// Remove Class Info
-		this.classes.remove(ClassInfo.searchClassInfoArrayList(this.classes, classTime.className, classNum));
+		this.classes.remove(SGClassInfo.searchSGClassInfoArrayList(this.classes, classTime.className, classNum));
 	}
 }

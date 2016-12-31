@@ -316,11 +316,11 @@ public class SGHelper implements ActionListener {
 			case(0):
 				if(eventText.equals("Before")) {
 					String timeString = range.substring(range.indexOf('-') + 1).trim();
-					this.uncheckBeforeTime(new ScheduleTime(timeString), eventDay);
+					this.uncheckBeforeTime(new SGTime(timeString), eventDay);
 				}
 				else if(eventText.equals("After")) {
 					String timeString = range.substring(0, range.indexOf('-')).trim();
-					this.uncheckAfterTime(new ScheduleTime(timeString), eventDay);
+					this.uncheckAfterTime(new SGTime(timeString), eventDay);
 				}
 				checkBoxes.options[currType] = !optionBoxes.get(currType).isSelected();
 				window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
@@ -337,20 +337,20 @@ public class SGHelper implements ActionListener {
 						JButton prevButton = (JButton)prevEvent.getSource();
 						if(prevButton.getText().equals("Before")) {
 							String timeString = range.substring(range.indexOf('-') + 1).trim();
-							this.uncheckBeforeTime(new ScheduleTime(timeString), eventDays);
+							this.uncheckBeforeTime(new SGTime(timeString), eventDays);
 						}
 						if(prevButton.getText().equals("After")) {
 							String timeString = range.substring(0, range.indexOf('-')).trim();
-							this.uncheckAfterTime(new ScheduleTime(timeString), eventDays);
+							this.uncheckAfterTime(new SGTime(timeString), eventDays);
 						}
 						if(prevButton.getText().equals("Neither")) {
 							String timeString = range.substring(0, range.indexOf('-')).trim();
-							this.uncheckDuringTime(new ScheduleTime(timeString), eventDays);
+							this.uncheckDuringTime(new SGTime(timeString), eventDays);
 						}
 					}
 					else {
 						String timeString = range.substring(0, range.indexOf('-')).trim();
-						this.uncheckDuringTime(new ScheduleTime(timeString), eventDays);
+						this.uncheckDuringTime(new SGTime(timeString), eventDays);
 					}
 				}
 				checkBoxes.options[currType] = !optionBoxes.get(currType).isSelected();
@@ -375,19 +375,19 @@ public class SGHelper implements ActionListener {
 
 	/**
 	 * Unchecks all boxes that contain a time range that starts at or before the
-	 * time of the given ScheduleTime.
+	 * time of the given SGTime.
 	 *
-	 * @param time		the ScheduleTime to compare others against
+	 * @param time		the SGTime to compare others against
 	 * @param days		the String of days to modify
 	 */
-	private void uncheckBeforeTime(ScheduleTime time, String days) {
+	private void uncheckBeforeTime(SGTime time, String days) {
 		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i) {
 			if(days.contains(((JLabel)(checkBoxes.boxGrid.get(i).get(0).getParent().getComponent(0))).getText())) {
 				for(int j = 0; j < checkBoxes.boxGrid.get(i).size(); ++j) {
 					JCheckBox    currBox  = checkBoxes.boxGrid.get(i).get(j);
-					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
+					SGTime currTime = new SGTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
 					// Assume the check boxes are in ascending order
-					if(ScheduleTime.compareTimes(currTime, time) <= 0) {
+					if(SGTime.compareTimes(currTime, time) <= 0) {
 						currBox.setSelected(false);
 					}
 					else {
@@ -400,19 +400,19 @@ public class SGHelper implements ActionListener {
 
 	/**
 	 * Unchecks all boxes that contain a time range that ends at or after the
-	 * time of the given ScheduleTime.
+	 * time of the given SGTime.
 	 *
-	 * @param time		the ScheduleTime to compare others against
+	 * @param time		the SGTime to compare others against
 	 * @param days		the String of days to modify
 	 */
-	private void uncheckAfterTime(ScheduleTime time, String days) {
+	private void uncheckAfterTime(SGTime time, String days) {
 		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i) {
 			if(days.contains(((JLabel)(checkBoxes.boxGrid.get(i).get(0).getParent().getComponent(0))).getText())) {
 				for(int j = checkBoxes.boxGrid.get(i).size() - 1; j >= 0; --j) {
 					JCheckBox    currBox  = checkBoxes.boxGrid.get(i).get(j);
-					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
+					SGTime currTime = new SGTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
 					// Assume the check boxes are in ascending order
-					if(ScheduleTime.compareTimes(currTime, time) >= 0) {
+					if(SGTime.compareTimes(currTime, time) >= 0) {
 						currBox.setSelected(false);
 					}
 					else {
@@ -425,19 +425,19 @@ public class SGHelper implements ActionListener {
 
 	/**
 	 * Unchecks all boxes that contain a time range that starts at the time
-	 * of the given ScheduleTime.
+	 * of the given SGTime.
 	 *
-	 * @param time		the ScheduleTime to compare others against
+	 * @param time		the SGTime to compare others against
 	 * @param days		the String of days to modify
 	 */
-	private void uncheckDuringTime(ScheduleTime time, String days) {
+	private void uncheckDuringTime(SGTime time, String days) {
 		for(int i = 0; i < checkBoxes.boxGrid.size(); ++i) {
 			if(days.contains(((JLabel)(checkBoxes.boxGrid.get(i).get(0).getParent().getComponent(0))).getText())) {
 				for(int j = 0; j < checkBoxes.boxGrid.get(i).size(); ++j) {
 					JCheckBox    currBox  = checkBoxes.boxGrid.get(i).get(j);
-					ScheduleTime currTime = new ScheduleTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
+					SGTime currTime = new SGTime(currBox.getText().substring(0, currBox.getText().indexOf('-')).trim());
 					// Assume the check boxes are in ascending order
-					if(ScheduleTime.compareTimes(currTime, time) == 0) {
+					if(SGTime.compareTimes(currTime, time) == 0) {
 						currBox.setSelected(false);
 						break;
 					}

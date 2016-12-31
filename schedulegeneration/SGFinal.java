@@ -25,7 +25,7 @@ import java.lang.SecurityException;
  * &nbsp;&nbsp;&nbsp;&nbsp;-Where to find the schedule key image file
  * </p>
  */
-public class FinalWindow {
+public class SGFinal {
 	/**
 	 * Pop-up window
 	 */
@@ -42,21 +42,21 @@ public class FinalWindow {
 	public static final int DEFAULT_Y = 200;
 
 	/**
-	 * Constructs a new FinalWindow that launches an informational window.
+	 * Constructs a new SGFinal that launches an informational window.
 	 *
 	 * @param  scheduleCount	the number of schedules generated
 	 * @throws Exception		If JFrame cannot be constructed or if JFrame.EXIT_ON_CLOSE causes a SecurityException
 	 */
-	public FinalWindow(int scheduleCount) throws Exception {
+	public SGFinal(int scheduleCount) throws Exception {
 		try {
 			this.win = new JFrame("Schedule Results");
 			this.win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		} catch (HeadlessException e) {
 			System.err.format("%s%n", e);
-			throw new Exception("FinalWindow constructor failed", e);
+			throw new Exception("SGFinal constructor failed", e);
 		} catch (SecurityException e) {
 			System.err.format("%s%n", e);
-			throw new Exception("FinalWindow constructor failed", e);
+			throw new Exception("SGFinal constructor failed", e);
 		}
 
 		this.win.setSize( this.DEFAULT_X, this.DEFAULT_Y );
