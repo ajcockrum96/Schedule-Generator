@@ -75,7 +75,7 @@ public class ScheduleGenerator {
 
 		// Create Course Times
 		ArrayList<SGCourseTime> courseTimes = new ArrayList<SGCourseTime>();
-		ArrayList<String>    courseNames = new ArrayList<String>();
+		ArrayList<String>       courseNames = new ArrayList<String>();
 		String courseName = "";
 		for(int i = 0; i < lines.size(); ++i) {
 			String currLine = lines.get(i);
@@ -110,7 +110,7 @@ public class ScheduleGenerator {
 				}
 			}
 		}
-		SGTime precision = new SGTime("00:15");
+		SGTime precision  = new SGTime("00:15");
 		Schedule schedule = new Schedule(courseTimes.get(0).timePeriod.start, courseTimes.get(courseTimes.size() - 1).timePeriod.end, daysUsed, precision);
 		// Open Directory for Image Files
 		try {

@@ -84,7 +84,7 @@ public class SGHelper implements ActionListener {
 	/**
 	 * Time range of check box that was unselected
 	 */
-	protected String range;
+	protected String rangeString;
 
 	/**
 	 * Day of check box that was unselected
@@ -120,16 +120,16 @@ public class SGHelper implements ActionListener {
 	 * If no options are "allowed", then the SGHelper launches nothing.
 	 * </p>
 	 *
-	 * @param  range		the String containing the range for this SGHelper
+	 * @param  rangeString	the String containing the range for this SGHelper
 	 * @param  eventDay		the String of day(s) for this SGHelper
 	 * @param  checkBoxes	the SGCheckBoxGrid instance that constructed this SGHelper
 	 * @throws Exception	If buildHelperWindow fails and throws Exception
 	 */
-	public SGHelper(String range, String eventDay, SGCheckBoxGrid checkBoxes) throws Exception {
-		this.range      = range;
-		this.eventDay   = eventDay;
-		this.checkBoxes = checkBoxes;
-		optionBoxes     = new ArrayList<JCheckBox>();
+	public SGHelper(String rangeString, String eventDay, SGCheckBoxGrid checkBoxes) throws Exception {
+		this.rangeString = rangeString;
+		this.eventDay    = eventDay;
+		this.checkBoxes  = checkBoxes;
+		optionBoxes      = new ArrayList<JCheckBox>();
 
 		for(int i = 0; i < NUM_TYPES; ++i) {
 			optionBoxes.add(new JCheckBox("Don't ask me this again"));
@@ -184,7 +184,7 @@ public class SGHelper implements ActionListener {
 		switch(option) {
 			case(0):
 				{
-				String qString = "Do you wish to uncheck ALL times before or after " + range.substring(0, range.indexOf('-')).trim() + "?";
+				String qString = "Do you wish to uncheck ALL times before or after " + rangeString.substring(0, rangeString.indexOf('-')).trim() + "?";
 				JLabel question = new JLabel("<html><div style='text-align: center;'>" + qString + "</div></html>");
 				c.gridx = 0;
 				c.gridy = 0;
@@ -315,11 +315,11 @@ public class SGHelper implements ActionListener {
 		switch(currType) {
 			case(0):
 				if(eventText.equals("Before")) {
-					String timeString = range.substring(range.indexOf('-') + 1).trim();
+					String timeString = rangeString.substring(rangeString.indexOf('-') + 1).trim();
 					this.uncheckBeforeTime(new SGTime(timeString), eventDay);
 				}
 				else if(eventText.equals("After")) {
-					String timeString = range.substring(0, range.indexOf('-')).trim();
+					String timeString = rangeString.substring(0, rangeString.indexOf('-')).trim();
 					this.uncheckAfterTime(new SGTime(timeString), eventDay);
 				}
 				checkBoxes.options[currType] = !optionBoxes.get(currType).isSelected();
@@ -336,20 +336,20 @@ public class SGHelper implements ActionListener {
 					if(checkBoxes.options[currType - 1]) {
 						JButton prevButton = (JButton)prevEvent.getSource();
 						if(prevButton.getText().equals("Before")) {
-							String timeString = range.substring(range.indexOf('-') + 1).trim();
+							String timeString = rangeString.substring(rangeString.indexOf('-') + 1).trim();
 							this.uncheckBeforeTime(new SGTime(timeString), eventDays);
 						}
 						if(prevButton.getText().equals("After")) {
-							String timeString = range.substring(0, range.indexOf('-')).trim();
+							String timeString = rangeString.substring(0, rangeString.indexOf('-')).trim();
 							this.uncheckAfterTime(new SGTime(timeString), eventDays);
 						}
 						if(prevButton.getText().equals("Neither")) {
-							String timeString = range.substring(0, range.indexOf('-')).trim();
+							String timeString = rangeString.substring(0, rangeString.indexOf('-')).trim();
 							this.uncheckDuringTime(new SGTime(timeString), eventDays);
 						}
 					}
 					else {
-						String timeString = range.substring(0, range.indexOf('-')).trim();
+						String timeString = rangeString.substring(0, rangeString.indexOf('-')).trim();
 						this.uncheckDuringTime(new SGTime(timeString), eventDays);
 					}
 				}
