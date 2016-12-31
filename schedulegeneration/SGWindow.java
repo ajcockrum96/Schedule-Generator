@@ -95,7 +95,7 @@ public class SGWindow implements ActionListener {
 		}
 		
 		// Get Times from Input Lines as Classes
-		getSGClassTimes(lines);
+		getSGCourseTimes(lines);
 
 		// Get Times from Input Classes as Compiled List
 		ArrayList<SGTimeRange> timeRanges = getDayTimes(this.classTimes);
@@ -266,7 +266,7 @@ public class SGWindow implements ActionListener {
 	 * from a formatted input file.
 	 *
 	 * The output ArrayList of SGCourseTime objects is sorted using the
-	 * {@link SGCourseTime#mergeSortSGClassTimeArrayList}.
+	 * {@link SGCourseTime#mergeSortSGCourseTimeArrayList}.
 	 * </p>
 	 * <p>
 	 * The file is assumed to be formatted where all available time period
@@ -292,7 +292,7 @@ public class SGWindow implements ActionListener {
 	 *
 	 * @param lines		the ArrayList of lines from the input file
 	 */
-	private void getSGClassTimes(ArrayList<String> lines) {
+	private void getSGCourseTimes(ArrayList<String> lines) {
 		// Read in lines to SGCourseTime Objects
 		this.classTimes = new ArrayList<SGCourseTime>();
 		String className = "";
@@ -311,7 +311,7 @@ public class SGWindow implements ActionListener {
 					className = "";
 				}
 			}
-			SGCourseTime.mergeSortSGClassTimeArrayList(this.classTimes, 0, this.classTimes.size());
+			SGCourseTime.mergeSortSGCourseTimeArrayList(this.classTimes, 0, this.classTimes.size());
 		}
 	}
 
@@ -406,7 +406,7 @@ public class SGWindow implements ActionListener {
 	 * <p>
 	 * Then the new input file writing begins, writing a number to start
 	 * the line and then finishing with a tab followed by the class name (to
-	 * follow the format shown above in the {@link getSGClassTimes} method).
+	 * follow the format shown above in the {@link getSGCourseTimes} method).
 	 * After writing the class name, the first SGCourseTime for this class is found
 	 * and its time range is compared to the "off-limits" ranges. If they overlap
 	 * in any way, the time range is skipped.

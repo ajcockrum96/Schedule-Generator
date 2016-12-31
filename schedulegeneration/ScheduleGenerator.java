@@ -93,7 +93,7 @@ public class ScheduleGenerator {
 				}
 			}
 		}
-		SGCourseTime.mergeSortSGClassTimeArrayList(classTimes, 0, classTimes.size());
+		SGCourseTime.mergeSortSGCourseTimeArrayList(classTimes, 0, classTimes.size());
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
 		// Account for given days
 		for(int i = 0; i < SGTimeRange.weekdays.length(); ++i) {

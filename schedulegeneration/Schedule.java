@@ -219,7 +219,7 @@ public class Schedule {
 		}
 		if(!failure) {
 			this.classes.add(new SGCourseInfo(classTime, classNum));
-			SGCourseInfo.mergeSortSGClassInfoArrayList(this.classes, 0, this.classes.size());
+			SGCourseInfo.mergeSortSGCourseInfoArrayList(this.classes, 0, this.classes.size());
 		}
 		return !failure;
 	}
@@ -257,6 +257,6 @@ public class Schedule {
 			}
 		}
 		// Remove Class Info
-		this.classes.remove(SGCourseInfo.searchSGClassInfoArrayList(this.classes, classTime.className, classNum));
+		this.classes.remove(SGCourseInfo.searchSGCourseInfoArrayList(this.classes, classTime.className, classNum));
 	}
 }

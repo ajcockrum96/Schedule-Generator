@@ -104,13 +104,13 @@ public class SGCourseTime {
 	 * @param startIndex	the first index of the ArrayList that needs sorting
 	 * @param endIndex		the last index (non-inclusive) of the ArrayList that needs sorting
 	 */
-	static public void mergeSortSGClassTimeArrayList(ArrayList<SGCourseTime> classTimes, int startIndex, int endIndex) {
+	static public void mergeSortSGCourseTimeArrayList(ArrayList<SGCourseTime> classTimes, int startIndex, int endIndex) {
 		if(classTimes != null && startIndex >= 0 && endIndex <= classTimes.size()) {
 			int length = endIndex - startIndex;
 			if(length > 2) {
 				int midIndex = length / 2 + startIndex;
-				mergeSortSGClassTimeArrayList(classTimes, startIndex, midIndex);
-				mergeSortSGClassTimeArrayList(classTimes, midIndex, endIndex);
+				mergeSortSGCourseTimeArrayList(classTimes, startIndex, midIndex);
+				mergeSortSGCourseTimeArrayList(classTimes, midIndex, endIndex);
 				int i, j;
 				for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
 					if(SGTimeRange.compareTimeRangeStarts(classTimes.get(i).timePeriod, classTimes.get(j).timePeriod) < 0) {

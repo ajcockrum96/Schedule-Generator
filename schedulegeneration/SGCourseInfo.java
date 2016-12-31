@@ -61,13 +61,13 @@ public class SGCourseInfo {
 	 * @param startIndex	the first index of the ArrayList that needs sorting
 	 * @param endIndex		the last index (non-inclusive) of the ArrayList that needs sorting
 	 */
-	static public void mergeSortSGClassInfoArrayList(ArrayList<SGCourseInfo> classes, int startIndex, int endIndex) {
+	static public void mergeSortSGCourseInfoArrayList(ArrayList<SGCourseInfo> classes, int startIndex, int endIndex) {
 		if(classes != null && startIndex >= 0 && endIndex <= classes.size()) {
 			int length = endIndex - startIndex;
 			if(length > 2) {
 				int midIndex = length / 2 + startIndex;
-				mergeSortSGClassInfoArrayList(classes, startIndex, midIndex);
-				mergeSortSGClassInfoArrayList(classes, midIndex, endIndex);
+				mergeSortSGCourseInfoArrayList(classes, startIndex, midIndex);
+				mergeSortSGCourseInfoArrayList(classes, midIndex, endIndex);
 				int i, j;
 				for(i = startIndex, j = midIndex; i < midIndex && j < endIndex;) {
 					if(classes.get(i).number < classes.get(j).number) {
@@ -114,7 +114,7 @@ public class SGCourseInfo {
 	 * @return 				the index of the first matching SGCourseInfo Object
 	 * 						returns -1 (FAILURE) if match not found
 	 */
-	static public int searchSGClassInfoArrayList(ArrayList<SGCourseInfo> classes, String className, int classNum) {
+	static public int searchSGCourseInfoArrayList(ArrayList<SGCourseInfo> classes, String className, int classNum) {
 		if(classes != null) {
 			for(int i = 0; i < classes.size(); ++i) {
 				if(classes.get(i).name.compareTo(className) == 0 && classes.get(i).number == classNum) {
