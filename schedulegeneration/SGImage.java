@@ -121,13 +121,13 @@ public class SGImage {
 
 	/**
 	 * <p>
-	 * Maximum expected length of a class name.
+	 * Maximum expected length of a course name.
 	 *
 	 * Based off of a maximum of:
 	 * <br>
 	 * &nbsp;&nbsp;&nbsp;&nbsp;4 Subject Characters
 	 * <br>
-	 * &nbsp;&nbsp;&nbsp;&nbsp;5 Class Numerals
+	 * &nbsp;&nbsp;&nbsp;&nbsp;5 Course Numerals
 	 * <br>
 	 * &nbsp;&nbsp;&nbsp;&nbsp;7 Qualifier Characters (For example: Lecture, Lab, Seminar...)
 	 * <br>
@@ -156,7 +156,7 @@ public class SGImage {
 	 * <p>
 	 * This method first uses a DataBuffer and Raster to "paint" each slot in
 	 * the grid based on the integer value in the given schedule representation.
-	 * These values are representative of the class number of the SGCourseInfo
+	 * These values are representative of the course number of the SGCourseInfo
 	 * object that is using the given time slot. The value 0 means empty and
 	 * thus uses the color black, stored at index 0 of the colors array. The
 	 * remaining values the colors at the respective indices in the colors
@@ -232,7 +232,7 @@ public class SGImage {
 	 * Writes an image key of a given ArrayList of SGCourseInfo objects to a given filename.
 	 *
 	 * This method first uses a DataBuffer and Raster to "paint" blocks of color
-	 * for each class, in the order of the given ArrayList, with the colors
+	 * for each course, in the order of the given ArrayList, with the colors
 	 * corresponding to their respective {@link SGCourseInfo#number} static fields,
 	 * like the SGImage constructor.
 	 * </p>
@@ -242,7 +242,7 @@ public class SGImage {
 	 * size is based on the vertical scale, so that it will fit in the height
 	 * of the block of color. Additionally, the image width is based on the font
 	 * size and the {@link MAX_LENGTH} field so that the text does not overflow.
-	 * The text for each class is appended in a similar fashion to the image,
+	 * The text for each course is appended in a similar fashion to the image,
 	 * using drawString(...) from the Graphics2D class.
 	 * </p>
 	 * <p>
@@ -250,9 +250,9 @@ public class SGImage {
 	 * </p>
 	 *
 	 * @param filename			the String of the filename to write
-	 * @param classes			the ArrayList of SGCourseInfo objects to construct a key from
+	 * @param courses			the ArrayList of SGCourseInfo objects to construct a key from
 	 */
-	static public void writeImageKey(String filename, ArrayList<SGCourseInfo> classes) {
+	static public void writeImageKey(String filename, ArrayList<SGCourseInfo> courses) {
 		int [][]colors = {
 			BLACK,
 			RED,
@@ -275,18 +275,18 @@ public class SGImage {
 		int hScale      = 250;
 		int vScale      = 100;
 		int imageWidth  = hScale * 5;	// FIXME
-		int imageHeight = vScale * classes.size();
+		int imageHeight = vScale * courses.size();
 		int numBands    = 4;			// Number of data banks in buffer; one for each part of pixel type ABGR
 
 		// Create Buffer, Model, and Image
-		DataBufferInt    buffer = new DataBufferInt(hScale * vScale * classes.size(), numBands);
-		BandedSampleModel model = new BandedSampleModel(DataBuffer.TYPE_INT, hScale, vScale * classes.size(), numBands);
+		DataBufferInt    buffer = new DataBufferInt(hScale * vScale * courses.size(), numBands);
+		BandedSampleModel model = new BandedSampleModel(DataBuffer.TYPE_INT, hScale, vScale * courses.size(), numBands);
 		BufferedImage     image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_4BYTE_ABGR);
 
 		// "Paint" the Colors used in the Schedules
 		for(int i = 0; i < hScale; ++i) {
-			for(int j = 0; j < classes.size() * vScale; ++j) {
-				model.setPixel(i, j, colors[classes.get(j / vScale).number], buffer);
+			for(int j = 0; j < courses.size() * vScale; ++j) {
+				model.setPixel(i, j, colors[courses.get(j / vScale).number], buffer);
 			}
 		}
 		Point point = new Point(0, 0);
@@ -294,7 +294,7 @@ public class SGImage {
 
 		// Make the rest of the Image Black to start
 		for(int i = 0; i < hScale; ++i) {
-			for(int j = 0; j < classes.size() * vScale; ++j) {
+			for(int j = 0; j < courses.size() * vScale; ++j) {
 				model.setPixel(i, j, BLACK, buffer);
 			}
 		}
@@ -303,12 +303,12 @@ public class SGImage {
 			image.setData(Raster.createRaster(model, buffer, point));
 		}
 
-		// Convert to Graphics and add Class Names
+		// Convert to Graphics and add Course Names
 		Graphics2D image2D = image.createGraphics();
 		image2D.setColor(Color.white);
 		image2D.setFont(new Font("Arial", Font.ITALIC, vScale));
-		for(int i = 0; i < classes.size(); ++i) {
-			image2D.drawString(classes.get(i).name, hScale, (int)(vScale * FONT_POS_CONVERSION) + i * vScale);
+		for(int i = 0; i < courses.size(); ++i) {
+			image2D.drawString(courses.get(i).name, hScale, (int)(vScale * FONT_POS_CONVERSION) + i * vScale);
 		}
 
 		try {

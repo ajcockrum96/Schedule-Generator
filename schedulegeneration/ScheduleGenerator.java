@@ -40,8 +40,8 @@ public class ScheduleGenerator {
 	 * </p>
 	 * <p>
 	 * This brute force portion reads in the data from the file into lines, then
-	 * translates it into SGCourseTime objects and Strings of the class names. The
-	 * file is assumed to always have class times after a given class name; if
+	 * translates it into SGCourseTime objects and Strings of the course names. The
+	 * file is assumed to always have course times after a given course name; if
 	 * this is not the case, unexpected behavior may occur.
 	 * </p>
 	 * <p>
@@ -73,27 +73,27 @@ public class ScheduleGenerator {
 			throw new Exception("generateSchedule failed", e);
 		}
 
-		// Create Class Times
-		ArrayList<SGCourseTime> classTimes = new ArrayList<SGCourseTime>();
-		ArrayList<String>    classNames = new ArrayList<String>();
-		String className = "";
+		// Create Course Times
+		ArrayList<SGCourseTime> courseTimes = new ArrayList<SGCourseTime>();
+		ArrayList<String>    courseNames = new ArrayList<String>();
+		String courseName = "";
 		for(int i = 0; i < lines.size(); ++i) {
 			String currLine = lines.get(i);
 			if(currLine.length() > 0) {
 				char firstChar = currLine.charAt(0);
 				if(Character.isDigit(firstChar)) {
-					className = currLine.substring(currLine.indexOf('\t') + 1);
-					classNames.add(className);
+					courseName = currLine.substring(currLine.indexOf('\t') + 1);
+					courseNames.add(courseName);
 				}
 				else if(SGTimeRange.weekdays.indexOf(firstChar) != -1) {
 					String days = currLine.substring(0, currLine.indexOf('\t'));
 					String rangeString = currLine.substring(currLine.indexOf('\t'));
-					SGCourseTime classTime = new SGCourseTime(rangeString, days, className);
-					classTimes.add(classTime);
+					SGCourseTime courseTime = new SGCourseTime(rangeString, days, courseName);
+					courseTimes.add(courseTime);
 				}
 			}
 		}
-		SGCourseTime.mergeSortSGCourseTimeArrayList(classTimes, 0, classTimes.size());
+		SGCourseTime.mergeSortSGCourseTimeArrayList(courseTimes, 0, courseTimes.size());
 		boolean daysUsed[] = {false, false, false, false, false, false, false};
 		// Account for given days
 		for(int i = 0; i < SGTimeRange.weekdays.length(); ++i) {
@@ -103,15 +103,15 @@ public class ScheduleGenerator {
 		}
 		// Dynamically account for days used
 		for(int i = 0; i < SGTimeRange.weekdays.length(); ++i) {
-			for(int j = 0; j < classTimes.size(); ++j) {
-				if(classTimes.get(j).timePeriod.daysUsed[i]) {
+			for(int j = 0; j < courseTimes.size(); ++j) {
+				if(courseTimes.get(j).timePeriod.daysUsed[i]) {
 					daysUsed[i] = true;
 					break;
 				}
 			}
 		}
 		SGTime precision = new SGTime("00:15");
-		Schedule schedule = new Schedule(classTimes.get(0).timePeriod.start, classTimes.get(classTimes.size() - 1).timePeriod.end, daysUsed, precision);
+		Schedule schedule = new Schedule(courseTimes.get(0).timePeriod.start, courseTimes.get(courseTimes.size() - 1).timePeriod.end, daysUsed, precision);
 		// Open Directory for Image Files
 		try {
 			File folder = new File(".\\Images");
@@ -130,7 +130,7 @@ public class ScheduleGenerator {
 			System.err.format("%s%n", e);
 			throw new Exception("generateSchedule failed", e);
 		}
-		int numSchedules = generateScheduleWorker(schedule, classTimes, classNames, 0, 0);
+		int numSchedules = generateScheduleWorker(schedule, courseTimes, courseNames, 0, 0);
 		System.out.format("%d Total Schedules Generated\n", numSchedules);
 
 		try {
@@ -154,12 +154,12 @@ public class ScheduleGenerator {
 
 	/**
 	 * <p>
-	 * Adds the next non-overlapping time option for the given class to the
-	 * given schedule, recursively calling to add the next class in given list
-	 * of class names.
+	 * Adds the next non-overlapping time option for the given course to the
+	 * given schedule, recursively calling to add the next course in given list
+	 * of course names.
 	 * </p>
 	 * <p>
-	 * If the given class is past the end of the list of class names, the schedule
+	 * If the given course is past the end of the list of course names, the schedule
 	 * is deemed "finished", a SGImage is generated for the schedule, the
 	 * image is written to a file based on the now incremented schedule number, and
 	 * the function returns.
@@ -170,26 +170,26 @@ public class ScheduleGenerator {
 	 * </p>
 	 * <p>
 	 * When the recursive call returns each time, the next time option for the
-	 * given class is found. If no more options exist, the function returns.
+	 * given course is found. If no more options exist, the function returns.
 	 * </p>
 	 *
 	 * @param  schedule				the Schedule instance to modify
-	 * @param  classTimes			the ArrayList of SGCourseTime objects
-	 * @param  classNames			the ArrayList of class names
-	 * @param  currName				the index of the current class name
+	 * @param  courseTimes			the ArrayList of SGCourseTime objects
+	 * @param  courseNames			the ArrayList of course names
+	 * @param  currName				the index of the current course name
 	 * @param  scheduleNum			the current number of schedules generated
 	 * @return						the new number of schedules generated
 	 */
-	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGCourseTime> classTimes, ArrayList<String> classNames, int currName, int scheduleNum) {
-		if(currName < classNames.size()) {
-			for(int i = SGCourseTime.searchForClassInArrayList(classTimes, classNames.get(currName)); i < classTimes.size() && i >= 0; i = SGCourseTime.searchForClassInArrayList(classTimes, classNames.get(currName), ++i)) {
-				// Add First Class to Schedule Object
-				boolean success = schedule.addClass(classTimes.get(i), currName + 1);
+	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGCourseTime> courseTimes, ArrayList<String> courseNames, int currName, int scheduleNum) {
+		if(currName < courseNames.size()) {
+			for(int i = SGCourseTime.searchForCourseInArrayList(courseTimes, courseNames.get(currName)); i < courseTimes.size() && i >= 0; i = SGCourseTime.searchForCourseInArrayList(courseTimes, courseNames.get(currName), ++i)) {
+				// Add First Course to Schedule Object
+				boolean success = schedule.addCourse(courseTimes.get(i), currName + 1);
 				if(success) {
 					// Recursively Call with next name
-					scheduleNum = generateScheduleWorker(schedule, classTimes, classNames, currName + 1, scheduleNum);
-					// Cleanup and remove class from schedule before continuing
-					schedule.removeClass(classTimes.get(i), currName + 1);
+					scheduleNum = generateScheduleWorker(schedule, courseTimes, courseNames, currName + 1, scheduleNum);
+					// Cleanup and remove course from schedule before continuing
+					schedule.removeCourse(courseTimes.get(i), currName + 1);
 				}
 			}
 		}
@@ -200,7 +200,7 @@ public class ScheduleGenerator {
 			SGImage.writeImageFile(image, filename);
 			// Output Key
 			if(scheduleNum == 1) {
-				SGImage.writeImageKey(".\\Images\\Key.png", schedule.classes);
+				SGImage.writeImageKey(".\\Images\\Key.png", schedule.courses);
 			}
 		}
 		return scheduleNum;

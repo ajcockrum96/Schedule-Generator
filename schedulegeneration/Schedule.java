@@ -14,14 +14,14 @@ import java.util.ArrayList;
  * <p>
  * A Schedule instance also contains an ArrayList of SGCourseInfo objects that
  * function as a key, associating the values in the 2D Integer ArrayList with
- * the names of the classes.
+ * the names of the courses.
  * </p>
  */
 public class Schedule {
 	/**
-	 * List of classes included in the current Schedule
+	 * List of courses included in the current Schedule
 	 */
-	public ArrayList<SGCourseInfo> classes;
+	public ArrayList<SGCourseInfo> courses;
 
 	/**
 	 * 2D representation of the current Schedule
@@ -59,7 +59,7 @@ public class Schedule {
 	 * @param start		the SGTime when the schedule day begins
 	 * @param end		the SGTime when the schedule day ends
 	 * @param daysUsed	the boolean array of schedule days
-	 * @param precision	the String of the class name
+	 * @param precision	the String of the course name
 	 */
 	public Schedule(SGTime start, SGTime end, boolean daysUsed[], SGTime precision) {
 		this.days = "";
@@ -82,21 +82,21 @@ public class Schedule {
 			}
 			this.schedule.add(day);
 		}
-		this.classes = new ArrayList<SGCourseInfo>();
+		this.courses = new ArrayList<SGCourseInfo>();
 	}
 
 	/**
 	 * Prints the Integer representation of the schedule to the command line.
 	 *
-	 * Preceding the Integer data, the schedule days, full day range, and class
+	 * Preceding the Integer data, the schedule days, full day range, and course
 	 * key are output to aid in output readability.
 	 */
 	public void printIntegerSchedule() {
 		System.out.format("Days on Schedule: %s\n", this.days);
 		System.out.format("Full Day Range: %s\n", SGTimeRange.convert24To12HourRange(this.dayRange.rangeString()));
-		System.out.format("Class Key:\n");
-		for(int i = 0; i < this.classes.size(); ++i) {
-			System.out.format("%2d)\t%s\n", this.classes.get(i).number, this.classes.get(i).name);
+		System.out.format("Course Key:\n");
+		for(int i = 0; i < this.courses.size(); ++i) {
+			System.out.format("%2d)\t%s\n", this.courses.get(i).number, this.courses.get(i).name);
 		}
 		for(int i = 0; i < this.numPeriods; ++i) {
 			for(int j = 0; j < this.days.length() && j < this.schedule.size(); ++j) {
@@ -152,42 +152,42 @@ public class Schedule {
 
 	/**
 	 * <p>
-	 * Adds the class specified by classTime and classNum to the Schedule,
+	 * Adds the course specified by courseTime and courseNum to the Schedule,
 	 * return true if and only if every addition was successful.
 	 *
-	 * The addition of the class includes the addition to the 2D ArrayList of
+	 * The addition of the course includes the addition to the 2D ArrayList of
 	 * Integers, as specified in the {@link SGCourseTime#timePeriod} static field,
 	 * and the addition to the ArrayList of SGCourseInfo objects.
 	 * </p>
 	 * <p>
-	 * This method does not make the assumption that the given class will fit in
+	 * This method does not make the assumption that the given course will fit in
 	 * the schedule and does check for any overlap.  If an overlap occurs, the
-	 * class addition is undone, leaving the Schedule instance as it was before.
+	 * course addition is undone, leaving the Schedule instance as it was before.
 	 * If this occurs, the method returns false.
 	 * </p>
 	 *
-	 * @param classTime	the SGCourseTime that represents the new class's time period
-	 * @param classNum	the value to represent the new class in the Schedule
+	 * @param courseTime	the SGCourseTime that represents the new course's time period
+	 * @param courseNum	the value to represent the new course in the Schedule
 	 * @return			true if addition was successful
 	 */
-	public boolean addClass(SGCourseTime classTime, Integer classNum) {
+	public boolean addCourse(SGCourseTime courseTime, Integer courseNum) {
 		// Round Range Start and Ends to Specified Precision
-		classTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
-		classTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
-		String classDays = classTime.timePeriod.getDays();
+		courseTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
+		courseTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
+		String courseDays = courseTime.timePeriod.getDays();
 		boolean overlap = false;
 		boolean failure = true;
-		int startPos = getTimeRangeStartPos(classTime.timePeriod);
-		int endPos   = getTimeRangeEndPos(classTime.timePeriod);
+		int startPos = getTimeRangeStartPos(courseTime.timePeriod);
+		int endPos   = getTimeRangeEndPos(courseTime.timePeriod);
 		int i = 0;
 		for(i = 0; i < this.days.length() && i < this.schedule.size(); ++i) {
-			if(classDays.indexOf(this.days.charAt(i)) != -1) {
+			if(courseDays.indexOf(this.days.charAt(i)) != -1) {
 				failure = false;
 				int j = startPos;
 				for(j = startPos; j <= endPos && j < this.schedule.get(i).size(); ++j) {
 					if(this.schedule.get(i).get(j) == 0) {
 						this.schedule.get(i).remove(j);
-						this.schedule.get(i).add(j, classNum);
+						this.schedule.get(i).add(j, courseNum);
 					}
 					else {
 						overlap = true;
@@ -207,7 +207,7 @@ public class Schedule {
 		}
 		if(overlap) {
 			for(i = --i; i >= 0; --i) {
-				if(classDays.indexOf(this.days.charAt(i)) != -1) {
+				if(courseDays.indexOf(this.days.charAt(i)) != -1) {
 					int j = startPos;
 					for(j = startPos; j <= endPos && j < this.schedule.get(i).size(); ++j) {
 						this.schedule.get(i).remove(j);
@@ -218,45 +218,45 @@ public class Schedule {
 			failure = true;
 		}
 		if(!failure) {
-			this.classes.add(new SGCourseInfo(classTime, classNum));
-			SGCourseInfo.mergeSortSGCourseInfoArrayList(this.classes, 0, this.classes.size());
+			this.courses.add(new SGCourseInfo(courseTime, courseNum));
+			SGCourseInfo.mergeSortSGCourseInfoArrayList(this.courses, 0, this.courses.size());
 		}
 		return !failure;
 	}
 
 	/**
 	 * <p>
-	 * Removes the class specified by classTime and classNum from the Schedule.
+	 * Removes the course specified by courseTime and courseNum from the Schedule.
 	 *
-	 * The removal of the class includes the removal from the 2D ArrayList of
+	 * The removal of the course includes the removal from the 2D ArrayList of
 	 * Integers, as specified in the {@link SGCourseTime#timePeriod} static field,
 	 * and the removal of the first matching instances in the ArrayList of
 	 * SGCourseInfo objects.
 	 * </p>
 	 * <p>
-	 * This method does make the assumption that the class is already in
+	 * This method does make the assumption that the course is already in
 	 * the schedule and does not check otherwise.
 	 * </p>
 	 *
-	 * @param classTime	the SGCourseTime that represents the class's time period
-	 * @param classNum	the value that represents the class in the Schedule
+	 * @param courseTime	the SGCourseTime that represents the course's time period
+	 * @param courseNum		the value that represents the course in the Schedule
 	 */
-	public void removeClass(SGCourseTime classTime, int classNum) {
+	public void removeCourse(SGCourseTime courseTime, int courseNum) {
 		// Round Range Start and Ends to Specified Precision
-		classTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
-		classTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
-		String classDays = classTime.timePeriod.getDays();
-		int startPos = getTimeRangeStartPos(classTime.timePeriod);
-		int endPos   = getTimeRangeEndPos(classTime.timePeriod);
+		courseTime.timePeriod.start.roundToPrecision(this.precisionMinutes);
+		courseTime.timePeriod.end.roundToPrecision(this.precisionMinutes);
+		String courseDays = courseTime.timePeriod.getDays();
+		int startPos = getTimeRangeStartPos(courseTime.timePeriod);
+		int endPos   = getTimeRangeEndPos(courseTime.timePeriod);
 		for(int i = 0; i < this.days.length() && i < this.schedule.size(); ++i) {
-			if(classDays.indexOf(this.days.charAt(i)) != -1) {
+			if(courseDays.indexOf(this.days.charAt(i)) != -1) {
 				for(int j = startPos; j <= endPos && j < this.schedule.get(i).size(); ++j) {
 					this.schedule.get(i).remove(j);
 					this.schedule.get(i).add(j, 0);
 				}
 			}
 		}
-		// Remove Class Info
-		this.classes.remove(SGCourseInfo.searchSGCourseInfoArrayList(this.classes, classTime.className, classNum));
+		// Remove Course Info
+		this.courses.remove(SGCourseInfo.searchSGCourseInfoArrayList(this.courses, courseTime.courseName, courseNum));
 	}
 }

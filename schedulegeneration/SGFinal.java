@@ -76,7 +76,7 @@ public class SGFinal {
 		String info = String.format("%d Schedules Generated.", scheduleCount) +
 					" <br><br> The Generated Schedules can be found in the" +
 					" <br> \"Images\" Folder along with \"keys.png\"" +
-					" <br> which matches the colors with class names.";
+					" <br> which matches the colors with course names.";
 		this.win.add(new JLabel("<html><div style='text-align: center;'>" + info + "</div></html>"), c);
 		this.centerWindow();
 		this.win.setVisible( true );
