@@ -434,6 +434,7 @@ public class SGWindow implements ActionListener {
 		// Generate negative preference list
 		ArrayList<ArrayList<SGTimeRange>> negPrefDayRanges = getNegPreferences();
 		// Generate new input file
+		ArrayList<String> conflictCourses = new ArrayList<String>();
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("preferredInput.txt"));
 			// Get course names to use for output file
@@ -463,6 +464,7 @@ public class SGWindow implements ActionListener {
 				}
 				if(!coursePreferred) {
 					// EVENTUALLY PROMPT FOR METHOD OF PROCEEDING; FOR NOW, JUST INPUT ALL COURSE TIMES DESPITE CONFLICT
+					conflictCourses.add(courseNames.get(i));
 					for(int j = SGCourseTime.searchForCourseInArrayList(this.courseTimes, courseNames.get(i)); j < this.courseTimes.size() && j >= 0; j = SGCourseTime.searchForCourseInArrayList(this.courseTimes, courseNames.get(i), ++j)) {
 						SGTimeRange currRange = this.courseTimes.get(j).timePeriod;
 						String            currDays  = currRange.getDays();
@@ -479,14 +481,26 @@ public class SGWindow implements ActionListener {
 			// Flash to convey error
 			this.win.setVisible( true );
 		}
-		// Close Window when finished with preferences
-		this.win.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-		this.win.dispatchEvent(new WindowEvent(this.win, WindowEvent.WINDOW_CLOSING));
-		// Generate Schedules
-		try {
-			ScheduleGenerator.generateSchedule(this.newFilename);
-		} catch(Exception ex) {
-			System.out.println("Error, schedules unable to be generated!");
+		// Launch SGConflict Window if FULL conflicts with preferences occurred
+		if(conflictCourses.size() > 0) {
+			try {
+				SGConflict conflictWin = new SGConflict(conflictCourses, this.newFilename);
+			} catch(Exception ex) {
+				System.out.println("Error, schedules unable to be generated!");
+			}
+		}
+		else {
+			// Close Window when finished with preferences
+			this.win.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+			this.win.dispatchEvent(new WindowEvent(this.win, WindowEvent.WINDOW_CLOSING));
+			// Generate Schedules
+			try {
+				ScheduleGenerator.generateSchedule(this.newFilename);
+			} catch(Exception ex) {
+				System.out.println("Error, schedules unable to be generated!");
+				this.win.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+				this.win.dispatchEvent(new WindowEvent(this.win, WindowEvent.WINDOW_CLOSING));
+			}
 		}
 	}
 }
