@@ -484,7 +484,7 @@ public class SGWindow implements ActionListener {
 		// Launch SGConflict Window if FULL conflicts with preferences occurred
 		if(conflictCourses.size() > 0) {
 			try {
-				SGConflict conflictWin = new SGConflict(conflictCourses, this.newFilename);
+				SGConflict conflictWin = new SGConflict(this.newFilename, conflictCourses);
 			} catch(Exception ex) {
 				System.out.println("Error, schedules unable to be generated!");
 			}

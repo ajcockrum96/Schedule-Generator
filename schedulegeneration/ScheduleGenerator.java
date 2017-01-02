@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * </p>
  * <p>
  * Each schedule option that is finished will be written to a
- * {@link ScheduleImage} and then that image will be written to a file. When
+ * {@link SGImage} and then that image will be written to a file. When
  * all course options have been iterated through, {@link SGFinal} will be launched
  * with the final count of schedules generated and direction on where to find the
  * image files and the course key for the images.
