@@ -191,6 +191,7 @@ public class ScheduleGenerator {
 	 * @param  courseNames	the ArrayList of course names
 	 * @param  currName		the index of the current course name
 	 * @param  scheduleNum	the current number of schedules generated
+	 * @param  directory	the directory to use for images
 	 * @return				the new number of schedules generated
 	 */
 	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGCourseTime> courseTimes, ArrayList<String> courseNames, int currName, int scheduleNum, String directory) {
