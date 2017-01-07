@@ -125,8 +125,9 @@ public class ScheduleGenerator {
 		SGTime precision  = new SGTime("00:15");
 		Schedule schedule = new Schedule(courseTimes.get(0).timePeriod.start, courseTimes.get(courseTimes.size() - 1).timePeriod.end, daysUsed, precision);
 		// Open Directory for Image Files
+		String directoryName = "." + File.separator + "Images";
 		try {
-			File folder = new File(".\\Images");
+			File folder = new File(directoryName);
 			if(!folder.isDirectory()) {
 				folder.mkdir();
 			}
@@ -142,7 +143,7 @@ public class ScheduleGenerator {
 			System.err.format("%s%n", e);
 			throw new Exception("generateSchedule failed", e);
 		}
-		int numSchedules = generateScheduleWorker(schedule, courseTimes, courseNames, 0, 0);
+		int numSchedules = generateScheduleWorker(schedule, courseTimes, courseNames, 0, 0, directoryName);
 		System.out.format("%d Total Schedules Generated\n", numSchedules);
 
 		try {
@@ -192,14 +193,14 @@ public class ScheduleGenerator {
 	 * @param  scheduleNum	the current number of schedules generated
 	 * @return				the new number of schedules generated
 	 */
-	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGCourseTime> courseTimes, ArrayList<String> courseNames, int currName, int scheduleNum) {
+	static private int generateScheduleWorker(Schedule schedule, ArrayList<SGCourseTime> courseTimes, ArrayList<String> courseNames, int currName, int scheduleNum, String directory) {
 		if(currName < courseNames.size()) {
 			for(int i = SGCourseTime.searchForCourseInArrayList(courseTimes, courseNames.get(currName)); i < courseTimes.size() && i >= 0; i = SGCourseTime.searchForCourseInArrayList(courseTimes, courseNames.get(currName), ++i)) {
 				// Add First Course to Schedule Object
 				boolean success = schedule.addCourse(courseTimes.get(i), currName + 1);
 				if(success) {
 					// Recursively Call with next name
-					scheduleNum = generateScheduleWorker(schedule, courseTimes, courseNames, currName + 1, scheduleNum);
+					scheduleNum = generateScheduleWorker(schedule, courseTimes, courseNames, currName + 1, scheduleNum, directory);
 					// Cleanup and remove course from schedule before continuing
 					schedule.removeCourse(courseTimes.get(i), currName + 1);
 				}
@@ -207,12 +208,12 @@ public class ScheduleGenerator {
 		}
 		else {
 			++scheduleNum;
-			String filename = String.format(".\\Images\\%d.png", scheduleNum);
+			String filename = String.format(directory + File.separator + "%d.png", scheduleNum);
 			SGImage image = new SGImage(schedule);
 			SGImage.writeImageFile(image, filename);
 			// Output Key
 			if(scheduleNum == 1) {
-				SGImage.writeImageKey(".\\Images\\Key.png", schedule.courses);
+				SGImage.writeImageKey(directory + File.separator + "Key.png", schedule.courses);
 			}
 		}
 		return scheduleNum;

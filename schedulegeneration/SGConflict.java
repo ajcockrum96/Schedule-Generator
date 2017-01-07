@@ -139,7 +139,7 @@ public class SGConflict implements ActionListener {
 		JButton proceed = new JButton("Proceed");
 		proceed.addActionListener( this );
 		c.gridx = 0;
-		c.gridy = i / winWidth + 1;
+		c.gridy = --i / winWidth + 2;
 		c.fill = GridBagConstraints.NONE;
 		this.window.add(proceed, c);
 		this.window.getRootPane().setDefaultButton(proceed);
