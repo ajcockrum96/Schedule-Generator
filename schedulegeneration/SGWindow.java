@@ -12,6 +12,8 @@ import java.awt.Toolkit;
 import java.lang.SecurityException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -32,7 +34,7 @@ import java.util.ArrayList;
  * @see ScheduleGenerator
  * @see SGCheckBoxGrid
  */
-public class SGWindow implements ActionListener {
+public class SGWindow implements ActionListener, ComponentListener {
 	/**
 	 * Days included in the schedule
 	 */
@@ -118,6 +120,9 @@ public class SGWindow implements ActionListener {
 			throw new Exception("SGWindow constructor failed", e);
 		}
 		this.win.setResizable( false );
+		// IMPLEMENT ComponentListener TO ALLOW FOR WINDOW RESIZING
+		this.win.setResizable( true );
+		this.win.addComponentListener( this );
 		 
 		this.win.setSize( this.days.length() * 200, this.checkBoxes.dayRange * 50 + 50 );
 		this.win.setLayout( new GridBagLayout() );
@@ -502,5 +507,20 @@ public class SGWindow implements ActionListener {
 				this.win.dispatchEvent(new WindowEvent(this.win, WindowEvent.WINDOW_CLOSING));
 			}
 		}
+	}
+
+	public void componentResized(ComponentEvent e) {
+		if(this.win != null) {
+			System.out.format("%d by %d\n", this.win.getWidth(), this.win.getHeight());
+		}
+	}
+
+	public void componentMoved(ComponentEvent e) {
+	}
+
+	public void componentShown(ComponentEvent e) {
+	}
+
+	public void componentHidden(ComponentEvent e) {
 	}
 }
