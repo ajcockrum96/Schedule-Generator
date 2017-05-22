@@ -6,8 +6,10 @@
 ### Generate schedules around said preferences into image files to aid in decision-making process before class registration
 ## Current Functionality
 ### 1) Class Information Gathering
-#### Queries school webpage for specified term, subject, and 3 digit class number
-#### Obtains html dump of generated webpage
+#### Prompts user to input term, subject, and course number information for several courses
+#### Queries school webpage for input course information
+#### Obtains html dumps of generated webpages
+#### Parses html dump and generates text file for Schedule Generator input
 ### 2) Schedule Generation with preferences
 #### Reads formatted input file
 #### Generates grid of check boxes and prompts user to select time preferences on grid
